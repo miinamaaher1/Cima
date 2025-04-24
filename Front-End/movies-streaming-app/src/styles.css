@@ -2,30 +2,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-blurple: #5865f2;
-  --color-dark-blurple: #3442d9;
-
+  /*main color*/
+  --color-blurple: #5865f2; /*anything red on netflix*/
+  --color-dark-blurple: #3442d9; /*for hover effect etc.*/
+  /*extra variants of mail color, maybe not needed*/
   --color-light-blurple: #e0e3ff;
   --color-greyple: #99aab5;
-
+  /*for button hover effects*/
   --color-button-hover: #8891f2;
   --color-dark-button-hover: #3b3b3b;
-
-  --color-background-black: #060a0b;
-  --color-surface-black: #23272a;
-
+  /*backgrounds*/
+  --color-background-black: #060a0b; /*page background*/ /*DO NOT USE REAL BLACK*/
+  --color-surface-black: #23272a; /*card background*/
+  /*whites for text and icons*/
   --color-white: #fff;
   --color-off-white: #f6f6f6;
-
-  --color-border-grey: #50555f;
-  --color-body-charcoal: #2c2f33;
-
+  /*grays*/
+  --color-border-grey: #50555f; /*button borders*/
+  --color-body-charcoal: #2c2f33; /*button background*/
+  /*extra colors if needed*/
   --color-vip-yellow: #fee75c;
   --color-film-red: #ed4245;
   --color-girl-pink: #ffcdee;
   --color-comic-orange: #fda220;
   --color-mint-green: #43b581;
-
+  /*do not use*/
   --color-spring-green: #57f287;
   --color-green: #52f180;
   --color-ekko-red: #de2761;
