@@ -1,2 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+@theme {
+  --color-blurple: #5865f2;
+  --color-dark-blurple: #3442d9;
+
+  --color-light-blurple: #e0e3ff;
+  --color-greyple: #99aab5;
+
+  --color-button-hover: #8891f2;
+  --color-dark-button-hover: #3b3b3b;
+
+  --color-background-black: #060a0b;
+  --color-surface-black: #23272a;
+
+  --color-white: #fff;
+  --color-off-white: #f6f6f6;
+
+  --color-border-grey: #50555f;
+  --color-body-charcoal: #2c2f33;
+
+  --color-vip-yellow: #fee75c;
+  --color-film-red: #ed4245;
+  --color-girl-pink: #ffcdee;
+  --color-comic-orange: #fda220;
+  --color-mint-green: #43b581;
+
+  --color-spring-green: #57f287;
+  --color-green: #52f180;
+  --color-ekko-red: #de2761;
+  --color-fuchsia: #eb459e;
+  --color-pinc-2: #dc4195;
+  --color-vivid-cerulean: #00b0f4;
+  --color-purple: #808aff;
+  --color-refresh-blue: #161cbb;
+  --color-navy-blue: #24173f;
+}
