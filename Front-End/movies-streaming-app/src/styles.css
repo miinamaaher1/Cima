@@ -1,10 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 @theme {
   /*main color*/
-  --color-blurple: #5865f2; /*anything red on netflix*/
-  --color-dark-blurple: #3442d9; /*for hover effect etc.*/
+  --color-blurple: #5865f2;
+  /*anything red on netflix*/
+  --color-dark-blurple: #3442d9;
+  /*for hover effect etc.*/
   /*extra variants of mail color, maybe not needed*/
   --color-light-blurple: #e0e3ff;
   --color-greyple: #99aab5;
@@ -12,14 +15,19 @@
   --color-button-hover: #8891f2;
   --color-dark-button-hover: #3b3b3b;
   /*backgrounds*/
-  --color-background-black: #060a0b; /*page background*/ /*DO NOT USE REAL BLACK*/
-  --color-surface-black: #23272a; /*card background*/
+  --color-background-black: #060a0b;
+  /*page background*/
+  /*DO NOT USE REAL BLACK*/
+  --color-surface-black: #23272a;
+  /*card background*/
   /*whites for text and icons*/
   --color-white: #fff;
   --color-off-white: #f6f6f6;
   /*grays*/
-  --color-border-grey: #50555f; /*button borders*/
-  --color-body-charcoal: #2c2f33; /*button background*/
+  --color-border-grey: #50555f;
+  /*button borders*/
+  --color-body-charcoal: #2c2f33;
+  /*button background*/
   /*extra colors if needed*/
   --color-vip-yellow: #fee75c;
   --color-film-red: #ed4245;
