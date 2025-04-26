@@ -51,7 +51,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
     },
     {
-      logo: "images/logos/game-of-thrones.svg",
+      logo: "images/logos/game-of-thrones.png",
       promo: "The Award Wining Show",
       tags: ["Season 4", "Top 10", "Adventure", "Fantasy"],
       link: "",
@@ -73,7 +73,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
   stopHover() {
     setTimeout(() => {
       this.isHovered = false;
-    }, 2500);
+    }, 3000);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
