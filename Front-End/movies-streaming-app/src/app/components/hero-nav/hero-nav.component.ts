@@ -9,17 +9,22 @@ import { Component, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
 export class HeroNavComponent implements OnInit{
   constructor(private ngZone: NgZone) {}
   current = 0;
+  intervalId: any;
 
   @Output() sendIndex = new EventEmitter<number>();
 
   changeIndex(index: number) {
     this.current = index
     this.sendIndex.emit(this.current);
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    this.autoPlay()
   }
 
   autoPlay() {
     this.ngZone.runOutsideAngular(() => {
-      setInterval(() => {
+      this.intervalId = setInterval(() => {
         this.ngZone.run(() => {
           if (this.current < 4) {
             this.changeIndex(this.current + 1);

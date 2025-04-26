@@ -1,12 +1,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<div class="absolute top-32 left-10 group opacity-50 hover:opacity-100"
+<div class="absolute top-0 left-0 pt-32 pl-20 h-full group opacity-50 hover:opacity-100
+  bg-gradient-to-r from-body-charcoal/75 to-body-charcoal/0"
   [ngClass]="isHovered ? 'opacity-100' : ''">
-  <div class="w-3xs group-hover:w-sm mb-2 transition-all duration-500 ease-in-out"
-  [ngClass]="isHovered ? 'w-sm' : ''">
+  <div class="w-3xs group-hover:w-xs mb-2 transition-all duration-500 ease-in-out"
+  [ngClass]="isHovered ? 'w-xs' : ''">
     <img src="{{currentInfo.logo}}" class="w-full" />
   </div>
   <div class="flex space-x-2 items-center">
-    <div class="bg-spring-green rounded-full w-5 h-5 flex justify-center items-center">
+    <div class="bg-button-hover rounded-full w-5 h-5 flex justify-center items-center">
       <i class="fa-solid fa-star text-off-white"></i>
     </div>
     <h1 class="text-off-white font-bold text-lg">{{currentInfo.promo}}</h1>

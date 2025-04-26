@@ -51,7 +51,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
     },
     {
-      logo: "images/logos/game-of-thrones.svg",
+      logo: "images/logos/game-of-thrones.png",
       promo: "The Award Wining Show",
       tags: ["Season 4", "Top 10", "Adventure", "Fantasy"],
       link: "",
@@ -60,7 +60,14 @@ export class HeroInfoComponent implements OnChanges, OnInit {
     }
   ]
 
-  currentInfo : movieInfo = this.moviesInfo[0];
+  currentInfo : movieInfo = {
+    logo: "images/logos/harry-potter.png",
+    promo: "Top 10 In Egypt",
+    tags: ["1:58:42", "Top 10", "Adventure", "Fantasy"],
+    link: "",
+    button: "Watch Now",
+    discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
+  }
 
   isHovered = false;
 
@@ -73,7 +80,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
   stopHover() {
     setTimeout(() => {
       this.isHovered = false;
-    }, 2500);
+    }, 3000);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

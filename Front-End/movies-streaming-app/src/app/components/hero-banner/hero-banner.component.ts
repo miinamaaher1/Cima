@@ -18,29 +18,29 @@ export class HeroBannerComponent implements OnChanges, OnInit {
   banners : movieBanner[] = [
     {
       poster: "images/posters/harry.jpg",
-      clip: "cGtI2MuCfTw"
+      clip: "VyHV0BRtdxo"
     },
     {
       poster: "images/posters/breaking.jpg",
-      clip: "niqpoGcot4I"
+      clip: "VFkjBy2b50Q"
     },
     {
       poster: "images/posters/star.jpg",
-      clip: "znVxyZ85X7I"
+      clip: "Q0CbN8sfihY"
     },
     {
       poster: "images/posters/grinch.jpg",
-      clip: "duHY8QrrYdE"
+      clip: "TdSdIjb8N9M"
     },
     {
       poster: "images/posters/thrones.jpg",
-      clip: "Zb8YKIb37wA"
+      clip: "KPLWWIOCOOQ"
     }
   ]
 
   current : movieBanner = {
     poster: "images/posters/harry.jpg",
-    clip: "cGtI2MuCfTw"
+    clip: "VyHV0BRtdxo"
   }
 
   safeVideoUrl: SafeResourceUrl = '';
@@ -56,7 +56,7 @@ export class HeroBannerComponent implements OnChanges, OnInit {
   viewVideo() {
     setTimeout(() => {
       this.videoVisible = true;
-    }, 2500);
+    }, 3000);
   }
 
   getSafeUrl(key: string): SafeResourceUrl {
