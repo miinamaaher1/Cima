@@ -1,0 +1,11 @@
+<div class="fixed top-0 left-0 right-0 z-30 w-full transition-all duration-300" 
+     [class.bg-background-black]="isScrolled" 
+     [class.bg-transparent]="!isScrolled">
+  <div class="relative flex justify-between items-center h-16  mx-auto px-12">
+    <app-nav-links class="flex-1"></app-nav-links>
+    <div class="flex items-center gap-4">
+      <app-nav-search></app-nav-search>
+      <app-nav-account></app-nav-account>
+    </div>
+  </div>
+</div>
