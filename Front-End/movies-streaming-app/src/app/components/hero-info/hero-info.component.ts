@@ -60,14 +60,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
     }
   ]
 
-  currentInfo : movieInfo = {
-    logo: "images/logos/harry-potter.png",
-    promo: "Top 10 In Egypt",
-    tags: ["1:58:42", "Top 10", "Adventure", "Fantasy"],
-    link: "",
-    button: "Watch Now",
-    discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
-  }
+  currentInfo : movieInfo = this.moviesInfo[0];
 
   isHovered = false;
 
