@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
+import { NavComponent } from "./components/nav/nav.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, WatchAreaComponent],
+  imports: [RouterOutlet, NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

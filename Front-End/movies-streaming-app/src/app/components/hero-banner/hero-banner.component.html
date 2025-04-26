@@ -1,0 +1,20 @@
+<div class="w-full h-full">
+  <img *ngIf="!videoVisible" src="{{current.poster}}" class="w-full h-full object-cover" />
+  <!-- <iframe *ngIf="videoVisible"
+    class="absolute top-0 left-0 w-full h-full pointer-events-none"
+    [src]="safeVideoUrl"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe> -->
+  <video *ngIf="videoVisible" #video loop autoplay playsinline [muted]="isMuted"
+    class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none">
+    <source [src]="current.clip" type="video/mp4">
+  </video>
+
+  <!-- Button to mute/unmute -->
+  <button *ngIf="videoVisible" (click)="toggleMute()"
+    class="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-2 rounded">
+    {{ isMuted ? 'Unmute' : 'Mute' }}
+  </button>
+</div>
