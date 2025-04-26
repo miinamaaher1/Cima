@@ -1,11 +1,16 @@
 <div
     class="group/card w-52 hover:scale-130 transition duration-300 bg-surface-black rounded-md text-off-white overflow-hidden border-border-grey border-solid border-1">
-    <div class="w-full h-29" (mouseenter)="playVideo(poster, video)" (mouseleave)="stopVideo(poster, video)">
-        <iframe class="w-full h-full hidden" src="https://www.youtube.com/embed/NgsQ8mVkN8w?controls=0&rel=0"
-            allow="autoplay" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen #video></iframe>
-        <img src="{{posterUrl}}" alt="{{name}} poster" class="w-full h-full cursor-pointer object-cover" #poster>
-        <div class="hidden"></div>
-    </div>
+    <!-- <div class="w-full h-29" (mouseenter)="playVideo(poster, video)" (mouseleave)="stopVideo(poster, video)"> -->
+    <!-- <iframe class="w-full h-full hidden" src="https://www.youtube.com/embed/NgsQ8mVkN8w?controls=0&rel=0"
+            allow="autoplay" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen #video></iframe> -->
+    <!-- <img src="{{posterUrl}}" alt="{{name}} poster" class="w-full h-full cursor-pointer object-cover" #poster> -->
+    <!-- <div class="hidden"></div> -->
+    <!-- </div> -->
+    <a href="#" class="w-full h-29">
+        <video poster="{{posterUrl}}" (mouseenter)="playVideo($event)" (mouseleave)="stopVideo($event)">
+            <source src="{{videoUrl}}" type="video/mp4">
+        </video>
+    </a>
     <div
         class="flex flex-col gap-2.5 px-4 overflow-hidden transition-all z-50 duration-700 opacity-0 max-h-0 md:group-hover/card:max-h-96 md:group-hover/card:p-4 md:group-hover/card:opacity-100">
         <div class="flex justify-between">
