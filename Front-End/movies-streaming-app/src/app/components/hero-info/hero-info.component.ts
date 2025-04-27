@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 export interface movieInfo {
   logo: string,
@@ -63,6 +63,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
   currentInfo : movieInfo = this.moviesInfo[0];
 
   isHovered = false;
+  isMobile = false;
 
   @Input() index = 0;
 
@@ -87,5 +88,14 @@ export class HeroInfoComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.triggerHover();
     this.stopHover();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768; // or any breakpoint you like
   }
 }
