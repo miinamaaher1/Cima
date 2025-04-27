@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListener, Input } from '@angular/core';
 
 @Component({
   selector: 'app-hero-nav',
@@ -8,8 +8,12 @@ import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy } from '@ang
 })
 export class HeroNavComponent implements OnInit, OnDestroy{
   constructor(private ngZone: NgZone) {}
+
+  @Input() logos : string[] = []
+
   current = 0;
   intervalId: any;
+  isMobile = false;
 
   @Output() sendIndex = new EventEmitter<number>();
 
@@ -46,5 +50,14 @@ export class HeroNavComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.stopPlay()
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768; // or any breakpoint you like
   }
 }

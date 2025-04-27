@@ -1,5 +1,5 @@
 <div class="w-screen h-screen relative">
-  <app-hero-banner [index]="movieIndex"></app-hero-banner>
-  <app-hero-info [index]="movieIndex"></app-hero-info>
-  <app-hero-nav (sendIndex)="changeMovie($event)"></app-hero-nav>
+  <app-hero-banner [banners]="banners" [index]="movieIndex"></app-hero-banner>
+  <app-hero-info [moviesInfo]="moviesInfo" [index]="movieIndex"></app-hero-info>
+  <app-hero-nav [logos]="logos" (sendIndex)="changeMovie($event)"></app-hero-nav>
 </div>
