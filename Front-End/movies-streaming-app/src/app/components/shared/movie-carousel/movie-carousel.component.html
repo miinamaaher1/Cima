@@ -1,0 +1,21 @@
+<div class="w-screen relative p-10">
+    <h3 class="mb-8 text-blurple text-4xl">{{title | titlecase}}</h3>
+    <div class="relative h-40">
+        <div class="absolute left-0 flex gap-4 transition-all duration-700" #slider>
+            @for(movieId of moviesId; track $index)
+            {
+            <app-movie-card class="z-10 hover:z-40" [id]="movieId"></app-movie-card>
+            }
+        </div>
+    </div>
+    <div [ngClass]="{'hidden': leftHidden}"
+        class="z-30 opacity-75 absolute w-6 h-29.5 rounded-r-md top-28 left-0 bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
+        (click)="goLeft(slider)">
+        <i class="fa-solid fa-arrow-left"></i>
+    </div>
+    <div [ngClass]="{'hidden': rightHidden}"
+        class="z-30 opacity-75 absolute w-17.5 h-29.5 rounded-l-md top-28 right-0 bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
+        (click)="goRight(slider)">
+        <i class="fa-solid fa-arrow-right"></i>
+    </div>
+</div>
