@@ -42,6 +42,7 @@ export class HeroInfoComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    this.checkScreenSize();
     this.triggerHover();
     this.stopHover();
   }
