@@ -14,7 +14,7 @@ export class MovieCardComponent {
   hours: number = 1;
   minutes: number = 45;
   posterUrl: string = "https://belovedpawn.org/wp-content/uploads/2024/04/ratatouille-in-hermann-mo.jpeg";
-  videoUrl: string = "videos/clips/H_P_Clip.mp4";
+  videoUrl: string = "https://www.w3schools.com/html/mov_bbb.mp4";
   cast: string[] = ["aaaa", "aaaa"];
   tags: string[] = ["tag 1", "tag 2"];
   timerHandler: any;
