@@ -1,5 +1,51 @@
-<div class="h-[100vh]">
-    <button (click)="toogleSideBar()"  class="absolute top-3 left-20">
-        toogle
-    </button>
+<div class="h-full relative">
+
+    <!-- Episodes actions -->
+    <div (click)="toogleSideBar()" class="absolute z-50  cursor-pointer top-6 right-20">
+        <i [ngClass]="{
+          'text-blurple': IsSidebarOpen,
+          'text-off-white': !IsSidebarOpen
+        }" class="fa-solid hover:text-blurple fa-layer-group text-4xl">
+        </i>
+    </div>
+
+    <!-- Share control -->
+    <div class="absolute z-50  cursor-pointer top-6 right-40">
+        <i class="fa-solid text-off-white  hover:text-blurple fa-share text-4xl">
+        </i>
+    </div>
+
+
+    <!-- HD-toggle component  -->
+    <div class="absolute top-6 left-40 z-50">
+        <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer">
+            <div
+            [ngClass]="{ 'after:bg-blue-500': ISHD , 'after:bg-red-500' : !ISHD}" 
+            class="group peer ring-0 bg-dark-blurple rounded-full outline-none duration-300 after:duration-300 w-24 h-12 shadow-md peer-checked:bg-white peer-focus:outline-none after:content-[''] after:rounded-full after:absolute after:bg-red-500  after:outline-none after:h-10 after:w-10 after:top-1 after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-12 peer-hover:after:scale-95">
+          
+              <!-- First SVG (Checked State) -->
+              <svg class="absolute top-2 left-14 w-8 h-8  fill-white" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <path d="M22,13H20v6h2a1,1,0,0,0,1-1V14A1,1,0,0,0,22,13Z"></path>
+                  <path d="M28,6H4A2,2,0,0,0,2,8V24a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V8A2,2,0,0,0,28,6ZM15,21H13V17H10v4H8V11h2v4h3V11h2Zm10-3a3,3,0,0,1-3,3H18V11h4a3,3,0,0,1,3,3Z"></path>
+                </g>
+              </svg>
+          
+              <!-- Second SVG (Unchecked State) -->
+              <svg class="absolute top-2 left-2 w-8 h-8  fill-dark-blurple" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <path d="M22,13H20v6h2a1,1,0,0,0,1-1V14A1,1,0,0,0,22,13Z"></path>
+                  <path d="M28,6H4A2,2,0,0,0,2,8V24a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V8A2,2,0,0,0,28,6ZM15,21H13V17H10v4H8V11h2v4h3V11h2Zm10-3a3,3,0,0,1-3,3H18V11h4a3,3,0,0,1,3,3Z"></path>
+                </g>
+              </svg>
+          
+            </div>
+        </label>
+    </div>
+      
+
+
+    <app-video-player-controls url="videos/clips/B_B_Clip.mp4" class="absolute z-30 h-full w-full">
+    </app-video-player-controls>
 </div>

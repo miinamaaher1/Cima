@@ -4,7 +4,7 @@
     <div [ngClass]="{
                 'w-3/4': IsSidebarOpen,
                 'w-full': !IsSidebarOpen
-            }" class="bg-green-200 transition-all duration-300 ease-in-out">
+            }" class="transition-all duration-300 ease-in-out">
         <app-video-stream (emitToggleSidebarValue)="onSidebarToggle($event)"></app-video-stream>
     </div>
 
@@ -14,7 +14,7 @@
     <div [ngClass]="{
             'w-1/4': IsSidebarOpen,
             'w-0 overflow-scroll opacity-0 pointer-events-none ': !IsSidebarOpen
-          }" class="bg-red-200 flex transition-all duration-300 ease-in-out h-full overflow-y-auto">
+          }" class="bg-blurple border-l-2 p-2  text-off-white flex transition-all duration-300 ease-in-out h-full overflow-y-auto">
         <app-watch-episodes>
             <app-episodes-list></app-episodes-list>
         </app-watch-episodes>

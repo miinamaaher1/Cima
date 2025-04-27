@@ -11,7 +11,7 @@ import { EpisodesListComponent } from "../episodes-list/episodes-list.component"
     styleUrl: "./watch-area.component.css",
 })
 export class WatchAreaComponent {
-    IsSidebarOpen : boolean = true;
+    IsSidebarOpen : boolean = false;
 
     onSidebarToggle(status : boolean){
         this.IsSidebarOpen = status;
