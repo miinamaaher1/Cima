@@ -13,32 +13,7 @@ export interface movieBanner {
 })
 export class HeroBannerComponent implements OnChanges, OnInit {
 
-  banners : movieBanner[] = [
-    {
-      poster: "images/posters/harry.jpg",
-      clip: "videos/clips/H_P_Clip.mp4"
-    },
-    {
-      poster: "images/posters/breaking.jpg",
-      clip: "videos/clips/B_B_Clip.mp4"
-    },
-    {
-      poster: "images/posters/star.jpg",
-      clip: "videos/clips/S_W_Clip.mp4"
-    },
-    {
-      poster: "images/posters/grinch.jpg",
-      clip: "videos/clips/H_G_S_C_Clip.mp4"
-    },
-    {
-      poster: "images/posters/thrones.jpg",
-      clip: "videos/clips/G_O_T_Clip.mp4"
-    }
-  ]
-
-  current : movieBanner = this.banners[0];
-
-
+  @Input() banners : movieBanner[] = []
   @Input() index = 0;
 
   videoVisible = false
@@ -61,7 +36,6 @@ export class HeroBannerComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['index'] && !changes['index'].firstChange) {
-      this.current = this.banners[this.index];
       this.hideVideo()
       this.viewVideo()
     }

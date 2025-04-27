@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListener } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListener, Input } from '@angular/core';
 
 @Component({
   selector: 'app-hero-nav',
@@ -9,13 +9,7 @@ import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListene
 export class HeroNavComponent implements OnInit, OnDestroy{
   constructor(private ngZone: NgZone) {}
 
-  posters : string[] = [
-    "images/logos/harry-potter.png",
-    "images/logos/breaking-bad.svg",
-    "images/logos/star-wars.svg",
-    "images/logos/the-grinch.svg",
-    "images/logos/game-of-thrones.png"
-  ]
+  @Input() logos : string[] = []
 
   current = 0;
   intervalId: any;

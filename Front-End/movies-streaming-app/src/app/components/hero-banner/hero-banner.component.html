@@ -1,8 +1,8 @@
 <div class="w-full h-full">
-  <img *ngIf="!videoVisible || isMobile" src="{{current.poster}}" class="w-full h-full object-cover" />
-  <video *ngIf="videoVisible && !isMobile" #video loop autoplay playsinline [muted]="isMuted"
+  <img *ngIf="!videoVisible || isMobile" src="{{banners[index].poster}}" class="w-full h-full object-cover" />
+  <video *ngIf="videoVisible && !isMobile" loop autoplay playsinline [muted]="isMuted"
     class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none">
-    <source [src]="current.clip" type="video/mp4">
+    <source [src]="banners[index].clip" type="video/mp4">
   </video>
   <button *ngIf="videoVisible && !isMobile" (click)="toggleMute()"
     class="absolute top-32 right-32 bg-body-charcoal/50 text-blurple border-2 border-blurple rounded-full
