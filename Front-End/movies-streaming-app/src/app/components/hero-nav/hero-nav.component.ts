@@ -45,6 +45,7 @@ export class HeroNavComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.checkScreenSize();
     this.autoPlay()
   }
 

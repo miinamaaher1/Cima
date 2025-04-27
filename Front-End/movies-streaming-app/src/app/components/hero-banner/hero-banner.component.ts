@@ -42,6 +42,7 @@ export class HeroBannerComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    this.checkScreenSize();
     this.hideVideo();
     this.viewVideo();
   }
