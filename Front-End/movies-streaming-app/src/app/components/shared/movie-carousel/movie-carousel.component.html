@@ -1,7 +1,7 @@
-<div class="w-screen relative p-10">
-    <h3 class="mb-8 text-blurple text-4xl">{{title | titlecase}}</h3>
+<div class="w-screen relative px-10 my-4">
+    <h3 class="mb-5 text-blurple text-xl font-medium">{{title | titlecase}}</h3>
     <div class="relative h-40">
-        <div class="absolute left-0 flex gap-4 transition-all duration-700" #slider>
+        <div class="absolute left-0 flex gap-2 transition-all duration-700" #slider>
             @for (movieId of moviesList; track movieId)
             {
             @defer (on interaction(rightArrow); when isFirst) {
@@ -15,12 +15,12 @@
         </div>
     </div>
     <div [ngClass]="{'hidden': leftHidden}"
-        class="z-30 opacity-75 absolute w-6 h-29.5 rounded-r-md top-28 left-0 bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
+        class="z-30 opacity-75 absolute w-10 h-29.5 rounded-r-md top-12 left-0 bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
         (click)="goLeft(slider)">
         <i class="fa-solid fa-arrow-left"></i>
     </div>
     <div [ngClass]="{'hidden': rightHidden}"
-        class="z-30 opacity-75 absolute w-17.5 h-29.5 rounded-l-md top-28 right-0 bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
+        class="z-30 opacity-75 absolute w-10 h-29.5 rounded-l-md top-12 right-3 bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
         (click)="goRight(slider)" #rightArrow>
         <i class="fa-solid fa-arrow-right"></i>
     </div>

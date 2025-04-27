@@ -17,7 +17,7 @@ export class MovieCarouselComponent {
   left: number = 0;
   leftHidden: boolean = true;
   rightHidden: boolean = false;
-  cardSizeWithGap: number = 276;
+  cardSizeWithGap: number = 268;
   isFirst: boolean = true;
   constructor() {
     this.size = Math.floor(window.innerWidth / this.cardSizeWithGap);
