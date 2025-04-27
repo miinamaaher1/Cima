@@ -2,11 +2,11 @@
     <h3 class="mb-8 text-blurple text-4xl">{{title | titlecase}}</h3>
     <div class="relative h-40">
         <div class="absolute left-0 flex gap-4 transition-all duration-700" #slider>
-            @for (movieId of newList[currentIndex+1]; track movieId)
+            @for (movieId of moviesList; track movieId)
             {
-            @defer (on interaction(rightArrow)) {
+            @defer (on interaction(rightArrow); when isFirst) {
             <app-movie-card class="z-10 hover:z-40" [id]="movieId"></app-movie-card>
-            } @placeholder {
+            } @placeholder(minimum 1s) {
             <div class="animate-pulse bg-gray-700 w-52 h-29"></div>
             } @loading {
             <div class="animate-pulse bg-gray-700 w-52 h-29"></div>
