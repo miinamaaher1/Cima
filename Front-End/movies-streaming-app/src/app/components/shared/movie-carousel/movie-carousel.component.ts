@@ -29,12 +29,12 @@ export class MovieCarouselComponent {
   }
   goRight(slider: HTMLDivElement) {
     for (let i = 0; i < this.size; i++) this.moviesList.push(1);
-    this.left -= window.innerWidth - 135;
+    this.left -= this.size * this.cardSizeWithGap;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
   }
   goLeft(slider: HTMLDivElement) {
-    this.left += window.innerWidth - 135;
+    this.left += this.size * this.cardSizeWithGap;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
   }
