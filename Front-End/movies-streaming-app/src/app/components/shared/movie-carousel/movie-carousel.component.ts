@@ -20,22 +20,22 @@ export class MovieCarouselComponent {
   cardSizeWithGap: number = 268;
   isFirst: boolean = true;
   constructor() {
-    this.size = Math.floor(window.innerWidth / this.cardSizeWithGap);
+    this.size = Math.ceil(window.innerWidth / this.cardSizeWithGap) + 1;
     this.moviesList = new Array(this.size);
   }
-  
+
   @HostListener('window:resize', ['$event.target.innerWidth'])
   onResize() {
     window.location.reload();
   }
   goRight(slider: HTMLDivElement) {
     for (let i = 0; i < this.size; i++) this.moviesList.push(1);
-    this.left -= this.size * this.cardSizeWithGap;
+    this.left -= (this.size / 2) * this.cardSizeWithGap;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
   }
   goLeft(slider: HTMLDivElement) {
-    this.left += this.size * this.cardSizeWithGap;
+    this.left += (this.size / 2) * this.cardSizeWithGap;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
   }
