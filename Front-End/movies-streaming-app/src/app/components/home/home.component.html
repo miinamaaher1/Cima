@@ -1,11 +1,3 @@
 <app-hero></app-hero>
-<div class="mt-1"></div>
-@defer (on viewport) {
-<app-movie-carousel title="Top Rated" [listId]="12"></app-movie-carousel>
-}
-@placeholder {<div></div>}
-@defer (on viewport) {
-<app-movie-carousel title="Most Viewed" [listId]="12"></app-movie-carousel>
-}
-@placeholder {<div></div>}
+<app-home-carousels-group-infinite></app-home-carousels-group-infinite>
 <app-footer></app-footer>
