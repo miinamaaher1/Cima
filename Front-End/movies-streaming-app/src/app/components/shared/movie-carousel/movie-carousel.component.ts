@@ -23,6 +23,7 @@ export class MovieCarouselComponent {
     this.size = Math.floor(window.innerWidth / this.cardSizeWithGap);
     this.moviesList = new Array(this.size);
   }
+  
   @HostListener('window:resize', ['$event.target.innerWidth'])
   onResize() {
     window.location.reload();
