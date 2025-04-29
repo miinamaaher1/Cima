@@ -1,0 +1,30 @@
+<div class="mt-1"></div>
+<div
+    infiniteScroll
+    [infiniteScrollDistance]="0"  
+    [infiniteScrollThrottle]="500" 
+    (scrolled)="loadMoreItems()"
+
+>
+
+
+
+@for (item of items; track $index)
+ {
+
+    @defer (on viewport) {
+        <app-movie-carousel title="Top Rated" [listId]="12"></app-movie-carousel>
+        }
+        @placeholder {<div></div>}
+
+ }
+
+
+</div>
+
+
+
+@defer (on viewport) {
+<app-movie-carousel title="Most Viewed" [listId]="12"></app-movie-carousel>
+}
+@placeholder {<div></div>}
