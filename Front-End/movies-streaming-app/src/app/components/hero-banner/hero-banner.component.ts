@@ -1,6 +1,5 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export interface movieBanner {
   poster: string;
@@ -13,39 +12,13 @@ export interface movieBanner {
   templateUrl: './hero-banner.component.html'
 })
 export class HeroBannerComponent implements OnChanges, OnInit {
-  constructor(/*private sanitizer: DomSanitizer*/) {}
 
-  banners : movieBanner[] = [
-    {
-      poster: "images/posters/harry.jpg",
-      clip: "videos/clips/H_P_Clip.mp4"
-    },
-    {
-      poster: "images/posters/breaking.jpg",
-      clip: "videos/clips/B_B_Clip.mp4"
-    },
-    {
-      poster: "images/posters/star.jpg",
-      clip: "videos/clips/S_W_Clip.mp4"
-    },
-    {
-      poster: "images/posters/grinch.jpg",
-      clip: "videos/clips/H_G_S_C_Clip.mp4"
-    },
-    {
-      poster: "images/posters/thrones.jpg",
-      clip: "videos/clips/G_O_T_Clip.mp4"
-    }
-  ]
-
-  current : movieBanner = this.banners[0];
-
-  safeVideoUrl: SafeResourceUrl = '';
-
+  @Input() banners : movieBanner[] = []
   @Input() index = 0;
 
   videoVisible = false
   isMuted = true
+  isMobile = false;
 
   hideVideo() {
     this.videoVisible = false
@@ -61,23 +34,25 @@ export class HeroBannerComponent implements OnChanges, OnInit {
     this.isMuted = !this.isMuted;
   }
 
-  // getSafeUrl(key: string): SafeResourceUrl {
-  //   const url = `https://www.youtube.com/embed/${key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${key}&modestbranding=1&rel=0&showinfo=0`;
-  //   return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  // }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['index'] && !changes['index'].firstChange) {
-      this.current = this.banners[this.index];
-      // this.safeVideoUrl = this.getSafeUrl(this.current.clip);
       this.hideVideo()
       this.viewVideo()
     }
   }
 
   ngOnInit(): void {
-    // this.safeVideoUrl = this.getSafeUrl(this.current.clip);
+    this.checkScreenSize();
     this.hideVideo();
     this.viewVideo();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768; // or any breakpoint you like
   }
 }
