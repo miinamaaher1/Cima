@@ -1,1 +1,51 @@
-<p>profile-data-form works!</p>
+<form [formGroup]="form" class="flex flex-col gap-5">
+    <div class="flex flex-wrap md:flex-nowrap gap-5 md:gap-2">
+        <div class="w-full">
+            <input class="w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="firstName" placeholder="First Name" />
+            <p *ngIf="!validFirstName && !isFirstInput" class="text-sm text-red-500">* Invalid Name</p>
+        </div>
+        <div class="w-full">
+            <input class="w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="lastName" placeholder="Last Name" />
+            <p *ngIf="!validLastName && !isFirstInput" class="text-sm text-red-500">* Invalid Name</p>
+        </div>
+    </div>
+    <div class="flex flex-wrap md:flex-nowrap gap-5 md:gap-2">
+        <div class="w-full">
+            <input class="w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="email" placeholder="Email Address" />
+            <p *ngIf="!validEmail && !isFirstInput" class="text-sm text-red-500">* Invalid Email Address</p>
+        </div>
+        <div class="w-full">
+            <select class="appearance-none w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+    </div>
+    <div class="flex flex-wrap md:flex-nowrap gap-5 md:gap-2">
+        <div class="w-full">
+            <input type="password" class="w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="password" placeholder="Password" />
+            <p *ngIf="!validPassword && !isFirstInput" class="text-sm text-red-500">* A strong password is required</p>
+        </div>
+        <div class="w-full">
+            <input type="password" class="w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="confirmPassword" placeholder="Confirm Password" />
+            <p *ngIf="!validConfirmPassword && !isFirstInput" class="text-sm text-red-500">* Password Must
+                Match</p>
+        </div>
+    </div>
+    <!-- <div class="flex gap-2">
+        <div >
+            <input type="date" class="w-full bg-light-blurple p-2 rounded-xl text-black focus:outline-blurple"
+                formControlName="birthDate" placeholder="Password" />
+            <p *ngIf="!validBirthDate && !isFirstInput" class="text-sm text-red-500">* Your age must be above 10</p>
+        </div>
+    </div> -->
+    <input
+        class="text-off-white border-1 border-blurple bg-linear-to-r from-blurple to-vivid-cerulean hover:bg-linear-to-r hover:to-blurple hover:from-vivid-cerulean transition duration-700 rounded-3xl px-4 py-3 self-center cursor-pointer"
+        type="button" value="Submit" (click)="signIn()" />
+</form>
