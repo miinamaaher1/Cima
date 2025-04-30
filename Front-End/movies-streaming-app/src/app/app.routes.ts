@@ -18,10 +18,10 @@ export const routes: Routes = [
     { path: "profile", component: ProfileComponent, title: "profile" },
     { path: "sign-in", component: SignInComponent, title: "signin" },
     { path: "sign-up", component: SignUpComponent, title: "signup" },
-    { path: "email-password", component: EmailPasswordComponent, title: "email-password" },
-    { path: "success-password", component: SuccessPasswordComponent, title: "success-password" },
-    { path: "forget-password", component: ForgotPasswordComponent, title: "forget-password" },
-    { path: "reset-password", component: ResetPasswordComponent, title: "reset-password" },
-    { path: "change-password", component: ChangePasswordComponent, title: "change-password" },
+    { path: "email-password", component: EmailPasswordComponent, title: "Check Your Email" },
+    { path: "success-password", component: SuccessPasswordComponent, title: "Password Changed" },
+    { path: "forget-password", component: ForgotPasswordComponent, title: "Forget Password" },
+    { path: "reset-password", component: ResetPasswordComponent, title: "Reset Password" },
+    { path: "change-password", component: ChangePasswordComponent, title: "Change Password" },
     { path: "**", component: NotFoundComponent, title: "Error" }
 ];
