@@ -1,6 +1,15 @@
+import { SearchService } from './../../../core/services/search/search.service';
+import { GenresService } from './../../../core/services/genres/genres.service';
+import { ICarouselData } from './../../../core/interfaces/icarousel-data';
 import { Component } from '@angular/core';
 import { MovieCarouselComponent } from "../movie-carousel/movie-carousel.component";
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { MovieListServiceService } from '../../../core/services/lists/movieList/movie-list-service.service';
+import { language } from '../../../core/utils/language.enum';
+import { SeriesListServiceService } from '../../../core/services/lists/seriesList/series-list-service.service';
+import { IGenreList } from '../../../core/interfaces/IGenre';
+import { IGenre } from '../../../core/interfaces/IMovieDetails';
+import { IMovieList } from '../../../core/interfaces/IMovieList';
 
 @Component({
   selector: 'app-home-carousels-group-infinite',
@@ -8,23 +17,186 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
   templateUrl: './home-carousels-group-infinite.component.html',
   styleUrl: './home-carousels-group-infinite.component.css'
 })
-export class HomeCarouselsGroupInfiniteComponent {
-  items= new Array(5);
- moviesList: number[];
 
-constructor(){
-  this.moviesList= [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
-     27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
-      46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64,
-       65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
-        84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 
-        102, 103, 104, 105, 106, 107, 108, 109, 110, 111]
+export class HomeCarouselsGroupInfiniteComponent {
+  items:ICarouselData[]=[];
+ moviesList: number[]=[];
+ MoviesGenresList:IGenre[]=[];
+ SeriesGenresList:IGenre[]=[];
+
+
+currentMoviesGenresIndex=0;
+currentSeriesGenresIndex= 0;
+
+constructor(private _movieListService:MovieListServiceService,
+  private _seriesListServiceService:SeriesListServiceService,
+  private _searchService:SearchService,
+  private _genresService:GenresService,
+){
   
-console.log(this.moviesList);
 
 }
+
+ngOnInit(): void {
+
+this._genresService.getAllMovieGenres(language.english).subscribe
+({
+  next:(data)=>{
+    console.log(data);
+    this.MoviesGenresList.push(...data.genres)
+    
+  },
+  error:(err)=>{
+    console.log(err);
+  }
+});
+
+this._genresService.getAllSeriesGenres(language.english).subscribe
+({
+  next:(data)=>{
+    console.log(data);
+    this.SeriesGenresList.push(...data.genres)
+    
+  },
+  error:(err)=>{
+    console.log(err);
+  }
+});
+  
+  this._movieListService.getPopularMovies(1,language.english).subscribe(
+    {
+      next:(data)=>{
+        console.log(data);
+        this.items.push({
+          title:"Popular Movies",
+          moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+        })
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    } 
+  );
+
+  this._movieListService.getTopRatedMovies(1,language.english).subscribe(
+    {
+      next:(data)=>{
+        console.log(data);
+        this.items.push({
+          title:"Top Rated Movies",
+          moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+        })
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    } 
+  );
+
+  this._movieListService.getNowplayingMovies(1,language.english).subscribe(
+    {
+      next:(data)=>{
+        console.log(data);
+        this.items.push({
+          title:"Now Playing Movies",
+          moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+        })
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    } 
+  );
+  this._seriesListServiceService.getPopularTvSeries(1,language.english).subscribe(
+    {
+      next:(data)=>{
+        console.log(data);
+        this.items.push({
+          title:"Popular Tv Series",
+          moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+        })
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    } 
+  );
+   this._seriesListServiceService.getTopRatedTvSeries(1,language.english).subscribe(
+    {
+      next:(data)=>{
+        console.log(data);
+        this.items.push({
+          title:"Top Rated Tv Series",
+          moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+        })
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    } 
+  );
+}
+
 loadMoreItems() {
-  this.items.push(...[1,2,3,4,5])
+
+  if(this.currentMoviesGenresIndex<this.MoviesGenresList.length)
+ {
+  this.moviesSearch(this.MoviesGenresList[this.currentMoviesGenresIndex].name);
+  this.currentMoviesGenresIndex++;
+ }
+  if(this.currentSeriesGenresIndex<=this.SeriesGenresList.length)
+  {
+    this.seriesSearch(this.SeriesGenresList[this.currentSeriesGenresIndex].name);
+
+   
+    this.currentSeriesGenresIndex++;
+  }
+  
+  console.log("allllllll items",this.items);
+
+}
+
+moviesSearch(searchBy:string){
+  this._searchService.SearchInMovies(searchBy,false,language.english,1)
+  .subscribe({
+    next:(data)=>{
+
+      console.log("searchBy",data);
+      this.items.push({
+        title:searchBy+" Movies",
+        moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+      })
+    
+    }
+    ,
+    error:(err)=>{
+      console.log(err);
+    }
+  })
+}
+
+seriesSearch(searchBy:string){
+  this._searchService.SearchInSeries(searchBy,false,language.english,1)
+  .subscribe({
+    next:(data)=>{
+
+      console.log("searchBy",data);
+      this.items.push({
+        title:searchBy+" Series",
+        moviesIdsList:data.results.filter(m=>m.adult==false).map(m=>m.id)
+      })
+    
+    }
+    ,
+    error:(err)=>{
+      console.log(err);
+    }
+  })
 }
 
 }

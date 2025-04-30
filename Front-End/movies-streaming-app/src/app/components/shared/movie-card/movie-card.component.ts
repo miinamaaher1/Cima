@@ -34,7 +34,7 @@ export class MovieCardComponent {
         console.log(data);
         this.posterUrl = `https://image.tmdb.org/t/p/w500/${data.backdrops[0].file_path}`;
       },
-      error: () => this.validMovie = false
+      error: () => this.validMovie = true
     })
   }
   validMovie: boolean = true;
