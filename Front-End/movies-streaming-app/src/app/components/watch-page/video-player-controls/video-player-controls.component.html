@@ -1,0 +1,83 @@
+<video #videoPlayer class="w-full h-full object-cover" (timeupdate)="updateProgress()"
+    (loadedmetadata)="setDuration()" (click)="togglePlayPause()">
+    <source [src]="url" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<!-- Custom Play/Pause Button -->
+<div class="absolute bottom-3 left-10 z-50 text-light-blurple hover:text-blurple text-2xl cursor-pointer"
+    (click)="togglePlayPause()">
+    <i [ngClass]="isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play'"></i>
+</div>
+
+
+<!-- forwoard & backward buttons -->
+<div (click)="progressBackward()"
+    class="absolute bottom-3 left-20 text-xl cursor-pointer  z-50  text-light-blurple hover:text-blurple">
+    <i class="fa-solid fa-backward"></i>
+</div>
+<div (click)="progressForward()"
+    class="absolute bottom-3 left-30 text-xl cursor-pointer  z-50  text-light-blurple hover:text-blurple">
+    <i class="fa-solid fa-forward"></i>
+</div>
+
+
+<!-- progress info -->
+<div class="absolute bottom-3 right-56 text-xl cursor-pointer  z-50  text-light-blurple">
+    {{currentTime | formatTime }}
+</div>
+<div class="absolute bottom-3 right-52 text-xl cursor-pointer  z-50  text-light-blurple">
+    /
+</div>
+<div class="absolute bottom-3 right-38 text-xl cursor-pointer  z-50  text-light-blurple ">
+    {{duration | formatTime }}
+</div>
+
+
+<!-- next episode -->
+<div class="absolute bottom-3 right-30 cursor-pointer text-2xl  z-50  text-light-blurple hover:text-blurple">
+    <i class="fa-solid fa-forward-step"></i>
+</div>
+
+
+<!-- setting (quality) -->
+<div class="absolute bottom-3 right-20 cursor-pointer text-2xl  z-50  text-light-blurple hover:text-blurple">
+    <app-video-quality-setting></app-video-quality-setting>
+    
+</div>
+
+<!-- fullscreen -->
+<div class="absolute bottom-3 right-10 cursor-pointer text-2xl  z-50  text-light-blurple hover:text-blurple">
+    @if (isFullScreen)
+    {
+        <div (click)="goFullScreen()">
+            <i class="fa-solid fa-expand"></i>
+        </div>
+    }
+    @if (!isFullScreen) 
+    {
+        <div (click)="exitFullScreen()">
+            <i  class="fa-solid fa-compress"></i>
+        </div>
+    }
+</div>
+
+
+<!-- Volume controls -->
+<div class="group">
+    <div class="absolute bottom-3 left-40 z-50 text-light-blurple hover:text-blurple text-2xl cursor-pointer"
+        (click)="toggleMute()">
+        <i [ngClass]="isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high'"></i>
+    </div>
+
+    <input type="range" min="0" max="1" step="0.01" [value]="volume" (input)="changeVolume($event)"
+        [style.background]="getVolumeBackground()"
+        class="absolute w-0 opacity-0 group-hover:opacity-100  group-hover:w-40   bottom-6 left-50 z-50 appearance-none h-1 rounded-full cursor-pointer transition-all duration-300 ease-in-out" />
+</div>
+
+
+
+<!-- Progress Bar -->
+<input type="range" [min]="0" [max]="duration" [value]="currentTime" (input)="seekVideo($event)"
+    [style.background]="getProgressBackground()"
+    class="absolute bottom-15 left-4 right-4 z-50 appearance-none h-1 rounded-full cursor-pointer transition-all duration-300 ease-in-out" />

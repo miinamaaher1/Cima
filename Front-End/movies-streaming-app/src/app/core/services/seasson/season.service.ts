@@ -16,15 +16,15 @@ export class SeasonService {
         .set("Accept", "application/json");
 
     // get Season Details
-    getSeasonDetails(seriesId: number, seasonId: number, lang : language) {
-        const endpoint = `/3/tv/${seriesId}/season/${seriesId}'`;
+    getSeasonDetails(seriesId: number, seasonNumber: number, lang : language) {
+        const endpoint = `/3/tv/${seriesId}/season/${seasonNumber}'`;
         const url = `${environment.base_url}${endpoint}?language=${lang}`;
         return this._http.get<ISeasonDetails>(url, { headers: this.headers });
     }
 
     // get Seasson Credits
-    getSeasonCredits(seriesId: number, seasonId: number, lang : language) {
-        const endpoint = `/3/tv/${seriesId}/season/${seriesId}'`;
+    getSeasonCredits(seriesId: number, seasonNumber: number, lang : language) {
+        const endpoint = `/3/tv/${seriesId}/season/${seasonNumber}'`;
         const url = `${environment.base_url}${endpoint}?language=${lang}`;
         return this._http.get<ICreditList>(url, { headers: this.headers });
     }

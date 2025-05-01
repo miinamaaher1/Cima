@@ -1,0 +1,55 @@
+<div class="w-[100%]">
+    <div class="flex items-center gap-4">
+        <!-- Poster -->
+        <div class="relative w-40 h-50 bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform hover:scale-105">
+          <!-- Poster Image -->
+          <img 
+            src="/assets/images/episode_example_thumbnail.png" 
+            alt="Movie Poster" 
+            class="w-full h-full object-cover"
+          >
+      
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+      
+          <!-- Additional Info (optional) -->
+          <div class="mt-2 flex items-center text-xs text-gray-300">
+            <span class="mr-2">⭐ 4.8/5</span>
+            <span>Action • Adventure</span>
+          </div>
+        </div>
+      
+        <!-- Movie Name -->
+        <div class="text-white">
+          <h2 class="text-xl font-bold">Movie Name</h2>
+          <p class="text-sm text-gray-400">Description or tagline here</p>
+        </div>
+      </div>
+      
+    <div class="space-y-4">
+        @for (episode of episodes; track $index) {
+          <div class="flex items-start rounded-lg shadow p-4 gap-4">
+      
+            <!-- Thumbnail with duration overlay -->
+            <div class="relative w-32 h-20 flex-shrink-0">
+              <img
+                [src]="episode.imageUrl"
+                [alt]="episode.title"
+                class="w-full h-full object-cover rounded-md"
+              />
+              <span class="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-xs px-2 py-0.5 rounded">
+                {{ episode.duration }}
+              </span>
+            </div>
+      
+            <!-- Details section -->
+            <div class="flex flex-col justify-center">
+              <h3 class="text-sm font-semibold text-gray-800">{{ episode.title }}</h3>
+              <p class="text-xs text-gray-600">Episode {{ episode.number }}</p>
+            </div>
+      
+          </div>
+        }
+      </div>
+      
+</div>
