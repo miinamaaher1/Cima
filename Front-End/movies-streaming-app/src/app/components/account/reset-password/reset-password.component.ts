@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
   selector: 'app-reset-password',
   imports: [FloatLabelModule,FormsModule,InputTextModule,
             PasswordModule,ReactiveFormsModule
-            ,RouterLink],
+            ,RouterLink
+          ],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css'
 })
@@ -21,7 +22,9 @@ export class ResetPasswordComponent {
 
   resetForm:FormGroup = new FormGroup(
     {
-      password:new FormControl(null,[Validators.required,Validators.pattern(/^[a-zA-Z0-9_%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      password:new FormControl(null,
+        [Validators.required,
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]),
       confirmPassword:new FormControl(null),
      
     },
