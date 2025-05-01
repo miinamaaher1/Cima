@@ -31,10 +31,10 @@ export class MovieCarouselComponent {
   ngOnInit(): void {
     this.size = Math.ceil(this.window.innerWidth / this.cardSizeWithGap) + 1;
     this.collectionList = this.listIds.slice(0, this.size);
-    if (this.size > 2)
+    if (this.size > 3)
       this.step = (this.size / 2) * this.cardSizeWithGap;
     else
-      this.step = this.cardSizeWithGap / 4;
+      this.step = this.cardSizeWithGap / 2;
   }
   // @HostListener('window:resize', ['$event.target.innerWidth'])
   // onResize() {
@@ -48,13 +48,13 @@ export class MovieCarouselComponent {
     this.left -= this.step;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
-    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - ((this.size > 2) ? 1 : 2))) ? false : true;
+    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - ((this.size > 3) ? 1 : 2))) ? false : true;
   }
   goLeft(slider: HTMLDivElement) {
     this.backCounter++;
     this.left += this.step;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
-    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - ((this.size > 2) ? 1 : 2))) ? false : true;
+    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - ((this.size > 3) ? 1 : 2))) ? false : true;
   }
 }
