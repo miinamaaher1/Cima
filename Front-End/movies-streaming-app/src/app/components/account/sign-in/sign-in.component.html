@@ -1,1 +1,150 @@
-<p>sign-in works!</p>
+<div class="flex text-white flex-row justify-center items-center h-screen">
+  <div
+    class="bg-surface-black mt-[64px]
+     md:w-[40%] lg:w-[35%] xl:w-[28%] rounded-xl flex flex-col p-6 items-center gap-2.5"
+  >
+    <div
+      class="text-center text-[16px] font-black md:vw-text-[24] lg:!font-bold text-light-blue-3"
+    >
+      <h3 class="font-semibold text-xl pb-3">Sign in to Cima</h3>
+    </div>
+    <div>
+      <img class="w-[100px]" src="/branding/logo-detailed.svg" alt="" />
+    </div>
+
+    <form
+      class="mt-[10px] flex w-full flex-col text-center gap-5"
+      (ngSubmit)="signInSubmit()"
+      [formGroup]="signInForm"
+    >
+      <!--? controls  -->
+      <div class="flex flex-col gap-6">
+        <div class="">
+          <p-floatlabel variant="in" class="">
+            <input
+              pInputText
+              id="in_label"
+              formControlName="email"
+              autocomplete="off"
+              class="w-full py-2 pt-4 bg-white text-black"
+            />
+            <label for="in_label" class="text-gray-500">Enter Email</label>
+          </p-floatlabel>
+
+          @if(signInForm.get('email')?.errors&&signInForm.get('email')?.touched)
+          { @if (signInForm.get('email')?.getError('required')) {
+          <p class="absolute text-sm text-red-600">Email Is Required</p>
+          } @else if (signInForm.get('email')?.getError('email')) {
+          <p class="absolute text-sm text-red-600">Enter Vaild Email</p>
+          } }
+        </div>
+
+        <div>
+          <p-floatlabel variant="in">
+            <p-password
+              class="block"
+              [toggleMask]="true"
+              [fluid]="true"
+              formControlName="password"
+              inputStyleClass="bg-white text-black py-3 w-full block"
+            />
+            <label for="in_label" class="text-gray-500">Enter Password</label>
+          </p-floatlabel>
+
+          @if(signInForm.get('password')?.errors&&signInForm.get('password')?.touched)
+          { @if (signInForm.get('password')?.getError('required')) {
+          <p class="absolute text-sm text-red-600">Password Is Required</p>
+          } @else if (signInForm.get('password')?.getError('pattern')) {
+          <p class="absolute text-sm text-red-600">Enter Vaild Password</p>
+          } }
+        </div>
+      </div>
+
+      <div
+        class="w-fit self-center text-center text-[12px] leading-[14px] text-blurple"
+      >
+        <a routerLink="/forget-password" class="hover:text-dark-blurple">
+          Forgot password?</a
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="cursor-pointer text-center bg-gray-500 hover:bg-blurple transition duration-700 py-2 px-5 w-fit block mx-auto rounded-2xl"
+      >
+        Sign in
+      </button>
+    </form>
+    <!--?======================== continue with ========================================= -->
+    <div class="flex w-full flex-row items-center">
+      <div
+        class="h-[1px] rounded-2xl flex-1 bg-dark-blurple shadow-dark-blurple shadow-inner"
+      ></div>
+      <span class="px-[12px] font-medium leading-[13px]">or continue with</span>
+      <div class="h-[1px] rounded-2xl flex-1 bg-dark-blurple"></div>
+    </div>
+
+    <!--?================= external logins ================== -->
+
+    <div class="flex gap-[32px]">
+      <button
+        aria-label="facebook"
+        data-testid="facebook-btn"
+        type="button"
+        class="outline-1 outline-blurple rounded-full p-1 px-1.5 relative hover:outline-2 hover:border-blurple transition duration-500"
+      >
+        <span class="flex justify-center items-center"
+          ><img
+            alt="facebook"
+            loading="lazy"
+            decoding="async"
+            class="!relative scale-110 hover:scale-140 transition-all duration-200 ease-in-out"
+            src="https://shahid.mbc.net/staticFiles/production/static/images/facebook.svg"
+        /></span>
+      </button>
+
+      <button
+        aria-label="apple"
+        data-testid="apple-btn"
+        type="button"
+        class="outline-1 outline-blurple rounded-full p-1 relative hover:outline-2 hover:border-blurple transition duration-500"
+      >
+        <span class="flex justify-center items-center"
+          ><img
+            alt="apple"
+            loading="lazy"
+            decoding="async"
+            data-nimg="fill"
+            class="!relative scale-110 hover:scale-120 transition-all duration-200 ease-in-out"
+            src="https://shahid.mbc.net/staticFiles/production/static/images/apple-logo-light.svg"
+        /></span></button
+      ><button
+        aria-label="google"
+        data-testid="google-btn"
+        type="button"
+        class="outline-1 outline-blurple rounded-full p-1 relative hover:outline-2 hover:border-blurple transition duration-500"
+      >
+        <span class="flex justify-center items-center"
+          ><img
+            alt="google"
+            loading="lazy"
+            decoding="async"
+            data-nimg="fill"
+            class="!relative hover:scale-120 transition-all duration-200 ease-in-out"
+            src="https://shahid.mbc.net/staticFiles/production/static/images/google.svg"
+        /></span>
+      </button>
+    </div>
+
+    <div class="text-center">
+      <span class="text-[12px] font-medium text-gray-3 md:text-light-blue-2"
+        >New to Cima?</span
+      >
+      <div
+        class="text-blurple m-auto block w-fit cursor-pointer text-[12px] font-medium md:inline"
+      >
+       <a routerLink="/sign-up"> Sign up</a>
+      </div>
+    </div>
+  </div>
+</div>
