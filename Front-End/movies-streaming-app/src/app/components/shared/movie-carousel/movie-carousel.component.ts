@@ -35,6 +35,7 @@ export class MovieCarouselComponent {
       this.step = (this.size / 2) * this.cardSizeWithGap;
     else
       this.step = this.cardSizeWithGap / 2;
+    console.log("test");
   }
   // @HostListener('window:resize', ['$event.target.innerWidth'])
   // onResize() {
