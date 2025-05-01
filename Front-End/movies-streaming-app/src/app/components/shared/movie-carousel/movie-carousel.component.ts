@@ -44,13 +44,13 @@ export class MovieCarouselComponent {
     this.left -= this.step;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
-    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - 1)) ? false : true;
+    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - (this.size > 3 ? 1 : 4))) ? false : true;
   }
   goLeft(slider: HTMLDivElement) {
     this.backCounter++;
     this.left += this.step;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
-    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - 1)) ? false : true;
+    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - (this.size > 3 ? 1 : 4))) ? false : true;
   }
 }
