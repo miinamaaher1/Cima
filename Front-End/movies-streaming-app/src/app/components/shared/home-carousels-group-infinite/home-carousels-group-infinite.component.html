@@ -1,16 +1,5 @@
 <div class="mt-1"></div>
-<!-- <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="800" (scrolled)="loadMoreItems()">
-  @for (item of items; track $index) {
-  @defer (on viewport) {
-  <app-movie-carousel [title]="item.title" [listIds]="item.moviesIdsList"
-    [collectionType]="item.collectionType"></app-movie-carousel>
-  } @placeholder {
-  <div></div>
-  }
-  }
-</div> -->
-
-<div >
+<div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="800" (scrolled)="loadMoreItems()">
   @for (item of items; track $index) {
   @defer (on viewport) {
   <app-movie-carousel [title]="item.title" [listIds]="item.moviesIdsList"
@@ -20,3 +9,14 @@
   }
   }
 </div>
+
+<!-- <div >
+  @for (item of items; track $index) {
+  @defer (on viewport) {
+  <app-movie-carousel [title]="item.title" [listIds]="item.moviesIdsList"
+    [collectionType]="item.collectionType"></app-movie-carousel>
+  } @placeholder {
+  <div></div>
+  }
+  }
+</div> -->
