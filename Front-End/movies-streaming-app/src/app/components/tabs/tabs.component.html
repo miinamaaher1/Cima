@@ -1,0 +1,71 @@
+<div class="mx-12 mt-4">
+  <div class="flex space-x-10 text-lg border-b-2 border-body-charcoal/75 mb-4">
+    @for(tab of tabs; track $index){
+    <button (click)="selectTab($index)" class="py-2 font-medium transition-colors duration-400" [ngClass]="{
+        'border-b-2 border-blurple text-blurple': selectedIndex === $index,
+        'text-greyple hover:text-blurple': selectedIndex !== $index
+      }">
+      {{ tab.label }}
+    </button>
+    }
+  </div>
+
+  <div class="py-4 bg-background-black text-off-white rounded shadow">
+    @if (tabs[selectedIndex].label === 'Episodes') {
+    <div class="flex flex-wrap  px-4">
+      @for (item of [].constructor(20); track $index) {
+      <div class="mb-14 w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/6" >
+        <app-movie-card class="hover:z-10  hover:absolute  transition-all duration-300"></app-movie-card>
+      </div>
+      }
+    </div>
+    }
+    @else if (tabs[selectedIndex].label === 'Related') {
+        <app-tabs-related></app-tabs-related>
+    }
+    
+    @else if (tabs[selectedIndex].label === 'More Info') {
+    <div class="p-6 text-off-white">
+
+      <h2 class="text-2xl font-bold mb-6">About</h2>
+
+      <div class="flex flex-col lg:flex-row lg:justify-between lg:gap-20">
+        <div class="lg:flex-1 lg:border-r">
+          <div class="flex flex-wrap items-center gap-x-3 text-gray-300 mb-4">
+            <span>1 Seasons</span>
+            <span class="w-2 h-2 bg-blurple rounded-full"></span>
+            <span>10 Episode</span>
+            <span class="w-2 h-2 bg-blurple rounded-full"></span>
+            <span>Action</span>
+            <span class="w-2 h-2 bg-blurple rounded-full"></span>
+            <span>Drama</span>
+            <span class="w-2 h-2 bg-blurple rounded-full"></span>
+            <span>Comedy</span>
+            <span class="w-2 h-2 bg-blurple rounded-full"></span>
+            <span>Egyptian</span>
+          </div>
+          <p class="text-gray-200 mb-8 lg:mb-0">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos minima delectus, distinctio asperiores quas
+            eius cumque. Rerum ipsa dolores molestiae magni labore beatae natus quod facilis! Sint itaque dolor
+            repellendus.
+          </p>
+        </div>
+
+        <div class="lg:flex-1 lg:max-w-[300px]">
+          <h3 class="font-semibold text-gray-300 mb-2">Cast:</h3>
+          <p class="text-gray-200">
+            Abdelrahman Ramadan, Mina Maher, Mahmoud Keshk, Ahmed El-Shamy, Mohamed Khaled, Yousra, Mervat Amin, Faten
+            Hmama, Haifaa
+          </p>
+        </div>
+      </div>
+    </div>
+    }
+    @else {
+    <div class="px-4">
+      {{ tabs[selectedIndex].content }}
+    </div>
+    }
+  </div>
+
+</div>
