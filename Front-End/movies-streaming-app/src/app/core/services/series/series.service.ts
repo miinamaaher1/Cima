@@ -9,6 +9,7 @@ import { ISeriesList } from "../../interfaces/ISeriesList";
 import { IReviewList } from "../../interfaces/IReviewList";
 import { IVideoDetailsList } from "../../interfaces/IVideoDetailsList";
 import { IEpisodeCollection, IEpisodeCollectionDetails } from '../../interfaces/IEpisode';
+import { IKeywordsList } from '../../interfaces/IKeywordsList';
 
 @Injectable({
     providedIn: "root",
@@ -45,7 +46,7 @@ export class SeriesService {
     getSeriesKeywords(id: number) {
         const endpoint = `/3/tv/${id}/keywords`;
         const url = `${environment.base_url}${endpoint}`;
-        return this._http.get<IImageList>(url, { headers: this.headers });
+        return this._http.get<IKeywordsList>(url, { headers: this.headers });
     }
 
     // tv series reviews
