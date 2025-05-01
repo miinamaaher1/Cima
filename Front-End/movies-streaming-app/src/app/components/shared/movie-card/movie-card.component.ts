@@ -3,8 +3,6 @@ import { IconComponent } from '../icon-component/icon.component';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
-import { IMovieDetails } from '../../../core/interfaces/IMovieDetails';
-import { environment } from '../../../core/environments/environment';
 
 @Component({
   selector: 'app-movie-card',
@@ -31,10 +29,15 @@ export class MovieCardComponent {
     })
     this.movieService.getMovieImages(this.id).subscribe({
       next: data => {
-        console.log(data);
-        this.posterUrl = `https://image.tmdb.org/t/p/w500/${data.backdrops[0].file_path}`;
+        try {
+          this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
+        }
+        catch (error) {
+          this.validMovie = false;
+          console.log(error);
+        }
       },
-      error: () => this.validMovie = true
+      error: () => this.validMovie = false
     })
   }
   validMovie: boolean = true;
