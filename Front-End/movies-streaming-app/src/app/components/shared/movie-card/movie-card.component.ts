@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { IconComponent } from '../icon-component/icon.component';
 import { CommonModule } from '@angular/common';
+import { MovieService } from '../../../core/services/movie/movie.service';
+import { language } from '../../../core/utils/language.enum';
 
 @Component({
   selector: 'app-movie-card',
@@ -10,13 +12,42 @@ import { CommonModule } from '@angular/common';
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
-  name: string = "Ratatouille";
-  hours: number = 1;
-  minutes: number = 45;
-  posterUrl: string = "https://belovedpawn.org/wp-content/uploads/2024/04/ratatouille-in-hermann-mo.jpeg";
+  constructor(private movieService: MovieService) { }
+  ngOnInit(): void {
+    this.movieService.getMovieDetails(this.id, language.english).subscribe({
+      next: (data) => {
+        this.tags = data.genres.map(g => g.name);
+        this.name = data.title;
+        this.hours = Math.floor(data.runtime / 60);
+        this.minutes = data.runtime % 60;
+      },
+      error: () => this.validMovie = false
+    });
+    this.movieService.getMovieCredits(this.id, language.english).subscribe({
+      next: data => this.cast = data.cast.filter((_, i) => i <= 2).map(c => c.name),
+      error: () => this.validMovie = false
+    })
+    this.movieService.getMovieImages(this.id).subscribe({
+      next: data => {
+        try {
+          this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
+        }
+        catch (error) {
+          this.validMovie = false;
+          console.log(error);
+        }
+      },
+      error: () => this.validMovie = false
+    })
+  }
+  validMovie: boolean = true;
+  name: string = "";
+  hours: number = 0;
+  minutes: number = 0;
+  posterUrl: string = "";
   videoUrl: string = "https://www.w3schools.com/html/mov_bbb.mp4";
-  cast: string[] = ["aaaa", "aaaa"];
-  tags: string[] = ["tag 1", "tag 2"];
+  cast: string[] = [];
+  tags: string[] = [];
   timerHandler: any;
   playState: string = "";
   // playVideo(poster: HTMLImageElement, video: HTMLIFrameElement) {
