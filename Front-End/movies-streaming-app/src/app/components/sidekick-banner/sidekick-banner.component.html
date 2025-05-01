@@ -1,0 +1,28 @@
+<div class="w-full h-full">
+  <img *ngIf="!videoVisible || isMobile" src="{{banner().poster}}" class="w-full h-full object-cover" />
+  <video *ngIf="videoVisible && !isMobile" autoplay playsinline [muted]="isMuted"
+    class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
+    (ended)="hideVideo()">
+    <source [src]="banner().clip" type="video/mp4">
+  </video>
+  <button *ngIf="videoVisible && !isMobile" (click)="toggleMute()"
+    class="absolute top-24 right-12 font-medium bg-body-charcoal/50 border-2 border-blurple rounded-full
+      text-off-white hover:bg-button-hover hover:border-button-hover cursor-pointer w-12 h-12
+      opacity-50 hover:opacity-100">
+    @if(isMuted) {
+      <i class="fa-solid fa-volume-xmark"></i>
+    } @else {
+      <i class="fa-solid fa-volume-low"></i>
+    }
+  </button>
+  <button *ngIf="!videoVisible && !isMobile" (click)="playVideo()"
+    class="absolute top-24 right-12 font-medium bg-body-charcoal/50 border-2 border-blurple rounded-full
+    text-off-white hover:bg-button-hover hover:border-button-hover cursor-pointer w-12 h-12
+      opacity-50 hover:opacity-100">
+      <i class="fa-solid fa-rotate-right"></i>
+  </button>
+  <div *ngIf="!isMobile" class="absolute bottom-0 w-full h-[75px] flex justify-center px-12
+            bg-gradient-to-t from-body-charcoal/75 to-body-charcoal/0">
+    <div class="border-t-1 border-t-border-grey w-full"></div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<div class="w-screen h-screen relative">
+  <app-sidekick-banner [banner]="banner" (videoVisibilityChanged)="videoVisibilityChanged.set($event)"></app-sidekick-banner>
+  <app-sidekick-info [movieInfo]="movieInfo" [videoVisibilityChanged]="videoVisibilityChanged()"></app-sidekick-info>
+</div>
