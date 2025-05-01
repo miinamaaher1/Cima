@@ -22,7 +22,7 @@ value:string ="";
 signInForm:FormGroup = new FormGroup(
   {
     email:new FormControl(null,[Validators.required,Validators.email]),
-    password:new FormControl(null,[Validators.required,Validators.pattern(/^\w{6,}$/)]),
+    password:new FormControl(null,[Validators.required,Validators.pattern(/^\w{8,}$/)]),
   
   }
 );
