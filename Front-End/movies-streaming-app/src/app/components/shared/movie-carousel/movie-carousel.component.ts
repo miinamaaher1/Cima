@@ -34,12 +34,13 @@ export class MovieCarouselComponent {
     if (this.size > 2)
       this.step = (this.size / 2) * this.cardSizeWithGap;
     else
-      this.step = this.cardSizeWithGap;
+      this.step = this.cardSizeWithGap / 2;
+    console.log("test");
   }
-  @HostListener('window:resize', ['$event.target.innerWidth'])
-  onResize() {
-    window.location.reload();
-  }
+  // @HostListener('window:resize', ['$event.target.innerWidth'])
+  // onResize() {
+  //   window.location.reload();
+  // }
   goRight(slider: HTMLDivElement) {
     if (this.backCounter == 0)
       this.collectionList.push(...this.listIds.slice(this.collectionList.length, this.size * ++this.currentPage))
