@@ -31,31 +31,28 @@
 
       <div class="flex flex-col lg:flex-row lg:justify-between lg:gap-20">
         <div class="lg:flex-1 lg:border-r">
-          <div class="flex flex-wrap items-center gap-x-3 text-gray-300 mb-4">
-            <span>1 Seasons</span>
+          <div  class="flex flex-wrap items-center gap-x-3 text-gray-300 mb-4">
+            @if (this.isSeries) {
+            <span>{{this.mediadetails.countSeasons}} Seasons</span>
             <span class="w-2 h-2 bg-blurple rounded-full"></span>
-            <span>10 Episode</span>
+            <span>{{this.mediadetails.countEpisodes}} Episode</span>
             <span class="w-2 h-2 bg-blurple rounded-full"></span>
-            <span>Action</span>
-            <span class="w-2 h-2 bg-blurple rounded-full"></span>
-            <span>Drama</span>
-            <span class="w-2 h-2 bg-blurple rounded-full"></span>
-            <span>Comedy</span>
-            <span class="w-2 h-2 bg-blurple rounded-full"></span>
-            <span>Egyptian</span>
+            }
+            @for(cat of mediadetails.categories; track  $index){
+              <span>{{cat.name}}</span>
+              <span class="w-2 h-2 bg-blurple rounded-full"></span>
+            }
+
           </div>
           <p class="text-gray-200 mb-8 lg:mb-0">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos minima delectus, distinctio asperiores quas
-            eius cumque. Rerum ipsa dolores molestiae magni labore beatae natus quod facilis! Sint itaque dolor
-            repellendus.
+            {{this.mediadetails.description}}
           </p>
         </div>
 
         <div class="lg:flex-1 lg:max-w-[300px]">
           <h3 class="font-semibold text-gray-300 mb-2">Cast:</h3>
           <p class="text-gray-200">
-            Abdelrahman Ramadan, Mina Maher, Mahmoud Keshk, Ahmed El-Shamy, Mohamed Khaled, Yousra, Mervat Amin, Faten
-            Hmama, Haifaa
+            {{ mediadetails.cast.join(', ') }}
           </p>
         </div>
       </div>
