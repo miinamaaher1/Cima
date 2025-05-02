@@ -43,3 +43,36 @@ export interface IGuestStar {
     popularity: number;
     profile_path: string | null;
 }
+
+export interface IEpisodeCollection {
+    results: [
+        {
+            description: string;
+            episode_count: number;
+            group_count: number;
+            id: string;
+            name: string;
+            type: number;
+        },
+    ];
+    id: 219246;
+}
+
+export interface Group {
+    id: string;
+    name: string;
+    order: number;
+    episodes: IEpisode[];
+    locked: boolean;
+  }
+  
+  export interface IEpisodeCollectionDetails {
+    description: string;
+    episode_count: number;
+    group_count: number;
+    groups: Group[];
+    id: string;
+    name: string;
+    network: string | null;
+    type: number;
+}

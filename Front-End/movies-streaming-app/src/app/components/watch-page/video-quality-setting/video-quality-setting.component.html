@@ -1,0 +1,52 @@
+<div class="relative font-sans">
+    <i (click)="toggleQualitySettingMenu()" class="fa-solid fa-gear text-white text-2xl cursor-pointer"></i>
+  
+    <ul class="absolute w-64 text-center text-xl rounded-lg shadow-xl border overflow-hidden bottom-full right-0 mb-6 z-10 transform transition-all duration-200
+               bg-[var(--color-dark-blurple)] border-[var(--color-border-grey)] text-[var(--color-white)]"
+        [ngClass]="{ 'hidden opacity-0 translate-y-2': !showQualityMenu, 'opacity-100 translate-y-0': showQualityMenu }">
+      
+      <!-- Low Quality -->
+      <li class="px-4 py-4 cursor-pointer transition-colors duration-200 relative hover:bg-[var(--color-blurple)]"
+          [ngClass]="{ 'bg-[var(--color-blurple)]': selectedQuality === 'Low Quality' }"
+          (click)="selectQuality('Low Quality')">
+        Low Quality
+        <span *ngIf="selectedQuality === 'Low Quality'" 
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-[var(--color-white)]">✓</span>
+      </li>
+  
+      <!-- Medium Quality -->
+      <li class="px-4 py-4 cursor-pointer transition-colors duration-200 relative hover:bg-[var(--color-blurple)]"
+          [ngClass]="{ 'bg-[var(--color-blurple)]': selectedQuality === 'Medium Quality' }"
+          (click)="selectQuality('Medium Quality')">
+        Medium Quality
+        <span *ngIf="selectedQuality === 'Medium Quality'" 
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-[var(--color-white)]">✓</span>
+      </li>
+  
+      <!-- High Quality -->
+      <li class="px-4 py-4 cursor-pointer transition-colors duration-200 relative hover:bg-[var(--color-blurple)]"
+          [ngClass]="{ 'bg-[var(--color-blurple)]': selectedQuality === 'High Quality' }"
+          (click)="selectQuality('High Quality')">
+        High Quality
+        <span *ngIf="selectedQuality === 'High Quality'" 
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-[var(--color-white)]">✓</span>
+      </li>
+  
+      <!-- Premium Quality -->
+      <li class="px-4 py-4 cursor-pointer transition-colors duration-200 relative text-[var(--color-white)]/70
+                 bg-gradient-to-r from-[var(--color-dark-blurple)] to-[color-mix(in srgb, var(--color-dark-blurple) 80%, transparent)]
+                 hover:from-[var(--color-dark-blurple)] hover:to-[var(--color-blurple)]"
+          (click)="showPremiumPrompt()"
+          style="background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.2) 10px, rgba(0,0,0,0.2) 20px);">
+        Premium Quality
+        <span class="ml-2 text-sm text-[var(--color-vip-yellow)] inline-flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+          </svg>
+          PREMIUM
+        </span>
+      </li>
+  
+    </ul>
+  </div>
+  
