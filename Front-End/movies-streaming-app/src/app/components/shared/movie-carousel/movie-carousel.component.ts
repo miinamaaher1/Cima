@@ -31,16 +31,11 @@ export class MovieCarouselComponent {
   ngOnInit(): void {
     this.size = Math.ceil(this.window.innerWidth / this.cardSizeWithGap) + 1;
     this.collectionList = this.listIds.slice(0, this.size);
-    if (this.size > 2)
+    if (this.size > 3)
       this.step = (this.size / 2) * this.cardSizeWithGap;
     else
-      this.step = this.cardSizeWithGap / 2;
-    console.log("test");
+      this.step = this.cardSizeWithGap;
   }
-  // @HostListener('window:resize', ['$event.target.innerWidth'])
-  // onResize() {
-  //   window.location.reload();
-  // }
   goRight(slider: HTMLDivElement) {
     if (this.backCounter == 0)
       this.collectionList.push(...this.listIds.slice(this.collectionList.length, this.size * ++this.currentPage))
@@ -49,13 +44,13 @@ export class MovieCarouselComponent {
     this.left -= this.step;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
-    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - 1)) ? false : true;
+    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - (this.size > 3 ? 1 : 4))) ? false : true;
   }
   goLeft(slider: HTMLDivElement) {
     this.backCounter++;
     this.left += this.step;
     slider.style.left = `${this.left}px`;
     this.leftHidden = (this.left < 0) ? false : true;
-    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - 1)) ? false : true;
+    this.rightHidden = (this.step - this.left < this.cardSizeWithGap * (this.listIds.length - (this.size > 3 ? 1 : 4))) ? false : true;
   }
 }

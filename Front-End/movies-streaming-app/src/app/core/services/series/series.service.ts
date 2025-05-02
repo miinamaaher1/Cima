@@ -8,6 +8,8 @@ import { IImageList } from "../../interfaces/IImageList";
 import { ISeriesList } from "../../interfaces/ISeriesList";
 import { IReviewList } from "../../interfaces/IReviewList";
 import { IVideoDetailsList } from "../../interfaces/IVideoDetailsList";
+import { IEpisodeCollection, IEpisodeCollectionDetails } from '../../interfaces/IEpisode';
+import { IKeywordsList } from '../../interfaces/IKeywordsList';
 
 @Injectable({
     providedIn: "root",
@@ -44,7 +46,7 @@ export class SeriesService {
     getSeriesKeywords(id: number) {
         const endpoint = `/3/tv/${id}/keywords`;
         const url = `${environment.base_url}${endpoint}`;
-        return this._http.get<IImageList>(url, { headers: this.headers });
+        return this._http.get<IKeywordsList>(url, { headers: this.headers });
     }
 
     // tv series reviews
@@ -75,5 +77,20 @@ export class SeriesService {
         return this._http.get<IVideoDetailsList>(url, { headers: this.headers });
     }
 
+
+    // get the episode collections of a tv series 
+    getSeriesCollections(id: number) {
+        const endpoint = `/3/tv/${id}/episode_groups`;
+        const url = `${environment.base_url}${endpoint}`;
+        return this._http.get<IEpisodeCollection>(url, { headers: this.headers });
+    }
+
+
+    getCollectionDetails(id: string) {
+        const endpoint = `/3/tv/episode_group/${id}`;
+        const url = `${environment.base_url}${endpoint}`;
+        return this._http.get<IEpisodeCollectionDetails>(url, { headers: this.headers });
+    }
+    
     
 }

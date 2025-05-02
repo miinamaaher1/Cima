@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { HeroBannerComponent, movieBanner } from "../hero-banner/hero-banner.component";
 import { HeroInfoComponent, movieInfo } from "../hero-info/hero-info.component";
 import { HeroNavComponent } from "../hero-nav/hero-nav.component";
@@ -9,6 +9,7 @@ export interface moviePreview {
   logo: string,
   promo: string,
   tags: string[],
+  cast: string[],
   link: string,
   button: string,
   discription: string
@@ -29,6 +30,7 @@ export class HeroComponent {
       logo: "images/logos/harry-potter.png",
       promo: "Top 10 In Egypt",
       tags: ["1:58:42", "Top 10", "Adventure", "Fantasy"],
+      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
       link: "",
       button: "Watch Now",
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
@@ -39,6 +41,7 @@ export class HeroComponent {
       logo: "images/logos/breaking-bad.svg",
       promo: "Now For Free",
       tags: ["Season 2", "Top 10", "Action", "Drama"],
+      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
       link: "",
       button: "Watch Now",
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
@@ -49,6 +52,7 @@ export class HeroComponent {
       logo: "images/logos/star-wars.svg",
       promo: "Subscribe To Watch",
       tags: ["2:03:15", "Top 10", "Adventure", "Sci-Fi"],
+      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
       link: "",
       button: "Watch Now",
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
@@ -59,6 +63,7 @@ export class HeroComponent {
       logo: "images/logos/the-grinch.svg",
       promo: "The Cringe Wining Film",
       tags: ["Cringe", "Movie", "Comedy"],
+      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
       link: "",
       button: "Watch Now",
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
@@ -69,6 +74,7 @@ export class HeroComponent {
       logo: "images/logos/game-of-thrones.png",
       promo: "The Award Wining Show",
       tags: ["Season 4", "Top 10", "Adventure", "Fantasy"],
+      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
       link: "",
       button: "Watch Now",
       discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
@@ -84,6 +90,7 @@ export class HeroComponent {
     logo: i.logo,
     promo: i.promo,
     tags: i.tags,
+    cast: i.cast,
     link: i.link,
     button: i.button,
     discription: i.discription
@@ -94,4 +101,6 @@ export class HeroComponent {
   changeMovie(index : number) {
     this.movieIndex = index;
   }
+
+  videoVisibilityChanged = signal<boolean>(false)
 }

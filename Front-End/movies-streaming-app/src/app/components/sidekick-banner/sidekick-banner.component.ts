@@ -1,25 +1,21 @@
-import { Component, HostListener, Input, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
+import { Component, HostListener, input, output} from '@angular/core';
+import { movieBanner } from '../hero-banner/hero-banner.component';
 import { CommonModule } from '@angular/common';
 
-export interface movieBanner {
-  poster: string;
-  clip: string;
-}
-
 @Component({
-  selector: 'app-hero-banner',
+  selector: 'app-sidekick-banner',
   imports: [CommonModule],
-  templateUrl: './hero-banner.component.html'
+  templateUrl: './sidekick-banner.component.html'
 })
-export class HeroBannerComponent implements OnChanges, OnInit {
+export class SidekickBannerComponent {
 
-  @Input() banners : movieBanner[] = []
-  @Input() index = 0;
-  videoVisibilityChanged = output<boolean>()
+  banner = input.required<movieBanner>();
 
   videoVisible = false
   isMuted = true
   isMobile = false;
+
+  videoVisibilityChanged = output<boolean>()
 
   hideVideo() {
     this.videoVisible = false
@@ -37,13 +33,6 @@ export class HeroBannerComponent implements OnChanges, OnInit {
     this.isMuted = !this.isMuted;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['index'] && !changes['index'].firstChange) {
-      this.hideVideo()
-      this.viewVideo()
-    }
-  }
-
   ngOnInit(): void {
     this.checkScreenSize();
     this.hideVideo();
@@ -57,5 +46,10 @@ export class HeroBannerComponent implements OnChanges, OnInit {
 
   checkScreenSize() {
     this.isMobile = window.innerWidth <= 768; // or any breakpoint you like
+  }
+
+  playVideo() {
+    this.videoVisible = true;
+    this.videoVisibilityChanged.emit(false)
   }
 }
