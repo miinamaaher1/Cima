@@ -20,6 +20,7 @@ export class MovieCardComponent {
         this.name = data.title;
         this.hours = Math.floor(data.runtime / 60);
         this.minutes = data.runtime % 60;
+        this.videoUrl = `https://localhost:7126/api/video/stream?videoId=${"CLmkMvkpK5k"}`;
       },
       error: () => this.validMovie = false
     });
