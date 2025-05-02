@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideosService {
   constructor(private _http: HttpClient) { }
-  getMovieTrailer(videoId: string) {
-    return this._http.get(`https://localhost:7126/api/video/stream/${videoId}`);
+  getTrailer(id: number) {
+    return this._http.get<string>(`${environment.videos_url}/api/video/stream?tmdbId=${id}`);
   }
 }

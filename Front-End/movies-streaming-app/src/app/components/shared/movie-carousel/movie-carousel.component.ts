@@ -29,7 +29,8 @@ export class MovieCarouselComponent {
   get CollectionType() { return CollectionType; }
   constructor(@Inject(WINDOW) private window: Window) { }
   ngOnInit(): void {
-    this.size = Math.ceil(this.window.innerWidth / this.cardSizeWithGap) + 1;
+    // this.size = Math.ceil(this.window.innerWidth / this.cardSizeWithGap) + 1;
+    this.size = 2;
     this.collectionList = this.listIds.slice(0, this.size);
     if (this.size > 3)
       this.step = (this.size / 2) * this.cardSizeWithGap;

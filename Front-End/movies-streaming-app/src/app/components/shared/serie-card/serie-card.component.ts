@@ -3,6 +3,7 @@ import { SeriesService } from '../../../core/services/series/series.service';
 import { language } from '../../../core/utils/language.enum';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
+import { VideosService } from '../../../core/services/videos/videos.service';
 
 @Component({
   selector: 'app-serie-card',
@@ -12,7 +13,7 @@ import { IconComponent } from '../icon-component/icon.component';
 })
 export class SerieCardComponent {
   @Input() id: number = 0;
-  constructor(private seriesService: SeriesService) { }
+  constructor(private seriesService: SeriesService, private videoService: VideosService) { }
   ngOnInit(): void {
     this.seriesService.getSeriesDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -26,7 +27,7 @@ export class SerieCardComponent {
     this.seriesService.getSeriesCredits(this.id, language.english).subscribe({
       next: data => this.cast = data.cast.filter((_, i) => i <= 2).map(c => c.name),
       error: () => this.validSeries = false
-    })
+    });
     this.seriesService.getSeriesImages(this.id).subscribe({
       next: data => {
         try {
@@ -38,6 +39,10 @@ export class SerieCardComponent {
         }
       },
       error: () => this.validSeries = false
+    });
+    this.videoService.getTrailer(this.id).subscribe({
+      next: (data) => this.videoUrl = data,
+      error: () => this.validSeries = false
     })
   }
   validSeries: boolean = true;
@@ -45,7 +50,7 @@ export class SerieCardComponent {
   seasons: number = 0;
   episodes: number = 0;
   posterUrl: string = "";
-  videoUrl: string = "https://www.w3schools.com/html/mov_bbb.mp4";
+  videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;

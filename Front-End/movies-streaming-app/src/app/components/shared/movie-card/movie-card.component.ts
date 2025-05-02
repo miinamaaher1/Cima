@@ -3,6 +3,7 @@ import { IconComponent } from '../icon-component/icon.component';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
+import { VideosService } from '../../../core/services/videos/videos.service';
 
 @Component({
   selector: 'app-movie-card',
@@ -12,7 +13,7 @@ import { language } from '../../../core/utils/language.enum';
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService, private videoService: VideosService) { }
   ngOnInit(): void {
     this.movieService.getMovieDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -20,14 +21,13 @@ export class MovieCardComponent {
         this.name = data.title;
         this.hours = Math.floor(data.runtime / 60);
         this.minutes = data.runtime % 60;
-        this.videoUrl = `https://localhost:7126/api/video/stream?videoId=${"CLmkMvkpK5k"}`;
       },
       error: () => this.validMovie = false
     });
     this.movieService.getMovieCredits(this.id, language.english).subscribe({
       next: data => this.cast = data.cast.filter((_, i) => i <= 2).map(c => c.name),
       error: () => this.validMovie = false
-    })
+    });
     this.movieService.getMovieImages(this.id).subscribe({
       next: data => {
         try {
@@ -39,14 +39,18 @@ export class MovieCardComponent {
         }
       },
       error: () => this.validMovie = false
-    })
+    });
+    this.videoService.getTrailer(this.id).subscribe({
+      next: (data) => { this.videoUrl = data; console.log(data); },
+      error: (error) => { this.validMovie = false; console.log(error); }
+    });
   }
   validMovie: boolean = true;
   name: string = "";
   hours: number = 0;
   minutes: number = 0;
   posterUrl: string = "";
-  videoUrl: string = "https://www.w3schools.com/html/mov_bbb.mp4";
+  videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;
