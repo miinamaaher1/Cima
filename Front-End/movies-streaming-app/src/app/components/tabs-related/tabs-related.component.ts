@@ -4,43 +4,50 @@ import { language } from '../../core/utils/language.enum';
 import { CommonModule } from '@angular/common';
 import { MovieCardComponent } from "../shared/movie-card/movie-card.component";
 import { SeriesService } from '../../core/services/series/series.service';
+import { SerieCardComponent } from "../shared/serie-card/serie-card.component";
 
 
 @Component({
   selector: 'app-tabs-related',
-  imports: [CommonModule, MovieCardComponent],
+  imports: [CommonModule, MovieCardComponent, SerieCardComponent],
   templateUrl: './tabs-related.component.html',
 })
 export class TabsRelatedComponent implements OnInit {
-  relatedIds:number[]=[];
+  relatedIds: number[] = [];
 
-  @Input() isSeries:boolean = false;
-  @Input() movieId:number=315635
+  @Input() isSeries: boolean = true;
+  @Input() mediaId: number = 219246
 
-  constructor(private movieService:MovieService ,private seriesService:SeriesService){}
+  constructor(private movieService: MovieService, private seriesService: SeriesService) { }
   ngOnInit(): void {
-    // this.getRelated(this.movieId);
     this.getRelated();
     console.log(this.relatedIds);
   }
 
   getRelated() {
-    if(this.isSeries)
-    {
-      this.seriesService.getSimilarTvSeries
+    if (this.isSeries) {
+      this.seriesService.getSimilarTvSeries(this.mediaId, language.english).subscribe(
+        {
+          next: res => {
+            this.relatedIds.push(...res.results.map((s) => s.id).slice(0, 12));
+          },
+          error: err=> console.log('failed to fetch similar series ids',err)
+        }
+      )
     }
+    else {
+      this.movieService.getSimilarMovies(this.mediaId, language.english).subscribe({
+        next: response => {
+          const similarMovies = response.results.slice(0, 12);
 
-    this.movieService.getSimilarMovies(this.movieId, language.english).subscribe({
-      next: response => {
-        const moviesToFetch = response.results.slice(0, 12);
-        
-        this.relatedIds.push(...moviesToFetch.map((m)=>m.id))
-      },
-      error: err => {
-        console.error('Failed to fetch similar movies:', err);
-      }
-    });
+          this.relatedIds.push(...similarMovies.map((m) => m.id))
+        },
+        error: err => {
+          console.error('Failed to fetch similar movies id:', err);
+        }
+      });
+    }
   }
-  
+
 
 }

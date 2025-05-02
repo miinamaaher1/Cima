@@ -6,16 +6,17 @@ import { MovieService } from '../../core/services/movie/movie.service';
 import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
 import { IMediaDetails } from './Interface/IMediaDetails';
+import { TabsEpisodesComponent } from "../tabs-episodes/tabs-episodes.component";
 
 @Component({
   selector: 'app-tabs',
-  imports: [CommonModule, MovieCardComponent, TabsRelatedComponent],
+  imports: [CommonModule, MovieCardComponent, TabsRelatedComponent, TabsEpisodesComponent],
   templateUrl: './tabs.component.html',
 })
 export class TabsComponent implements OnInit {
 
   selectedIndex = 0;
-  isSeries:boolean = false;
+  isSeries:boolean = true;
   
   mediadetails: IMediaDetails = {
     countSeasons: 0,
@@ -24,7 +25,7 @@ export class TabsComponent implements OnInit {
     description: '',
     cast: []
   };
-  @Input() mediaId:number=315635;
+  @Input() mediaId:number=219246;
 
   constructor(private movieService:MovieService ,private seriesService:SeriesService ){}
   
@@ -57,7 +58,7 @@ export class TabsComponent implements OnInit {
       })
       this.seriesService.getSeriesCredits(this.mediaId,language.english).subscribe({
         next: credits=>{
-          this.mediadetails.cast.push(...credits.cast.map(c => c.name))
+          this.mediadetails.cast.push(...credits.cast.map(c => c.name).slice(0,10))
         }
       })
 
