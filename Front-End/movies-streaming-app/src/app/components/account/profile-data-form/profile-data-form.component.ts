@@ -3,10 +3,14 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { confirmPasswordValidator } from '../../../core/validators/confirmPasswordValidator';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { birthDateValidator } from '../../../core/validators/birthDateValidator';
 
 @Component({
   selector: 'app-profile-data-form',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, FloatLabelModule, InputTextModule, PasswordModule],
   templateUrl: './profile-data-form.component.html',
   styleUrl: './profile-data-form.component.css'
 })
@@ -18,10 +22,10 @@ export class ProfileDataFormComponent {
       email: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9_%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       password: new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]),
       confirmPassword: new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]),
-      // birthDate: new FormControl(null, Validators.required),
+      birthDate: new FormControl(null, Validators.required),
       gender: new FormControl("Male", Validators.required)
     },
-    { validators: [confirmPasswordValidator] }
+    { validators: [confirmPasswordValidator, birthDateValidator] }
   );
   isFirstInput: boolean = true;
   get validFirstName() { return this.form.controls.firstName.valid; }
@@ -39,5 +43,8 @@ export class ProfileDataFormComponent {
     this.isFirstInput = false;
     if (this.form.valid) {
     }
+  }
+  openPicker(input: HTMLInputElement) {
+    input.showPicker?.();
   }
 }
