@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MovieCardComponent } from "../shared/movie-card/movie-card.component";
 import { SeriesService } from '../../core/services/series/series.service';
 import { SerieCardComponent } from "../shared/serie-card/serie-card.component";
-import { mediaType } from '../hero/hero.component';
+import { mediaType } from '../../core/utils/media-type.enum';
 
 
 @Component({

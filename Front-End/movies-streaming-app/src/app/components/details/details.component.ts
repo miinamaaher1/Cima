@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SidekickComponent } from "../sidekick/sidekick.component";
-import { mediaType } from '../hero/hero.component';
+import { mediaType } from '../../core/utils/media-type.enum';
 import { TabsComponent } from "../tabs/tabs.component";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { ActivatedRoute } from '@angular/router';

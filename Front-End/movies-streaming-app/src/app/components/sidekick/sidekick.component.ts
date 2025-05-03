@@ -1,13 +1,14 @@
 import { Component, input, OnInit, signal } from '@angular/core';
 import { SidekickBannerComponent } from '../sidekick-banner/sidekick-banner.component';
 import { SidekickInfoComponent } from '../sidekick-info/sidekick-info.component';
-import { mediaType, moviePreview } from '../hero/hero.component';
+import { moviePreview } from '../hero/hero.component';
 import { movieBanner } from '../hero-banner/hero-banner.component';
 import { movieInfo } from '../hero-info/hero-info.component';
 import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
 import { ImageService } from '../../core/services/utils/image.service';
 import { MovieService } from '../../core/services/movie/movie.service';
+import { mediaType } from '../../core/utils/media-type.enum';
 
 @Component({
   selector: 'app-sidekick',

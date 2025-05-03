@@ -1,5 +1,4 @@
 import { AbstractControl } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -10,7 +9,6 @@ import { Component } from '@angular/core';
   selector: 'app-reset-password',
   imports: [FloatLabelModule, FormsModule, InputTextModule,
     PasswordModule, ReactiveFormsModule
-    , RouterLink
   ],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css'
