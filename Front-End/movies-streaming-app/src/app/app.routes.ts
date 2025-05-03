@@ -16,8 +16,8 @@ import { SubscribePageComponent } from './components/subscribe/subscribe-page/su
 export const routes: Routes = [
     { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
     { path: "home", component: HomeComponent, title: "Home" },
-    { path: "details", component: DetailsComponent, title: "Details" },
-    { path: "watch", component: WatchAreaComponent, title: "watch" },
+    { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
+    { path: "watch", component: WatchAreaComponent, title: "watch"},
     { path: "subscribe", component: SubscribePageComponent, title: "subscribe" },
     { path: "profile", component: ProfileComponent, title: "profile" },
     { path: "sign-in", component: SignInComponent, title: "Sign In" },

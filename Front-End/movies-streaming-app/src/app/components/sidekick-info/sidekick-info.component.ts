@@ -1,30 +1,19 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, HostListener, Inject, input, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges } from '@angular/core';
-
-export interface movieInfo {
-  logo: string,
-  promo: string,
-  tags: string[],
-  cast: string[],
-  link: string,
-  button: string,
-  discription: string
-}
+import { Component, HostListener, Inject, input, PLATFORM_ID } from '@angular/core';
+import { movieInfo } from '../hero-info/hero-info.component';
 
 @Component({
-  selector: 'app-hero-info',
+  selector: 'app-sidekick-info',
   imports: [CommonModule],
-  templateUrl: './hero-info.component.html'
+  templateUrl: './sidekick-info.component.html'
 })
-export class HeroInfoComponent implements OnInit {
+export class SidekickInfoComponent {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  @Input() moviesInfo: movieInfo[] = []
+  movieInfo = input.required<movieInfo>();
   videoVisibilityChanged = input<boolean>();
 
   isMobile = false;
-
-  @Input() index = 0;
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {

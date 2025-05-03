@@ -1,0 +1,25 @@
+<div class="flex flex-wrap  ml-30">
+    <div 
+      *ngFor="let season of seasonsWithEpisodes"
+      class="w-full"
+    >
+      <h3 class="text-white text-lg mb-2">Season {{ season.seasonNumber }}</h3>
+  
+      <div class="flex flex-wrap gap-2">
+        <div 
+          *ngFor="let episode of season.episodes"
+          class="relative w-full h-50 sm:basis-1/2 md:basis-1/2 lg:basis-1/5"
+        >
+          <app-episode-card 
+            [episodeId]="episode.episodeId"
+            [Poster]="episode.Poster"
+            [episodeNum]="episode.episodeNum"
+            [Runtime]="episode.Runtime"
+            [Description]="episode.Description"
+            class="absolute hover:z-40 transition-all duration-300"
+          ></app-episode-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  

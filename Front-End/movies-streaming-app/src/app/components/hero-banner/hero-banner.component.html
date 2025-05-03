@@ -5,8 +5,8 @@
     <source [src]="banners[index].clip" type="video/mp4">
   </video>
   <button *ngIf="videoVisible && !isMobile" (click)="toggleMute()"
-    class="absolute top-32 right-32 bg-body-charcoal/50 text-blurple border-2 border-blurple rounded-full
-      hover:text-button-hover hover:border-button-hover cursor-pointer w-12 h-12
+    class="absolute top-32 right-12 font-medium bg-body-charcoal/50 border-2 border-blurple rounded-full
+    text-off-white hover:bg-button-hover hover:border-button-hover cursor-pointer w-12 h-12
       opacity-50 hover:opacity-100">
     @if(isMuted) {
       <i class="fa-solid fa-volume-xmark"></i>

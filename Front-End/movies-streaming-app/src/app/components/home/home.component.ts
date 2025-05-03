@@ -6,8 +6,7 @@ import { HomeCarouselsGroupInfiniteComponent } from "../shared/home-carousels-gr
 @Component({
   selector: 'app-home',
   imports: [HeroComponent, FooterComponent, HomeCarouselsGroupInfiniteComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
 
