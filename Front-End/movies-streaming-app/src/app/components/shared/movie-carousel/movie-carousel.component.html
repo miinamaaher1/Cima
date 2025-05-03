@@ -1,4 +1,4 @@
-<div class="w-full relative px-10 my-4 overflow-x-hidden md:overflow-x-visible">
+<div class="w-full relative px-10 mb-4 overflow-x-hidden md:overflow-x-visible">
     <h3 class="mb-5 text-blurple text-[1.125rem] font-medium">{{title | titlecase}}</h3>
     <div class="relative h-40">
         <div class="absolute left-0 flex gap-2 transition-all duration-700" #slider>
@@ -22,14 +22,14 @@
         </div>
     </div>
     <div [ngClass]="{'hidden': leftHidden}"
-        class="bg-transparent z-30 flex absolute w-25 h-29.5 rounded-l-md top-[47px] md:top-[58px] left-0">
+        class="bg-transparent z-30 flex absolute w-25 h-29.5 rounded-l-md top-[47px] md:top-[57px] left-0">
         <div class="opacity-75 w-10 h-full bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
             (click)="goLeft(slider)">
             <i class="fa-solid fa-arrow-left"></i>
         </div>
     </div>
     <div [ngClass]="{'hidden': rightHidden}"
-        class="bg-transparent z-30 flex justify-end absolute w-25 h-29.5 rounded-l-md top-[47px] md:top-[58px] right-0">
+        class="bg-transparent z-30 flex justify-end absolute w-25 h-29.5 rounded-l-md top-[47px] md:top-[57px] right-0">
         <div class="opacity-75 w-10 h-full bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
             (click)="goRight(slider)" #rightArrow>
             <i class="fa-solid fa-arrow-right"></i>

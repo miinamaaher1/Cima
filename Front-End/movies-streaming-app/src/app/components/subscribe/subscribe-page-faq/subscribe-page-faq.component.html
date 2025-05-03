@@ -1,0 +1,48 @@
+
+<!-- container -->
+<div class="p-14 mt-4">
+    <div class="mx-auto px-1 w-[100%] lg:w-[60%]">
+      <!-- Header -->
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold text-center">Frequently asked questions</h2>
+        <div class="w-[25%] mx-auto h-1 bg-gradient-to-b from-blurple to-button-hover mt-1.5 rounded-2xl"></div>
+      </div>
+ 
+
+    @for (item of frequentlyAskedQuestions; track $index) {
+    <div class="bg-body-charcoal px-4 py-3 rounded-xl mb-4 align-middle">
+      <input
+        type="checkbox"
+        name="accordion"
+        [id]="$index"
+        class="peer hidden"
+      />
+      <div class="h-full flex justify-between items-center align-middle">
+        <h3 class="text-[1rem] font-bold">{{ item.question }}</h3>
+        <label
+          [for]="$index"
+          class="text-xl cursor-pointer hover:text-dark-blurple peer-checked:hidden"
+          ><i class="fa-solid fa-plus"></i
+        ></label>
+        <label
+          [for]="$index"
+          class="text-xl cursor-pointer hover:text-dark-blurple hidden peer-checked:block"
+          ><i class="fa-solid fa-minus"></i
+        ></label>
+      </div>
+      <!-- Answer -->
+      <div
+        class="my-1 text-sm opacity-50 max-h-0 overflow-hidden transition-all duration-500 peer-checked:max-h-screen"
+      >
+        <div class="h-[1px] w-full mx-auto bg-off-white opacity-50"></div>
+        <br />
+        <div>
+          @for (ans of item.answers; track $index) {
+          <p class="py-1">{{ ans }}</p>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

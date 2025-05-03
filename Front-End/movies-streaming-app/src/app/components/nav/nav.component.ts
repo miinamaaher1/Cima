@@ -1,21 +1,22 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 import { NavLinksComponent } from "../nav-links/nav-links.component";
 import { NavSearchComponent } from "../nav-search/nav-search.component";
 import { NavAccountComponent } from "../nav-account/nav-account.component";
 import { NavSmComponent } from "../nav-sm/nav-sm.component";
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
   imports: [NavLinksComponent,
             NavSearchComponent,
             NavAccountComponent,
-            NavSmComponent, 
+            NavSmComponent,
             CommonModule],
   templateUrl: './nav.component.html',
   styles: ``
 })
 export class NavComponent {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   isScrolled = false;
   isSmallView = false;
   isSmallScreenOpen = false;
@@ -27,14 +28,18 @@ export class NavComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
+    if (isPlatformBrowser(this.platformId)) {
     this.checkViewport();
+  }
     if (!this.isSmallView) {
       this.isSmallScreenOpen = false;
     }
   }
 
   ngOnInit() {
-    this.checkViewport();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkViewport();
+    }
   }
 
   checkViewport() {

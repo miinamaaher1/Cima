@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListener, Input } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListener, Input, Inject, PLATFORM_ID, input } from '@angular/core';
 
 @Component({
   selector: 'app-hero-nav',
@@ -7,9 +7,10 @@ import { Component, Output, EventEmitter, OnInit, NgZone, OnDestroy, HostListene
   templateUrl: './hero-nav.component.html'
 })
 export class HeroNavComponent implements OnInit, OnDestroy{
-  constructor(private ngZone: NgZone) {}
+  constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-  @Input() logos : string[] = []
+
+  logos = input.required<string[]>()
 
   current = 0;
   intervalId: any;
@@ -45,7 +46,9 @@ export class HeroNavComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
     this.autoPlay()
   }
 
@@ -55,7 +58,9 @@ export class HeroNavComponent implements OnInit, OnDestroy{
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {

@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { environment } from '../../../core/environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-serie-card',
-  imports: [IconComponent, CommonModule],
+  imports: [IconComponent, CommonModule, RouterLink],
   templateUrl: './serie-card.component.html',
   styleUrl: './serie-card.component.css'
 })

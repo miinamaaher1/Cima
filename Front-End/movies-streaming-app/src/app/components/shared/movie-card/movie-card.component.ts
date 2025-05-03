@@ -5,10 +5,11 @@ import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { environment } from '../../../core/environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-movie-card',
-  imports: [IconComponent, CommonModule],
+  imports: [IconComponent, CommonModule, RouterLink],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.css'
 })

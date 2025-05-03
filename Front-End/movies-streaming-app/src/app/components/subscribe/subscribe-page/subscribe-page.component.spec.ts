@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { SubscribePageComponent } from './subscribe-page.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('SubscribePageComponent', () => {
+  let component: SubscribePageComponent;
+  let fixture: ComponentFixture<SubscribePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeComponent]
+      imports: [SubscribePageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(SubscribePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

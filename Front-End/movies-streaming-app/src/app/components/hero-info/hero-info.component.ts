@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, Inject, input, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges } from '@angular/core';
 
 export interface movieInfo {
   logo: string,
   promo: string,
   tags: string[],
+  cast: string[],
   link: string,
   button: string,
   discription: string
@@ -15,41 +16,27 @@ export interface movieInfo {
   imports: [CommonModule],
   templateUrl: './hero-info.component.html'
 })
-export class HeroInfoComponent implements OnChanges, OnInit {
+export class HeroInfoComponent implements OnInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   @Input() moviesInfo: movieInfo[] = []
+  videoVisibilityChanged = input<boolean>();
 
-  isHovered = false;
   isMobile = false;
 
   @Input() index = 0;
 
-  triggerHover() {
-    this.isHovered = true;
-  }
-
-  stopHover() {
-    setTimeout(() => {
-      this.isHovered = false;
-    }, 3000);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['index'] && !changes['index'].firstChange) {
-      this.triggerHover();
-      this.stopHover();
-    }
-  }
-
   ngOnInit(): void {
-    this.checkScreenSize();
-    this.triggerHover();
-    this.stopHover();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {
