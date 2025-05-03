@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, Input, OnInit } from '@angular/core';
-import { MovieCardComponent } from "../shared/movie-card/movie-card.component";
 import { TabsRelatedComponent } from "../tabs-related/tabs-related.component";
 import { MovieService } from '../../core/services/movie/movie.service';
 import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
 import { IMediaDetails } from './Interface/IMediaDetails';
 import { TabsEpisodesComponent } from "../tabs-episodes/tabs-episodes.component";
-import { mediaType } from '../hero/hero.component';
+import { mediaType } from '../../core/utils/media-type.enum';
 
 @Component({
   selector: 'app-tabs',
-  imports: [CommonModule, MovieCardComponent, TabsRelatedComponent, TabsEpisodesComponent],
+  imports: [CommonModule, TabsRelatedComponent, TabsEpisodesComponent],
   templateUrl: './tabs.component.html',
 })
 export class TabsComponent implements OnInit {

@@ -1,11 +1,11 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconComponent } from "../icon-component/icon.component";
-import { CommonModule, LowerCasePipe, TitleCasePipe } from '@angular/common';
-import { RuntimePipe } from '../../../core/pipes/runtime.pipe';
+import { CommonModule } from '@angular/common';
+import { FormatTimePipe } from '../../../core/pipes/format-time.pipe';
 
 @Component({
   selector: 'app-episode-card',
-  imports: [CommonModule,IconComponent,RuntimePipe],
+  imports: [CommonModule,IconComponent,FormatTimePipe],
   templateUrl: './episode-card.component.html'
 })
 export class EpisodeCardComponent {

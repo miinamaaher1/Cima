@@ -22,11 +22,6 @@ export interface moviePreview {
   discription: string
 }
 
-export enum mediaType {
-  movie = 'movie',
-  series = 'series'
-}
-
 @Component({
   selector: 'app-hero',
   imports: [HeroBannerComponent, HeroInfoComponent, HeroNavComponent],
