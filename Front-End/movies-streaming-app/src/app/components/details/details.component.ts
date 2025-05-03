@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { SidekickComponent } from "../sidekick/sidekick.component";
+import { SidekickComponent } from "../sidekick-section/sidekick/sidekick.component";
 import { mediaType } from '../../core/utils/media-type.enum';
-import { TabsComponent } from "../tabs/tabs.component";
-import { FooterComponent } from "../shared/footer/footer.component";
+import { TabsComponent } from "../tabs-section/tabs/tabs.component";
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-details',
-  imports: [SidekickComponent, TabsComponent, FooterComponent],
+  imports: [SidekickComponent, TabsComponent],
   templateUrl: './details.component.html'
 })
 export class DetailsComponent {

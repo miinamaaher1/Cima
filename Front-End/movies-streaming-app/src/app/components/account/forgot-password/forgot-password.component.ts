@@ -7,8 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'app-forgot-password',
   imports: [ReactiveFormsModule, CommonModule, FloatLabelModule, InputTextModule],
-  templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.css'
+  templateUrl: './forgot-password.component.html'
 })
 export class ForgotPasswordComponent {
   form = new FormGroup(
