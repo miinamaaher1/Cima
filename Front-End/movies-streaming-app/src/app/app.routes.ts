@@ -11,12 +11,14 @@ import { SignUpComponent } from './components/account/sign-up/sign-up.component'
 import { EmailPasswordComponent } from './components/account/email-password/email-password.component';
 import { ProfileComponent } from './components/account/profile/profile.component';
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
+import { SubscribePageComponent } from './components/subscribe/subscribe-page/subscribe-page.component';
 
 export const routes: Routes = [
     { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
     { path: "home", component: HomeComponent, title: "Home" },
     { path: "details", component: DetailsComponent, title: "Details" },
     { path: "watch", component: WatchAreaComponent, title: "watch" },
+    { path: "subscribe", component: SubscribePageComponent, title: "subscribe" },
     { path: "profile", component: ProfileComponent, title: "profile" },
     { path: "sign-in", component: SignInComponent, title: "Sign In" },
     { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
