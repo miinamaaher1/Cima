@@ -1,4 +1,4 @@
-namespace WebApplication3
+namespace Movie_Streaming_App
 {
     public class Program
     {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movie_Streaming_App.Models;
 using System.Text.Json;
 
-namespace WebApplication3.Controllers
+namespace Movie_Streaming_App.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
