@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 })
 export class VideosService {
   constructor(private _http: HttpClient) { }
-  getTrailer(id: number) {
-    return this._http.get<string>(`${environment.videos_url}/api/video/stream?tmdbId=${id}`);
+  checkTrailer(id: number) {
+    return this._http.get<string>(`${environment.videos_url}/api/video/check?tmdbId=${id}`);
   }
 }

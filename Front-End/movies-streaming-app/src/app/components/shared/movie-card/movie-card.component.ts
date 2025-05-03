@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
+import { environment } from '../../../core/environments/environment';
 
 @Component({
   selector: 'app-movie-card',
@@ -40,10 +41,11 @@ export class MovieCardComponent {
       },
       error: () => this.validMovie = false
     });
-    this.videoService.getTrailer(this.id).subscribe({
-      next: (data) => { this.videoUrl = data; console.log(data); },
-      error: (error) => { this.validMovie = false; console.log(error); }
-    });
+    this.videoService.checkTrailer(this.id).subscribe({
+      next: () => { },
+      error: () => this.validMovie = false
+    })
+    this.videoUrl = `${environment.videos_url}/api/video/stream?tmdbId=${this.id}`;
   }
   validMovie: boolean = true;
   name: string = "";
@@ -55,27 +57,6 @@ export class MovieCardComponent {
   tags: string[] = [];
   timerHandler: any;
   playState: string = "";
-  // playVideo(poster: HTMLImageElement, video: HTMLIFrameElement) {
-  //   if (!this.timerHandler) {
-  //     this.timerHandler = setTimeout(() => {
-  //       poster.classList.add("hidden");
-  //       video.classList.remove("hidden");
-  //     }, 1200);
-  //     video.src += "&autoplay=1&mute=1";
-  //   }
-  // }
-  // stopVideo(poster: HTMLImageElement, video: HTMLIFrameElement) {
-  //   if (this.timerHandler) {
-  //     clearTimeout(this.timerHandler);
-  //     this.timerHandler = null;
-  //     poster.classList.remove("hidden");
-  //     video.classList.add("hidden");
-  //     if (video.src.indexOf("&autoplay=1") != -1)
-  //       video.src = video.src.substring(0, video.src.indexOf("&autoplay=1"));
-  //     else
-  //       video.src = video.src;
-  //   }
-  // }
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
@@ -89,6 +70,7 @@ export class MovieCardComponent {
     if (this.timerHandler) {
       clearTimeout(this.timerHandler);
       this.timerHandler = null;
+      ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
     }
   }

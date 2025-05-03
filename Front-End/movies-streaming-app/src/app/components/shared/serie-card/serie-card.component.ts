@@ -4,6 +4,7 @@ import { language } from '../../../core/utils/language.enum';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
+import { environment } from '../../../core/environments/environment';
 
 @Component({
   selector: 'app-serie-card',
@@ -40,10 +41,11 @@ export class SerieCardComponent {
       },
       error: () => this.validSeries = false
     });
-    this.videoService.getTrailer(this.id).subscribe({
-      next: (data) => this.videoUrl = data,
+    this.videoService.checkTrailer(this.id).subscribe({
+      next: () => { },
       error: () => this.validSeries = false
     })
+    this.videoUrl = `${environment.videos_url}/api/video/stream?tmdbId=${this.id}`;
   }
   validSeries: boolean = true;
   name: string = "";
@@ -68,6 +70,7 @@ export class SerieCardComponent {
     if (this.timerHandler) {
       clearTimeout(this.timerHandler);
       this.timerHandler = null;
+      ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
     }
   }
