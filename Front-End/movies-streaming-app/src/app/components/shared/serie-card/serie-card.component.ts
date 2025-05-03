@@ -4,7 +4,6 @@ import { language } from '../../../core/utils/language.enum';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
-import { environment } from '../../../core/environments/environment';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -23,6 +22,10 @@ export class SerieCardComponent {
         this.name = data.name;
         this.seasons = data.number_of_seasons
         this.episodes = data.number_of_episodes;
+        this.videoService.getTrailer(this.name).subscribe({
+          next: (data) => this.videoUrl = data.filter(s => s.quality == 360)[0].url,
+          error: () => this.validSeries = false
+        });
       },
       error: () => this.validSeries = false
     });
@@ -42,11 +45,6 @@ export class SerieCardComponent {
       },
       error: () => this.validSeries = false
     });
-    this.videoService.checkTrailer(this.id).subscribe({
-      next: () => { },
-      error: () => this.validSeries = false
-    })
-    this.videoUrl = `${environment.videos_url}/api/video/stream?tmdbId=${this.id}`;
   }
   validSeries: boolean = true;
   name: string = "";
@@ -61,6 +59,7 @@ export class SerieCardComponent {
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
+        ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
         ($event.target as HTMLVideoElement).play();

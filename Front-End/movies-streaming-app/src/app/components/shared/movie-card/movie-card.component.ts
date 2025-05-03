@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
-import { environment } from '../../../core/environments/environment';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -23,6 +22,10 @@ export class MovieCardComponent {
         this.name = data.title;
         this.hours = Math.floor(data.runtime / 60);
         this.minutes = data.runtime % 60;
+        this.videoService.getTrailer(this.name).subscribe({
+          next: (data) => this.videoUrl = data.filter(s => s.quality == 360)[0].url,
+          error: () => this.validMovie = false
+        });
       },
       error: () => this.validMovie = false
     });
@@ -42,11 +45,6 @@ export class MovieCardComponent {
       },
       error: () => this.validMovie = false
     });
-    this.videoService.checkTrailer(this.id).subscribe({
-      next: () => { },
-      error: () => this.validMovie = false
-    })
-    this.videoUrl = `${environment.videos_url}/api/video/stream?tmdbId=${this.id}`;
   }
   validMovie: boolean = true;
   name: string = "";
@@ -61,6 +59,7 @@ export class MovieCardComponent {
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
+        ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
         ($event.target as HTMLVideoElement).play();

@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|d:\\iti\\angular\\video-streaming-app\\back-end\\movie_streaming_app\\movie_streaming_app\\controllers\\videocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|solutionrelative:movie_streaming_app\\controllers\\videocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|d:\\iti\\angular\\video-streaming-app\\back-end\\movie_streaming_app\\movie_streaming_app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|solutionrelative:movie_streaming_app\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Program.cs",
+              "RelativeDocumentMoniker": "Movie_Streaming_App\\Program.cs",
+              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Program.cs",
+              "RelativeToolTip": "Movie_Streaming_App\\Program.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBIAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T12:33:38.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VideoController.cs",
+              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "RelativeDocumentMoniker": "Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "RelativeToolTip": "Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T12:31:53.489Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
