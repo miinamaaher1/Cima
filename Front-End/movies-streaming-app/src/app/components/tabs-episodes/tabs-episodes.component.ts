@@ -13,7 +13,7 @@ import { IEpisodeDetails } from './Interfaces/IEpisodeDetails';
 })
 export class TabsEpisodesComponent {
 
-  @Input() seriesId: number = 219246;
+  @Input() seriesId: number = 0;
 
   seasonsWithEpisodes: {
     seasonNumber: number;

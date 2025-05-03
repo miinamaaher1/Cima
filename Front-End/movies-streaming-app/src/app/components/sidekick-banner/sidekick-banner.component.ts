@@ -1,6 +1,6 @@
-import { Component, HostListener, input, output} from '@angular/core';
+import { Component, HostListener, Inject, input, output, PLATFORM_ID} from '@angular/core';
 import { movieBanner } from '../hero-banner/hero-banner.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-sidekick-banner',
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './sidekick-banner.component.html'
 })
 export class SidekickBannerComponent {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   banner = input.required<movieBanner>();
 
@@ -34,14 +35,18 @@ export class SidekickBannerComponent {
   }
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
     this.hideVideo();
     this.viewVideo();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, Input, OnInit } from '@angular/core';
 import { MovieCardComponent } from "../shared/movie-card/movie-card.component";
 import { TabsRelatedComponent } from "../tabs-related/tabs-related.component";
 import { MovieService } from '../../core/services/movie/movie.service';
@@ -7,6 +7,7 @@ import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
 import { IMediaDetails } from './Interface/IMediaDetails';
 import { TabsEpisodesComponent } from "../tabs-episodes/tabs-episodes.component";
+import { mediaType } from '../hero/hero.component';
 
 @Component({
   selector: 'app-tabs',
@@ -17,7 +18,7 @@ export class TabsComponent implements OnInit {
 
   selectedIndex = 0;
   isSeries:boolean = true;
-  
+
   mediadetails: IMediaDetails = {
     countSeasons: 0,
     countEpisodes: 0,
@@ -25,12 +26,15 @@ export class TabsComponent implements OnInit {
     description: '',
     cast: []
   };
-  @Input() mediaId:number=219246;
+
+  mediaId = input.required<number>();
+  mediaType = input.required<mediaType>();
 
   constructor(private movieService:MovieService ,private seriesService:SeriesService ){}
-  
+
   ngOnInit(): void {
-    this.fetchMediaInfo();
+    this.isSeries = this.mediaType() === mediaType.series
+    this.fetchMediaInfo(this.mediaId(), this.mediaType());
   }
 
   allTabs = [
@@ -38,25 +42,25 @@ export class TabsComponent implements OnInit {
     { label: 'Promos', content: 'This is the Promos tab content.' },
     { label: 'Related', content: 'This is the Related tab content.' },
     { label: 'More Info', content: 'This is the More Info tab content.' }
-    
+
   ];
 
-  fetchMediaInfo(){
-    if(this.isSeries){
-      this.seriesService.getSeriesDetails(this.mediaId,language.english).subscribe({
+  fetchMediaInfo(id : number, tybe : mediaType){
+    if(tybe === mediaType.series){
+      this.seriesService.getSeriesDetails(id,language.english).subscribe({
         next: details=>{
           this.mediadetails.countSeasons=details.seasons.length;
           this.mediadetails.countEpisodes=details.number_of_episodes;
           this.mediadetails.description=details.overview;
           this.mediadetails.categories.push(...details.genres);
-          
+
         },
         error: err=>
         {
-          console.log(`cannot get details for series with id ${this.mediaId}`)
+          console.log(`cannot get details for series with id ${id}`)
         }
       })
-      this.seriesService.getSeriesCredits(this.mediaId,language.english).subscribe({
+      this.seriesService.getSeriesCredits(id,language.english).subscribe({
         next: credits=>{
           this.mediadetails.cast.push(...credits.cast.map(c => c.name).slice(0,10))
         }
@@ -65,24 +69,24 @@ export class TabsComponent implements OnInit {
     }
     else
     {
-      this.movieService.getMovieDetails(this.mediaId,language.english).subscribe({
+      this.movieService.getMovieDetails(id,language.english).subscribe({
         next: details=>{
           this.mediadetails.description=details.overview;
           this.mediadetails.categories.push(...details.genres);
-          
+
         },
         error: err=>
         {
-          console.log(`cannot get details for series with id ${this.mediaId}`)
+          console.log(`cannot get details for series with id ${id}`)
         }
       })
-      this.movieService.getMovieCredits(this.mediaId,language.english).subscribe({
+      this.movieService.getMovieCredits(id,language.english).subscribe({
         next: credits=>{
           this.mediadetails.cast.push(...credits.cast.map(c=>c.name).slice(0,10))
         }
-      }) 
+      })
     }
-  } 
+  }
 
   get tabs(){
     if(this.isSeries)

@@ -1,5 +1,5 @@
-import { Component, HostListener, Input, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, Input, OnChanges, OnInit, output, SimpleChanges, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 export interface movieBanner {
   poster: string;
@@ -12,6 +12,7 @@ export interface movieBanner {
   templateUrl: './hero-banner.component.html'
 })
 export class HeroBannerComponent implements OnChanges, OnInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   @Input() banners : movieBanner[] = []
   @Input() index = 0;
@@ -45,14 +46,18 @@ export class HeroBannerComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
     this.hideVideo();
     this.viewVideo();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {

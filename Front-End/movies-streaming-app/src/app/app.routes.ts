@@ -13,9 +13,9 @@ import { ProfileComponent } from './components/account/profile/profile.component
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
 
 export const routes: Routes = [
-    // { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
+    { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
     { path: "home", component: HomeComponent, title: "Home" },
-    { path: "details", component: DetailsComponent, title: "Details" },
+    { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
     { path: "watch", component: WatchAreaComponent, title: "watch"},
     { path: "**", component: NotFoundComponent, title: "Error" },
     { path: "profile", component: ProfileComponent, title: "profile" },

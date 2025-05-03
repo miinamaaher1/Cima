@@ -1,7 +1,14 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { HeroBannerComponent, movieBanner } from "../hero-banner/hero-banner.component";
 import { HeroInfoComponent, movieInfo } from "../hero-info/hero-info.component";
 import { HeroNavComponent } from "../hero-nav/hero-nav.component";
+import { SeriesService } from '../../core/services/series/series.service';
+import { ImageService } from '../../core/services/utils/image.service';
+import { MovieService } from '../../core/services/movie/movie.service';
+import { MovieListServiceService } from '../../core/services/lists/movieList/movie-list-service.service';
+import { SeriesListServiceService } from '../../core/services/lists/seriesList/series-list-service.service';
+import { language } from '../../core/utils/language.enum';
+import { forkJoin } from 'rxjs';
 
 export interface moviePreview {
   poster: string,
@@ -15,78 +22,95 @@ export interface moviePreview {
   discription: string
 }
 
+export enum mediaType {
+  movie = 'movie',
+  series = 'series'
+}
+
 @Component({
   selector: 'app-hero',
   imports: [HeroBannerComponent, HeroInfoComponent, HeroNavComponent],
   templateUrl: './hero.component.html'
 })
-export class HeroComponent {
-  movieIndex = 0;
+export class HeroComponent implements OnInit {
+  constructor(
+    private _seriesService: SeriesService,
+    private _imageService: ImageService,
+    private _movieService: MovieService,
+    private _movieListService: MovieListServiceService,
+    private _seriesListService: SeriesListServiceService
+  ) { }
 
-  previews : moviePreview[] = [
+  ngOnInit(): void {
+    this.fetchPromotedMedia()
+  }
+
+  movieIndex = signal(0);
+
+  previews: moviePreview[] = [
     {
-      poster: "images/posters/harry.jpg",
+      poster: "",
       clip: "videos/clips/H_P_Clip.mp4",
-      logo: "images/logos/harry-potter.png",
+      logo: "",
       promo: "Top 10 In Egypt",
-      tags: ["1:58:42", "Top 10", "Adventure", "Fantasy"],
-      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
+      tags: [],
+      cast: [],
       link: "",
       button: "Watch Now",
-      discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
+      discription: ""
     },
     {
-      poster: "images/posters/breaking.jpg",
+      poster: "",
       clip: "videos/clips/B_B_Clip.mp4",
-      logo: "images/logos/breaking-bad.svg",
+      logo: "",
       promo: "Now For Free",
-      tags: ["Season 2", "Top 10", "Action", "Drama"],
-      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
+      tags: [],
+      cast: [],
       link: "",
       button: "Watch Now",
-      discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
+      discription: ""
     },
     {
-      poster: "images/posters/star.jpg",
+      poster: "",
       clip: "videos/clips/S_W_Clip.mp4",
-      logo: "images/logos/star-wars.svg",
+      logo: "",
       promo: "Subscribe To Watch",
-      tags: ["2:03:15", "Top 10", "Adventure", "Sci-Fi"],
-      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
+      tags: [],
+      cast: [],
       link: "",
       button: "Watch Now",
-      discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
+      discription: ""
     },
     {
-      poster: "images/posters/grinch.jpg",
+      poster: "",
       clip: "videos/clips/H_G_S_C_Clip.mp4",
-      logo: "images/logos/the-grinch.svg",
+      logo: "",
       promo: "The Cringe Wining Film",
-      tags: ["Cringe", "Movie", "Comedy"],
-      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
+      tags: [],
+      cast: [],
       link: "",
       button: "Watch Now",
-      discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
+      discription: ""
     },
     {
-      poster: "images/posters/thrones.jpg",
+      poster: "",
       clip: "videos/clips/G_O_T_Clip.mp4",
-      logo: "images/logos/game-of-thrones.png",
+      logo: "",
       promo: "The Award Wining Show",
-      tags: ["Season 4", "Top 10", "Adventure", "Fantasy"],
-      cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
+      tags: [],
+      cast: [],
       link: "",
       button: "Watch Now",
-      discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
+      discription: ""
     }
   ]
 
-  banners : movieBanner[] = this.previews.map((i) => ({
-    poster : i.poster,
-    clip : i.clip
-  }))
+  banners = signal<movieBanner[]>(this.previews.map((i) => ({
+    poster: i.poster,
+    clip: i.clip
+  })))
 
-  moviesInfo : movieInfo[] = this.previews.map((i) => ({
+  moviesInfo = signal<movieInfo[]>(this.previews.map((i) => ({
     logo: i.logo,
     promo: i.promo,
     tags: i.tags,
@@ -94,13 +118,107 @@ export class HeroComponent {
     link: i.link,
     button: i.button,
     discription: i.discription
-  }))
+  })))
 
-  logos : string[] = this.previews.map((i) => ( i.logo))
+  logos = signal<string[]>(this.previews.map((i) => (i.logo)))
 
-  changeMovie(index : number) {
-    this.movieIndex = index;
+  movieIds: number[] = []
+  seriesIds: number[] = []
+
+  changeMovie(index: number) {
+    this.movieIndex.set(index);
   }
 
   videoVisibilityChanged = signal<boolean>(false)
+
+  fetchPromotedMedia() {
+    forkJoin({
+      movies: this._movieListService.getPopularMovies(1, language.english),
+      series: this._seriesListService.getPopularTvSeries(1, language.english)
+    }).subscribe({
+      next: ({ movies, series }) => {
+        this.movieIds = movies.results.map(i => i.id).slice(0, 3);
+        this.seriesIds = series.results.map(i => i.id).slice(0, 2);
+
+        this.loadPreviews(); // only start loading previews after IDs are ready
+      },
+      error: err => console.log(err)
+    });
+  }
+
+  loadPreviews() {
+    let mov = 0;
+    let ser = 0;
+
+    for (let i = 0; i < 5; i++) {
+      if (i % 2 === 0 && this.movieIds[mov] != null) {
+        this._movieService.getMovieDetails(this.movieIds[mov], language.english).subscribe({
+          next: res => {
+            this.previews[i].discription = res.overview.length > 150
+              ? res.overview.slice(0, 147) + '...'
+              : res.overview;
+            this.previews[i].tags = res.genres.map(i => i.name).slice(0, 4);
+            this.previews[i].promo = res.tagline ? res.tagline : this.previews[i].promo
+            this.updateSignals();
+          },
+          error: err => console.log(err)
+        });
+
+        this._movieService.getMovieImages(this.movieIds[mov]).subscribe({
+          next: res => {
+            this.previews[i].logo = this._imageService.getImagePath(res.logos[0]);
+            this.previews[i].poster = this._imageService.getImagePath(res.backdrops[0]);
+            this.updateSignals();
+          },
+          error: err => console.log(err)
+        });
+
+        mov++;
+      } else if (this.seriesIds[ser] != null) {
+        this._seriesService.getSeriesDetails(this.seriesIds[ser], language.english).subscribe({
+          next: res => {
+            this.previews[i].discription = res.overview.length > 150
+              ? res.overview.slice(0, 147) + '...'
+              : res.overview;
+            this.previews[i].tags = res.genres.map(i => i.name).slice(0, 4);
+            this.previews[i].promo = res.tagline ? res.tagline : this.previews[i].promo
+            this.updateSignals();
+          },
+          error: err => console.log(err)
+        });
+
+        this._seriesService.getSeriesImages(this.seriesIds[ser]).subscribe({
+          next: res => {
+            this.previews[i].logo = this._imageService.getImagePath(res.logos[0]);
+            this.previews[i].poster = this._imageService.getImagePath(res.backdrops[0]);
+            this.updateSignals();
+          },
+          error: err => console.log(err)
+        });
+
+        ser++;
+      }
+    }
+  }
+
+  updateSignals() {
+    this.banners.set(
+      this.previews.map((i) => ({
+        poster: i.poster,
+        clip: i.clip
+      }))
+    )
+    this.moviesInfo.set(
+      this.previews.map((i) => ({
+        button: i.button,
+        cast: i.cast,
+        discription: i.discription,
+        promo: i.promo,
+        link: i.link,
+        logo: i.logo,
+        tags: i.tags
+      }))
+    )
+    this.logos.set(this.previews.map((i) => (i.logo)))
+  }
 }

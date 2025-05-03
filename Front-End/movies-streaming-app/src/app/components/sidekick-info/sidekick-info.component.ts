@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, HostListener, input } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, Inject, input, PLATFORM_ID } from '@angular/core';
 import { movieInfo } from '../hero-info/hero-info.component';
 
 @Component({
@@ -8,6 +8,7 @@ import { movieInfo } from '../hero-info/hero-info.component';
   templateUrl: './sidekick-info.component.html'
 })
 export class SidekickInfoComponent {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   movieInfo = input.required<movieInfo>();
   videoVisibilityChanged = input<boolean>();
@@ -15,12 +16,16 @@ export class SidekickInfoComponent {
   isMobile = false;
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {

@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, HostListener, input, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, Inject, input, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges } from '@angular/core';
 
 export interface movieInfo {
   logo: string,
@@ -17,6 +17,7 @@ export interface movieInfo {
   templateUrl: './hero-info.component.html'
 })
 export class HeroInfoComponent implements OnInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   @Input() moviesInfo: movieInfo[] = []
   videoVisibilityChanged = input<boolean>();
@@ -26,12 +27,16 @@ export class HeroInfoComponent implements OnInit {
   @Input() index = 0;
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {
