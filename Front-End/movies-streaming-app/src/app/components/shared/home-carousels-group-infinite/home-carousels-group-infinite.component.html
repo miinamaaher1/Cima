@@ -1,5 +1,5 @@
 <div class="bg-gradient-to-b from-body-charcoal to-background-black">
-  <div class="mt-1"></div>
+  <div class="h-1"></div>
   <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="800" (scrolled)="loadMoreItems()">
     @for (item of items; track $index) {
     @defer (on viewport) {
