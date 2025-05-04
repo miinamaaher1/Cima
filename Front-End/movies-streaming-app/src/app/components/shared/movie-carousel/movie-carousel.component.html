@@ -22,14 +22,14 @@
         </div>
     </div>
     <div [ngClass]="{'hidden': leftHidden}"
-        class="bg-transparent z-30 flex absolute w-25 h-29.5 rounded-l-md top-[36px] md:top-[47px] left-0">
+        class="bg-transparent z-30 flex absolute w-25 h-29.5 rounded-l-md top-[47px] md:top-[47px] left-0">
         <div class="opacity-75 w-10 h-full bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
             (click)="goLeft(slider)">
             <i class="fa-solid fa-chevron-left"></i>
         </div>
     </div>
     <div [ngClass]="{'hidden': rightHidden}"
-        class="bg-transparent z-30 flex justify-end absolute w-25 h-29.5 rounded-l-md top-[36px] md:top-[47px] right-0">
+        class="bg-transparent z-30 flex justify-end absolute w-25 h-29.5 rounded-l-md top-[47px] md:top-[47px] right-0">
         <div class="opacity-75 w-10 h-full bg-surface-black flex justify-center items-center text-2xl text-white cursor-pointer"
             (click)="goRight(slider)" #rightArrow>
             <i class="fa-solid fa-chevron-right"></i>
