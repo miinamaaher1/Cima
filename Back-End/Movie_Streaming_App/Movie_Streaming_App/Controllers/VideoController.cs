@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Movie_Streaming_App.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/videos")]
     [ApiController]
     public class VideoController : ControllerBase
     {
