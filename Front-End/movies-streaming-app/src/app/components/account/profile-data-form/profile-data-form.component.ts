@@ -11,8 +11,7 @@ import { birthDateValidator } from '../../../core/validators/birthDateValidator'
 @Component({
   selector: 'app-profile-data-form',
   imports: [RouterModule, ReactiveFormsModule, CommonModule, FloatLabelModule, InputTextModule, PasswordModule],
-  templateUrl: './profile-data-form.component.html',
-  styleUrl: './profile-data-form.component.css'
+  templateUrl: './profile-data-form.component.html'
 })
 export class ProfileDataFormComponent {
   form = new FormGroup(

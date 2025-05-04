@@ -1,55 +1,55 @@
-<form [formGroup]="form" class="flex flex-col gap-5 text-[0.65rem]">
+<form [formGroup]="form" class="flex flex-col gap-5 text-xs">
     <div>
         <p-floatlabel variant="in" class="">
             <input pInputText id="firstName" formControlName="firstName" autocomplete="off"
-                class="w-full py-1 pt-4 bg-light-blurple rounded-2xl text-black text-[.75rem]" />
+                class="w-full py-1 pt-4 bg-light-blurple text-background-black" />
             <label for="firstName" class="text-gray-500">First Name</label>
         </p-floatlabel>
         @if (form.get('firstName')?.errors && !isFirstInput)
         {
         @if (form.get('firstName')?.getError('required'))
         {
-        <p class="absolute text-[0.65rem] text-red-600 pl-3">First Name Is Required</p>
+        <p class="absolute text-[0.65rem] text-film-red pl-3">First Name Is Required</p>
         }
         @else if (!validFirstName)
         {
-        <p class="absolute text-[0.65rem] text-red-600 pl-3">Invalid Name</p>
+        <p class="absolute text-[0.65rem] text-film-red pl-3">Invalid Name</p>
         }
         }
     </div>
     <div>
         <p-floatlabel variant="in" class="">
             <input pInputText id="lastName" formControlName="lastName" autocomplete="off"
-                class="w-full py-1 pt-4 bg-light-blurple rounded-2xl text-black text-[.75rem]" />
+                class="w-full py-1 pt-4 bg-light-blurple text-background-black" />
             <label for="lastName" class="text-gray-500">Last Name</label>
         </p-floatlabel>
         @if (form.get('lastName')?.errors && !isFirstInput)
         {
         @if (form.get('lastName')?.getError('required'))
         {
-        <p class="absolute text-[0.65rem] text-red-600 pl-3">Last Name Is Required</p>
+        <p class="absolute text-[0.65rem] text-film-red pl-3">Last Name Is Required</p>
         }
         @else if (!validLastName)
         {
-        <p class="absolute text-[0.65rem] text-red-600 pl-3">Invalid Name</p>
+        <p class="absolute text-[0.65rem] text-film-red pl-3">Invalid Name</p>
         }
         }
     </div>
     <div>
         <p-floatlabel variant="in" class="">
             <input pInputText id="email" formControlName="email" autocomplete="off"
-                class="w-full py-1 pt-4 bg-light-blurple rounded-2xl text-black text-[.75rem]" />
+                class="w-full py-1 pt-4 bg-light-blurple text-background-black text-[.75rem]" />
             <label for="email" class="text-gray-500">Email Address</label>
         </p-floatlabel>
         @if (form.get('email')?.errors && !isFirstInput)
         {
         @if (form.get('email')?.getError('required'))
         {
-        <p class="absolute text-[0.65rem] text-red-600 pl-3">Email Address Is Required</p>
+        <p class="absolute text-[0.65rem] text-film-red pl-3">Email Address Is Required</p>
         }
         @else if (!validEmail)
         {
-        <p class="absolute text-[0.65rem] text-red-600 pl-3">Invalid Email Address</p>
+        <p class="absolute text-[0.65rem] text-film-red pl-3">Invalid Email Address</p>
         }
         }
     </div>
@@ -57,10 +57,10 @@
         <div class="w-[48%]">
             <p-floatlabel variant="in">
                 <p-password class="block" [toggleMask]="true" [fluid]="true" formControlName="password"
-                    strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" inputStyleClass="bg-light-blurple rounded-2xl text-black py-2
+                    strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" inputStyleClass="bg-light-blurple text-background-black py-2
                 w-full block">
                     <ng-template #header>
-                        <div class="font-semibold text-xm mb-4">Pick a <span class="text-green-700 font-bold ">Strong
+                        <div class="font-semibold text-xm mb-4">Pick a <span class="text-mint-green font-bold ">Strong
                             </span> password</div>
                     </ng-template>
                     <ng-template #footer>
@@ -81,27 +81,27 @@
             </p-floatlabel>
             @if(form.get('password')?.errors && form.get('password')?.touched)
             { @if (form.get('password')?.getError('required')) {
-            <p class="absolute text-[0.65rem] text-red-600 pl-3">Password Is Required</p>
+            <p class="absolute text-[0.65rem] text-film-red pl-3">Password Is Required</p>
             } @else if (form.get('password')?.getError('pattern')) {
-            <p class="absolute text-[0.65rem] text-red-600 pl-3">Enter a Strong Password</p>
+            <p class="absolute text-[0.65rem] text-film-red pl-3">Enter a Strong Password</p>
             } }
         </div>
         <div class="w-[48%]">
             <p-floatlabel variant="in">
                 <p-password class="block rounded-4xl" [toggleMask]="true" [fluid]="true" feedback="false"
                     formControlName="confirmPassword"
-                    inputStyleClass="bg-light-blurple rounded-2xl text-black py-2 w-full block" />
+                    inputStyleClass="bg-light-blurple text-background-black py-2 w-full block" />
                 <label for="confirmPassword" class="text-gray-500">Confirm Password</label>
             </p-floatlabel>
             @if(!validConfirmPassword && !isFirstInput) {
-            <p class="absolute text-[0.65rem] text-red-600 pl-3">Passwords do not match</p>
+            <p class="absolute text-[0.65rem] text-film-red pl-3">Passwords do not match</p>
             }
         </div>
     </div>
     <div class="flex justify-between">
         <div class="w-[48%]">
             <select
-                class="appearance-none w-full bg-light-blurple p-3 rounded-xl text-black focus:outline-blurple cursor-pointer"
+                class="appearance-none w-full bg-light-blurple p-3 rounded-md text-background-black focus:outline-blurple cursor-pointer"
                 formControlName="gender">
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -109,17 +109,18 @@
         </div>
         <div class="w-[48%]">
             <input type="date"
-                class="w-full bg-light-blurple p-3 rounded-xl text-black focus:outline-blurple cursor-pointer"
+                class="w-full bg-light-blurple p-3 rounded-md text-background-black focus:outline-blurple cursor-pointer"
                 formControlName="birthDate" (click)="openPicker(dateInput)" #dateInput />
             @if(form.get('birthDate')?.errors && !isFirstInput)
             { @if (form.get('birthDate')?.getError('required')) {
-            <p class="text-[0.65rem] text-red-600 pl-3">Birth Date Is Required</p>
+            <p class="text-[0.65rem] text-film-red pl-3">Birth Date Is Required</p>
             } @else {
-            <p class="text-[0.65rem] text-red-600 pl-3">Your age must be above 10</p>
+            <p class="text-[0.65rem] text-film-red pl-3">Your age must be above 10</p>
             } }
         </div>
     </div>
     <input
-        class="text-off-white border-1 border-blurple bg-linear-to-r from-blurple to-vivid-cerulean hover:bg-linear-to-r hover:to-blurple hover:from-vivid-cerulean transition duration-700 rounded-3xl px-4 py-3 self-center cursor-pointer"
+        class="text-off-white bg-gradient-to-r from-blurple to-button-hover hover:to-blurple transition duration-300
+               rounded-full px-4 py-3 self-center cursor-pointer font-bold text-sm"
         type="button" value="Submit" (click)="signIn()" />
 </form>

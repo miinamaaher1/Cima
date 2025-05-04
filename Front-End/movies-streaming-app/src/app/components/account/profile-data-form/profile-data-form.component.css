@@ -1,9 +1,0 @@
-::ng-deep .p-password-overlay {
-    /* @apply !bg-white; */
-    background-color: white;
-    color: black !important;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
-}
