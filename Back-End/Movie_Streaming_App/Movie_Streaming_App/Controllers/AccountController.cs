@@ -11,7 +11,6 @@ namespace Movie_Streaming_App.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-
         public AccountController(IAuthenticationService authenticationService) => _authenticationService = authenticationService;
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
@@ -23,7 +22,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(result);
         }
@@ -37,7 +36,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(result);
         }
@@ -52,7 +51,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(new { success = result });
         }
@@ -66,7 +65,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(new { success = result });
         }

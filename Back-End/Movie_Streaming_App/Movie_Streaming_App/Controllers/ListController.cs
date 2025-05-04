@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace Movie_Streaming_App.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/lists")]
     [ApiController]
     public class ListController : ControllerBase
     {
@@ -33,7 +33,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(userFavorites?.Select(f => new { f.Id, f.VideoType }));
         }
@@ -49,7 +49,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(new { userFavorites.Id, userFavorites.VideoType });
         }
@@ -65,7 +65,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return NoContent();
         }
@@ -81,7 +81,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(userWatchList.Select(f => new { f.Id, f.VideoType }));
         }
@@ -97,7 +97,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return Ok(new { userWatchList.Id, userWatchList.VideoType });
         }
@@ -113,7 +113,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { error = ex.Message });
             }
             return NoContent();
         }

@@ -89,8 +89,15 @@ namespace Movie_Streaming_App
             builder.Services.AddScoped<IListService<UserWatch>, ListService<UserWatch>>();
 
 
+            builder.Services.AddOpenApi();
+
 
             var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+            }
 
             app.UseHttpsRedirection();
             app.UseHsts();

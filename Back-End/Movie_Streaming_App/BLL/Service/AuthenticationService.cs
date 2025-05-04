@@ -48,7 +48,6 @@ namespace BLL.Service
                 Email = registerDto.Email,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
-                Age = registerDto.Age,
                 BirthDate = registerDto.BirthDate,
                 Gender = registerDto.Gender,
                 UserName = registerDto.Email,
