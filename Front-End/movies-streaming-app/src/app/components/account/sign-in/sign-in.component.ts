@@ -9,7 +9,8 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-sign-in',
   imports: [FloatLabelModule,FormsModule,InputTextModule,PasswordModule,ReactiveFormsModule,RouterLink],
-  templateUrl: './sign-in.component.html'
+  templateUrl: './sign-in.component.html',
+  styleUrl: './sign-in.component.css'
 })
 
 export class SignInComponent {

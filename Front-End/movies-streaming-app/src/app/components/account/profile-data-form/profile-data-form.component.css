@@ -1,0 +1,11 @@
+::ng-deep .p-password-overlay{
+  /* @apply !bg-white; */
+  margin-top: 8px;
+  background-color: var(--color-border-grey) ;
+  color:var(--color-off-white) !important;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
