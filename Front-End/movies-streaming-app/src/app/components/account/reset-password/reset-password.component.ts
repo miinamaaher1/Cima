@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
   imports: [FloatLabelModule, FormsModule, InputTextModule,
     PasswordModule, ReactiveFormsModule
   ],
-  templateUrl: './reset-password.component.html'
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent {
 

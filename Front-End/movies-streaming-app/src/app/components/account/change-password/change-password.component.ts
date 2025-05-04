@@ -14,7 +14,8 @@ import { Component } from '@angular/core';
     ,PasswordModule,ReactiveFormsModule
   ],
 
-  templateUrl: './change-password.component.html'
+  templateUrl: './change-password.component.html',
+  styleUrl: './change-password.component.css'
 })
 export class ChangePasswordComponent {
 
