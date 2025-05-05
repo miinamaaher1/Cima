@@ -6,12 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Stripe;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Service
 {
@@ -27,9 +21,7 @@ namespace BLL.Service
             _userManager = userManager;
             _intentService = new PaymentIntentService();
             _sessionService = new SessionService();
-
         }
-
 
         public async Task<PaymentResultDto> CreateOrUpdatePaymentAsync(string email, SubscriptionType type)
         {
@@ -45,7 +37,7 @@ namespace BLL.Service
             PaymentIntentCreateOptions options = new PaymentIntentCreateOptions()
             {
 
-                Amount = ((int)(currentUser.SubscriptionType)) * 133 * 100,
+                Amount = ((int)currentUser.SubscriptionType) * 133 * 100,
                 Currency = "usd",
                 PaymentMethodTypes = new() { "card" },
                 Metadata = new Dictionary<string, string>
@@ -62,23 +54,21 @@ namespace BLL.Service
 
         }
 
-
-    
         public async Task UpdatePaymentStatusAsync(string JsonRequest, string StripeHeader)
         {
-             string email = string.Empty;
-             string emailFromSession = string.Empty;
+            string email = string.Empty;
+            string emailFromSession = string.Empty;
             var endPointSecret = _configuration.GetSection("StripeSetting")["EndPointSecret"];
 
             var stripeEvent = EventUtility.ConstructEvent(JsonRequest,
 
                 StripeHeader, endPointSecret);
 
-            if (stripeEvent.Data.Object is PaymentIntent paymentIntent)
-            {
-                email = paymentIntent.Metadata["email"];
-            }
-            if(stripeEvent.Data.Object is Session session)
+            //if (stripeEvent.Data.Object is PaymentIntent paymentIntent)
+            //{
+            //    email = paymentIntent.Metadata["email"];
+            //}
+            if (stripeEvent.Data.Object is Session session)
             {
                 emailFromSession = session.CustomerEmail;
             }
@@ -94,12 +84,12 @@ namespace BLL.Service
             //}
             else if (stripeEvent.Type == EventTypes.CheckoutSessionCompleted)
             {
-                UpdateUserSubscriptionAsync(emailFromSession, true);
+                await UpdateUserSubscriptionAsync(emailFromSession, true);
 
             }
             else if (stripeEvent.Type == EventTypes.CheckoutSessionExpired)
             {
-                UpdateUserSubscriptionAsync(emailFromSession, false);
+                await UpdateUserSubscriptionAsync(emailFromSession, false);
 
             }
             else if (stripeEvent.Type == EventTypes.PaymentIntentCanceled)
@@ -131,7 +121,7 @@ namespace BLL.Service
 
         private async Task UpdateUserSubscriptionAsync(string email, bool isSuccess)
         {
-            var currentUser = await _userManager.FindByEmailAsync(email)??throw new Exception("User Not-Found !!");
+            var currentUser = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not-Found !!");
             if (isSuccess)
             {
                 currentUser.IsSubscriptionValid = true;
@@ -148,7 +138,7 @@ namespace BLL.Service
         public async Task<string> CreatePaymentSession(string email, SubscriptionType type, string domain)
         {
             var currentUser = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not-Found !!");
-            currentUser.SubscriptionType = type;    
+            currentUser.SubscriptionType = type;
             await _userManager.UpdateAsync(currentUser);
 
             var secretKey = _configuration.GetSection("StripeSetting")["Secretkey"];
@@ -156,7 +146,7 @@ namespace BLL.Service
             StripeConfiguration.ApiKey = secretKey;
 
             // Calculate the amount based on the subscription type
-            var amount = ((int)(type)) * 133 * 100; // Assuming SubscriptionType is an enum or a comparable type
+            var amount = ((int)type) * 133 * 100; // Assuming SubscriptionType is an enum or a comparable type
 
             var options = new SessionCreateOptions()
             {
@@ -192,17 +182,17 @@ namespace BLL.Service
             //var service = new SessionService();
             Session session = await _sessionService.CreateAsync(options);
 
-            return session.Url;  
+            return session.Url;
         }
 
         public async Task<bool> IsSubscribed(string email)
         {
             var currentUser = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not-Found !!");
 
-           var isExpired =  (DateTime.UtcNow - currentUser.LastPaymentTime)> TimeSpan.FromDays(30);
+            var isExpired = (DateTime.UtcNow - currentUser.LastPaymentTime) > TimeSpan.FromDays(30);
             if (isExpired)
             {
-              await  UpdateUserSubscriptionAsync(email, false);
+                await UpdateUserSubscriptionAsync(email, false);
             }
 
             return currentUser.IsSubscriptionValid;
@@ -214,7 +204,7 @@ namespace BLL.Service
 
             if (!currentUser.IsSubscriptionValid)
             {
-               await UpdateUserSubscriptionAsync(email,false);
+                await UpdateUserSubscriptionAsync(email, false);
             }
 
             return currentUser.SubscriptionType;

@@ -1,5 +1,6 @@
 using BLL.Service;
 using BLL.ServiceAbstraction;
+using DAL;
 using DAL.Models;
 using DAL.Repos;
 using DAL.Shared;
@@ -7,13 +8,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Movie_Streaming_App.Middlewares;
 using System.Text;
 
 namespace Movie_Streaming_App
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllers();
@@ -46,7 +48,7 @@ namespace Movie_Streaming_App
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             // DB Context
             builder.Services.AddDbContext<AppDbContext>(
-                    op => op.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDB"))
+                    op => op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies()
                     );
 
 
@@ -91,15 +93,19 @@ namespace Movie_Streaming_App
             //Payment 
             builder.Services.AddScoped<IPaymentService, PaymentService>();
 
+            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
+
             builder.Services.AddOpenApi();
 
 
             var app = builder.Build();
+            await InitializeDatabase(app);
 
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
             }
+            app.UseMiddleware<CustomExceptionHandler>();
 
             app.UseHttpsRedirection();
             app.UseHsts();
@@ -109,6 +115,12 @@ namespace Movie_Streaming_App
             app.MapControllers();
 
             app.Run();
+        }
+        private static async Task InitializeDatabase(WebApplication app)
+        {
+            var scope = app.Services.CreateScope();
+            var data = scope.ServiceProvider.GetService<IDataSeeding>();
+            await data.InitializeIdentityAsync();
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,11 +34,11 @@ namespace DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     SubscriptionType = table.Column<int>(type: "int", nullable: false),
                     IsSubscriptionValid = table.Column<bool>(type: "bit", nullable: false),
+                    LastPaymentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
