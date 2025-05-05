@@ -1,25 +1,24 @@
-<div class="flex flex-wrap  ml-30">
-    <div 
-      *ngFor="let season of seasonsWithEpisodes"
-      class="w-full"
-    >
-      <h3 class="text-white text-lg mb-2">Season {{ season.seasonNumber }}</h3>
-  
-      <div class="flex flex-wrap gap-2">
-        <div 
-          *ngFor="let episode of season.episodes"
-          class="relative w-full h-50 sm:basis-1/2 md:basis-1/2 lg:basis-1/5"
-        >
-          <app-episode-card 
-            [episodeId]="episode.episodeId"
-            [Poster]="episode.Poster"
-            [episodeNum]="episode.episodeNum"
-            [Runtime]="episode.Runtime"
-            [Description]="episode.Description"
-            class="absolute hover:z-40 transition-all duration-300"
-          ></app-episode-card>
-        </div>
+<div class="flex flex-wrap w-full">
+  <div 
+    *ngFor="let season of seasonsWithEpisodes"
+    class="w-full mb-6 border-b-2 border-body-charcoal"
+  >
+    <h3 class="text-white text-lg font-medium mb-3">Season {{ season.seasonNumber }}</h3>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <div 
+        *ngFor="let episode of season.episodes"
+        class="relative w-full h-60 sm:h-60 lg:h-40"
+      >
+        <app-episode-card 
+          [episodeId]="episode.episodeId"
+          [Poster]="episode.Poster"
+          [episodeNum]="episode.episodeNum"
+          [Runtime]="episode.Runtime"
+          [Description]="episode.Description"
+          class="absolute w-full h-full block hover:z-40 hover:scale-105 transition-all duration-300"
+        ></app-episode-card>
       </div>
     </div>
   </div>
-  
+</div>

@@ -37,6 +37,7 @@ export class SerieCardComponent {
       next: data => {
         try {
           this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
+          this.logoUrl=`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
           this.validSeries = false;
@@ -51,18 +52,23 @@ export class SerieCardComponent {
   seasons: number = 0;
   episodes: number = 0;
   posterUrl: string = "";
+  logoUrl:string="";
   videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;
-  playState: string = "";
+  isPlaying:boolean=false;
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
         ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
-        ($event.target as HTMLVideoElement).play();
+        ($event.target as HTMLVideoElement).play().then(()=>{
+          this.isPlaying=true;
+        }).catch(()=>{
+          this.isPlaying=false;
+        });
       }, 1000);
     }
   }
@@ -72,6 +78,7 @@ export class SerieCardComponent {
       this.timerHandler = null;
       ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
+      this.isPlaying=false;
     }
   }
 }

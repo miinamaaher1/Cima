@@ -7,7 +7,10 @@
     <!-- <img src="{{posterUrl}}" alt="{{name}} poster" class="w-full h-full cursor-pointer object-cover" #poster> -->
     <!-- <div class="hidden"></div> -->
     <!-- </div> -->
-    <a routerLink="/details/movie/{{id}}" class="w-full h-29 block">
+    <a routerLink="/details/movie/{{id}}" class="w-full h-29 block relative">
+        <div *ngIf="!isPlaying && logoUrl" class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <img [src]="logoUrl" alt="{{name}} logo" class="max-w-[50%] max-h-[40%] object-contain">
+        </div>
         <video class="w-full h-full object-center object-cover" poster="{{posterUrl}}" (mouseenter)="playVideo($event)"
             (mouseleave)="stopVideo($event)">
             <source src="{{videoUrl}}" type="video/mp4">

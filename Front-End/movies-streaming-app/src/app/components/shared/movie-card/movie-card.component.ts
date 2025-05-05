@@ -5,6 +5,7 @@ import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { RouterLink } from '@angular/router';
+import { error } from 'console';
 
 @Component({
   selector: 'app-movie-card',
@@ -37,6 +38,7 @@ export class MovieCardComponent {
       next: data => {
         try {
           this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
+          this.logoUrl   =`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
           this.validMovie = false;
@@ -51,18 +53,24 @@ export class MovieCardComponent {
   hours: number = 0;
   minutes: number = 0;
   posterUrl: string = "";
+  logoUrl: string="";
   videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;
-  playState: string = "";
+  isPlaying:boolean=false;
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
         ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
-        ($event.target as HTMLVideoElement).play();
+        ($event.target as HTMLVideoElement).play().then(()=>{
+          this.isPlaying=true;
+        }).catch(error=>{
+          console.error("video playback failed")
+          this.isPlaying=false;
+        });
       }, 1000);
     }
   }
@@ -72,6 +80,7 @@ export class MovieCardComponent {
       this.timerHandler = null;
       ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
+      this.isPlaying=false;
     }
   }
 }
