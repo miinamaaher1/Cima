@@ -128,7 +128,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("UserFavorites");
+                    b.ToTable("UserFavorites", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Models.UserWatch", b =>
@@ -146,7 +146,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("UserWatch");
+                    b.ToTable("UserWatch", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>

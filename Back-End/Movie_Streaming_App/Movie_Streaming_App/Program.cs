@@ -88,6 +88,8 @@ namespace Movie_Streaming_App
             builder.Services.AddScoped<IUserListRepo<UserWatch>, UserListRepo<UserWatch>>();
             builder.Services.AddScoped<IListService<UserWatch>, ListService<UserWatch>>();
 
+            //Payment 
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
 
             builder.Services.AddOpenApi();
 
