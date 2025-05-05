@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\DAL\\Migrations\\20250504082223_remove-age.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DAL\\Migrations\\20250504082223_remove-age.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|d:\\iti\\angular\\video-streaming-app\\back-end\\movie_streaming_app\\movie_streaming_app\\controllers\\videocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|solutionrelative:movie_streaming_app\\controllers\\videocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|d:\\iti\\angular\\video-streaming-app\\back-end\\movie_streaming_app\\movie_streaming_app\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|solutionrelative:movie_streaming_app\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DE1CF70A-1C30-4791-881E-590FBA7FC828}|BLL\\BLL.csproj|d:\\iti\\angular\\video-streaming-app\\back-end\\movie_streaming_app\\bll\\serviceabstraction\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE1CF70A-1C30-4791-881E-590FBA7FC828}|BLL\\BLL.csproj|solutionrelative:bll\\serviceabstraction\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|d:\\iti\\angular\\video-streaming-app\\back-end\\movie_streaming_app\\movie_streaming_app\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{98ACBCD1-7100-4327-AED0-A25B91A8711C}|Movie_Streaming_App\\Movie_Streaming_App.csproj|solutionrelative:movie_streaming_app\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,41 +38,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250504082223_remove-age.cs",
-              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\DAL\\Migrations\\20250504082223_remove-age.cs",
-              "RelativeDocumentMoniker": "DAL\\Migrations\\20250504082223_remove-age.cs",
-              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\DAL\\Migrations\\20250504082223_remove-age.cs",
-              "RelativeToolTip": "DAL\\Migrations\\20250504082223_remove-age.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAkAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T08:22:23.267Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IUserService.cs",
-              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\BLL\\ServiceAbstraction\\IUserService.cs",
-              "RelativeDocumentMoniker": "BLL\\ServiceAbstraction\\IUserService.cs",
-              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\BLL\\ServiceAbstraction\\IUserService.cs",
-              "RelativeToolTip": "BLL\\ServiceAbstraction\\IUserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T08:13:56.619Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Movie_Streaming_App\\Controllers\\UserController.cs",
-              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Movie_Streaming_App\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAApAAAAAAAAAA==",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\appsettings.json",
+              "RelativeDocumentMoniker": "Movie_Streaming_App\\appsettings.json",
+              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\appsettings.json",
+              "RelativeToolTip": "Movie_Streaming_App\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-05T10:06:40.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VideoController.cs",
+              "DocumentMoniker": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "RelativeDocumentMoniker": "Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "ToolTip": "D:\\ITI\\Angular\\video-streaming-app\\Back-End\\Movie_Streaming_App\\Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "RelativeToolTip": "Movie_Streaming_App\\Controllers\\VideoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T08:10:25.181Z",
+              "WhenOpened": "2025-05-05T10:04:41.348Z",
               "EditorCaption": ""
             }
           ]
