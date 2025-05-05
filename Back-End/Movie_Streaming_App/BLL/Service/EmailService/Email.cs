@@ -1,4 +1,4 @@
-﻿namespace BLL.EmailService
+﻿namespace BLL.Service.EmailService
 {
     public class Email
     {

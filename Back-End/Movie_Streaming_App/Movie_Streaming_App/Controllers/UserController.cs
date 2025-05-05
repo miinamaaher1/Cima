@@ -37,7 +37,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { ex.Message });
+                return BadRequest(new { error = ex.Message });
             }
         }
         [HttpGet]
@@ -57,7 +57,7 @@ namespace Movie_Streaming_App.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { ex.Message });
+                return BadRequest(new { error = ex.Message });
             }
         }
     }

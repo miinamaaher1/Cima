@@ -1,4 +1,5 @@
 using BLL.Service;
+using BLL.Service.EmailService;
 using BLL.ServiceAbstraction;
 using DAL;
 using DAL.Models;
@@ -48,7 +49,7 @@ namespace Movie_Streaming_App
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             // DB Context
             builder.Services.AddDbContext<AppDbContext>(
-                    op => op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies()
+                    op => op.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDB")).UseLazyLoadingProxies()
                     );
 
 
@@ -75,8 +76,7 @@ namespace Movie_Streaming_App
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
 
                     };
-                })
-                ;
+                });
 
 
 
@@ -89,6 +89,8 @@ namespace Movie_Streaming_App
             builder.Services.AddScoped<IGenericRepo<UserWatch>, GenericRepo<UserWatch>>();
             builder.Services.AddScoped<IUserListRepo<UserWatch>, UserListRepo<UserWatch>>();
             builder.Services.AddScoped<IListService<UserWatch>, ListService<UserWatch>>();
+
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             //Payment 
             builder.Services.AddScoped<IPaymentService, PaymentService>();
