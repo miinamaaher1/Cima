@@ -8,7 +8,8 @@ namespace Movie_Streaming_App.Controllers
     [ApiController]
     public class VideoController : ControllerBase
     {
-
+        private readonly IConfiguration _configuration;
+        public VideoController(IConfiguration configuration) => _configuration = configuration;
         [HttpGet("stream")]
         public async Task<IActionResult> StreamVideo(string name)
         {
@@ -16,7 +17,7 @@ namespace Movie_Streaming_App.Controllers
 
             #region Finding Youtube Video ID
 
-            var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/search?part=snippet&q={name + "Official Trailer"}&type=video&key=AIzaSyAsiiMv7p4crrTdL8QkbCrpexZ7pXfYU64");
+            var response = await client.GetAsync($"https://www.googleapis.com/youtube/v3/search?part=snippet&q={name + "Official Trailer"}&type=video&key={_configuration["YoutubeKey"]}");
             if (!response.IsSuccessStatusCode)
                 return NotFound();
             string? videoId;
