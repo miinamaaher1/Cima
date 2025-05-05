@@ -1,4 +1,5 @@
-﻿using DAL.Models;
+﻿using BLL.ServiceAbstraction;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,14 @@ namespace Movie_Streaming_App.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IPaymentService _paymentService;
 
-        public UserController(UserManager<AppUser> userManager) => _userManager = userManager;
+        public UserController(UserManager<AppUser> userManager, IPaymentService paymentService)
+        {
+            _userManager = userManager;
+            _paymentService = paymentService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
@@ -26,7 +33,27 @@ namespace Movie_Streaming_App.Controllers
                 }
                 var email = User.FindFirstValue(ClaimTypes.Email);
                 var user = await _userManager.FindByEmailAsync(email);
-                return Ok(new { user.FirstName, user.LastName, user.Email, user.BirthDate, user.Gender, user.IsSubscriptionValid, user.SubscriptionType });
+                return Ok(new { user.FirstName, user.LastName, user.Email, user.BirthDate, user.Gender });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUserSubscription()
+        {
+            try
+            {
+                var email = User.FindFirstValue(ClaimTypes.Email);
+                var user = await _userManager.FindByEmailAsync(email);
+                var subscriptionState = await _paymentService.IsSubscribed(email);
+                if (subscriptionState)
+                {
+                    var subscriptionPlan = await _paymentService.GetSubscriptionPlan(email);
+                    return Ok(new { subscriptionState, subscriptionPlan });
+                }
+                return Ok(new { subscriptionState });
             }
             catch (Exception ex)
             {
