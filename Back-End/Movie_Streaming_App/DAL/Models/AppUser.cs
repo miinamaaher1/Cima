@@ -11,6 +11,7 @@ namespace DAL.Models
         public DateOnly BirthDate { get; set; }
         public SubscriptionType SubscriptionType { get; set; }
         public bool IsSubscriptionValid { get; set; }
+        public DateTime LastPaymentTime { get; set; } 
         public virtual ICollection<UserFavorites> Favorites { get; set; } = new HashSet<UserFavorites>();
         public virtual ICollection<UserWatch> WatchList { get; set; } = new HashSet<UserWatch>();
     }

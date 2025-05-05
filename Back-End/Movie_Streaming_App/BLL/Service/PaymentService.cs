@@ -67,7 +67,7 @@ namespace BLL.Service
         public async Task UpdatePaymentStatusAsync(string JsonRequest, string StripeHeader)
         {
              string email = string.Empty;
-             string emaiFromSession = string.Empty;
+             string emailFromSession = string.Empty;
             var endPointSecret = _configuration.GetSection("StripeSetting")["EndPointSecret"];
 
             var stripeEvent = EventUtility.ConstructEvent(JsonRequest,
@@ -80,21 +80,26 @@ namespace BLL.Service
             }
             if(stripeEvent.Data.Object is Session session)
             {
-                emaiFromSession = session.CustomerEmail;
+                emailFromSession = session.CustomerEmail;
             }
 
             // Handle the event
             if (stripeEvent.Type == EventTypes.CheckoutSessionAsyncPaymentFailed)
             {
-                await UpdateUserSubscriptionAsync(emaiFromSession, false);
+                await UpdateUserSubscriptionAsync(emailFromSession, false);
             }
-            else if (stripeEvent.Type == EventTypes.CheckoutSessionAsyncPaymentSucceeded)
-            {
-                UpdateUserSubscriptionAsync(emaiFromSession, true);
-            }
+            //else if (stripeEvent.Type == EventTypes.CheckoutSessionAsyncPaymentSucceeded)
+            //{
+            //    UpdateUserSubscriptionAsync(emaiFromSession, true);
+            //}
             else if (stripeEvent.Type == EventTypes.CheckoutSessionCompleted)
             {
-                UpdateUserSubscriptionAsync(emaiFromSession, true);
+                UpdateUserSubscriptionAsync(emailFromSession, true);
+
+            }
+            else if (stripeEvent.Type == EventTypes.CheckoutSessionExpired)
+            {
+                UpdateUserSubscriptionAsync(emailFromSession, false);
 
             }
             else if (stripeEvent.Type == EventTypes.PaymentIntentCanceled)
@@ -130,6 +135,7 @@ namespace BLL.Service
             if (isSuccess)
             {
                 currentUser.IsSubscriptionValid = true;
+                currentUser.LastPaymentTime = DateTime.UtcNow;
             }
             else
             {
@@ -142,6 +148,9 @@ namespace BLL.Service
         public async Task<string> CreatePaymentSession(string email, SubscriptionType type, string domain)
         {
             var currentUser = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not-Found !!");
+            currentUser.SubscriptionType = type;    
+            await _userManager.UpdateAsync(currentUser);
+
             var secretKey = _configuration.GetSection("StripeSetting")["Secretkey"];
 
             StripeConfiguration.ApiKey = secretKey;
@@ -163,6 +172,7 @@ namespace BLL.Service
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
                         Name = "Subscription"
+                        ,Description= type.ToString()
                     }
                 },
                 Quantity = 1,
@@ -179,13 +189,36 @@ namespace BLL.Service
                             }
             };
 
-            var service = new SessionService();
-            Session session = await service.CreateAsync(options);
+            //var service = new SessionService();
+            Session session = await _sessionService.CreateAsync(options);
 
             return session.Url;  
         }
 
+        public async Task<bool> IsSubscribed(string email)
+        {
+            var currentUser = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not-Found !!");
 
+           var isExpired =  (DateTime.UtcNow - currentUser.LastPaymentTime)> TimeSpan.FromDays(30);
+            if (isExpired)
+            {
+              await  UpdateUserSubscriptionAsync(email, false);
+            }
+
+            return currentUser.IsSubscriptionValid;
+        }
+
+        public async Task<SubscriptionType> GetSubscriptionPlan(string email)
+        {
+            var currentUser = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not-Found !!");
+
+            if (!currentUser.IsSubscriptionValid)
+            {
+               await UpdateUserSubscriptionAsync(email,false);
+            }
+
+            return currentUser.SubscriptionType;
+        }
 
     }
 }
