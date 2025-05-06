@@ -1,4 +1,3 @@
-<!-- components/media-list/media-list.component.html -->
 <div class="">
     <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
       <div>
@@ -6,7 +5,7 @@
       </div>
       <div class="flex items-center space-x-4">
           <span class="font-medium">Admin User</span>
-          <a routerLink="upload-media" class="px-4 py-2 bg-background-black rounded-md hover:bg-gray-200 transition-colors">
+          <a routerLink="/dashboard/upload-media" class="px-4 py-2 bg-background-black rounded-md hover:bg-gray-200 transition-colors">
             <i class="fa fa-plus mr-2"></i> Add New Media
           </a>
       </div>
@@ -16,7 +15,6 @@
     <!-- Filters -->
     <div class="bg-white p-4">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <!-- Search -->
         <div class="md:col-span-2">
           <div class="relative">
             <input 
@@ -30,7 +28,6 @@
           </div>
         </div>
         
-        <!-- Type Filter -->
         <div>
           <select 
             [(ngModel)]="filterType" 
@@ -42,8 +39,7 @@
             <option value="series">Series</option>
           </select>
         </div>
-        
-        <!-- Genre Filter -->
+
         <div>
           <select 
             [(ngModel)]="filterGenre" 
@@ -58,7 +54,7 @@
     </div>
     
     <!-- Media List -->
-    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div class="bg-white  overflow-hidden">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
@@ -128,7 +124,7 @@
     </div>
     
     <!-- Pagination -->
-    <div class="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm">
+    <div class="flex items-center justify-between bg-white px-4 py-3">
       <div class="flex-1 flex justify-between sm:hidden">
         <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}">
           Previous
