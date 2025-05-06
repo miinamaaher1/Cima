@@ -1,10 +1,10 @@
 import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
-import { NavLinksComponent } from "../nav-links/nav-links.component";
-import { NavSearchComponent } from "../nav-search/nav-search.component";
-import { NavAccountComponent } from "../nav-account/nav-account.component";
-import { NavSmComponent } from "../nav-sm/nav-sm.component";
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { NavLinksComponent } from './nav-links/nav-links.component';
+import { NavSearchComponent } from './nav-search/nav-search.component';
+import { NavAccountComponent } from './nav-account/nav-account.component';
+import { NavSmComponent } from './nav-sm/nav-sm.component';
 
 @Component({
   selector: 'app-nav',

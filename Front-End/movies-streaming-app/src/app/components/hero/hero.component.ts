@@ -1,14 +1,14 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HeroBannerComponent, movieBanner } from "../hero-banner/hero-banner.component";
-import { HeroInfoComponent, movieInfo } from "../hero-info/hero-info.component";
-import { HeroNavComponent } from "../hero-nav/hero-nav.component";
-import { SeriesService } from '../../../core/services/series/series.service';
-import { ImageService } from '../../../core/services/utils/image.service';
-import { MovieService } from '../../../core/services/movie/movie.service';
-import { MovieListServiceService } from '../../../core/services/lists/movieList/movie-list-service.service';
-import { SeriesListServiceService } from '../../../core/services/lists/seriesList/series-list-service.service';
-import { language } from '../../../core/utils/language.enum';
+import { HeroBannerComponent, movieBanner } from "./hero-banner/hero-banner.component";
+import { HeroInfoComponent, movieInfo } from "./hero-info/hero-info.component";
+import { HeroNavComponent } from "./hero-nav/hero-nav.component";
 import { forkJoin } from 'rxjs';
+import { SeriesService } from '../../core/services/series/series.service';
+import { ImageService } from '../../core/services/utils/image.service';
+import { MovieService } from '../../core/services/movie/movie.service';
+import { MovieListServiceService } from '../../core/services/lists/movieList/movie-list-service.service';
+import { SeriesListServiceService } from '../../core/services/lists/seriesList/series-list-service.service';
+import { language } from '../../core/utils/language.enum';
 
 export interface moviePreview {
   poster: string,

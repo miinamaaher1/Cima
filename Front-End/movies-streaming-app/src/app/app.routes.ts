@@ -1,7 +1,7 @@
 import { ForgotPasswordComponent } from './components/account/forgot-password/forgot-password.component';
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { DetailsComponent } from './components/details/details.component';
+import { HomeComponent } from './pages/home/home.component';
+import { DetailsComponent } from './pages/details/details.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SignInComponent } from './components/account/sign-in/sign-in.component';
 import { SuccessPasswordComponent } from './components/account/success-password/success-password.component';
@@ -22,7 +22,6 @@ import { UploadMediaComponent } from './components/dashboard/upload-media/upload
 
 export const routes: Routes = [
 
-    // 🟢 Default Layout Routes
     {
         path: '',
         component: DefaultLayoutComponent,
@@ -42,29 +41,26 @@ export const routes: Routes = [
         ],
     },
 
-    // 🔵 Watch Layout Route
     {
         path: '',
         component: WatchLayoutComponent,
         children:[
             {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch'}
         ]
-       
+
     },
 
-    // 🟠 Admin Layout Routes
     {
-        path: '',
+        path: 'dashboard',
         component: AdminLayoutComponent,
         children: [
+            { path: '', redirectTo: 'analytics', pathMatch: 'full', title: 'Analytics' },
+            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'},
             { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
-            { path: 'media-list', component: MediaListComponent, title: 'Media List' },
-            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'}
-
+            { path: 'media-list', component: MediaListComponent, title: 'Media List' }
         ],
     },
 
-    // 🔴 Wildcard (404)
     { path: '**', component: NotFoundComponent, title: 'Error' },
 ];
 

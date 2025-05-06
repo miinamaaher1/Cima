@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { MovieListServiceService } from '../../../core/services/lists/movieList/movie-list-service.service';
-import { SeriesListServiceService } from '../../../core/services/lists/seriesList/series-list-service.service';
-import { language } from '../../../core/utils/language.enum';
 import { BaseChartDirective } from 'ng2-charts';
 import { DashboardService } from '../../../core/services/dasboard/dashboard.service';
 
@@ -49,7 +46,7 @@ export class AnalyticsComponent {
   barData = {
     labels:[''],
     datasets: [{
-      label: 'First tholth Views',
+      label: 'Monthly views',
       data: [65, 59, 80, 81, 56, 55, 40],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -72,7 +69,35 @@ export class AnalyticsComponent {
       borderWidth: 1
     }]
   };
-  
+
+  barOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: '#f6f6f6'
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#f6f6f6'
+        },
+        grid: {
+          color: '#50555f'
+        }
+      },
+      y: {
+        ticks: {
+          color: '#f6f6f6'
+        },
+        grid: {
+          color: '#50555f'
+        }
+      }
+    }
+  };
+
   radarData = {
     labels: [
       'Eating',
@@ -84,7 +109,7 @@ export class AnalyticsComponent {
       'Running'
     ],
     datasets: [{
-      label: 'My First Dataset',
+      label: 'View per genre',
       data: [65, 59, 90, 81, 56, 55, 40],
       fill: true,
       backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -93,17 +118,30 @@ export class AnalyticsComponent {
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgb(255, 99, 132)'
-    }, {
-      label: 'My Second Dataset',
-      data: [28000, 4800, 40976, 19123, 9116, 20877, 10110],
-      fill: true,
-      backgroundColor: 'rgba(54, 162, 235, 0.2)',
-      borderColor: 'rgb(54, 162, 235)',
-      pointBackgroundColor: 'rgb(54, 162, 235)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(54, 162, 235)'
     }]
+  };
+
+  radarOptions = {
+    scales: {
+      r: {
+        angleLines: {
+          color: '#50555f'
+        },
+        pointLabels: {
+          color: '#f6f6f6'
+        },
+        grid: {
+          color: '#50555f'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: '#f6f6f6'
+        }
+      }
+    }
   };
 
   doughnutData = {
@@ -113,7 +151,7 @@ export class AnalyticsComponent {
       'Yellow'
     ],
     datasets: [{
-      label: 'My First Dataset',
+      label: 'User statistics',
       data: [300, 50, 100],
       backgroundColor: [
         'rgb(255, 99, 132)',
@@ -124,5 +162,13 @@ export class AnalyticsComponent {
     }]
   };
 
-
+  doughnutOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: '#f6f6f6'
+        }
+      }
+    }
+  };
 }

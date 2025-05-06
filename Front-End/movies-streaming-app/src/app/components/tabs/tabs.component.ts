@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, Input, OnInit } from '@angular/core';
-import { TabsRelatedComponent } from "../tabs-related/tabs-related.component";
-import { MovieService } from '../../../core/services/movie/movie.service';
-import { SeriesService } from '../../../core/services/series/series.service';
-import { language } from '../../../core/utils/language.enum';
-import { TabsEpisodesComponent } from "../tabs-episodes/tabs-episodes.component";
-import { mediaType } from '../../../core/utils/media-type.enum';
-import { IMediaDetails } from '../../../core/interfaces/IMediaDetails';
-import { IconComponent } from "../../shared/icon-component/icon.component";
+import { TabsRelatedComponent } from './tabs-related/tabs-related.component';
+import { IMediaDetails } from '../../core/interfaces/IMediaDetails';
+import { MovieService } from '../../core/services/movie/movie.service';
+import { SeriesService } from '../../core/services/series/series.service';
+import { language } from '../../core/utils/language.enum';
+import { mediaType } from '../../core/utils/media-type.enum';
+import { IconComponent } from '../shared/icon-component/icon.component';
+import { TabsEpisodesComponent } from './tabs-episodes/tabs-episodes.component';
 
 @Component({
   selector: 'app-tabs',
@@ -27,10 +27,10 @@ export class TabsComponent implements OnInit {
     cast: []
   };
 
-  
+
   mediaId = input.required<number>();
   mediaType = input.required<mediaType>();
-  
+
   seriesName=''
   posterUrl:string="";
 

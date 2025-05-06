@@ -1,14 +1,14 @@
 import { Component, input, OnInit, signal } from '@angular/core';
-import { SidekickBannerComponent } from '../sidekick-banner/sidekick-banner.component';
-import { SidekickInfoComponent } from '../sidekick-info/sidekick-info.component';
-import { moviePreview } from '../../hero-section/hero/hero.component';
-import { movieBanner } from '../../hero-section/hero-banner/hero-banner.component';
-import { movieInfo } from '../../hero-section/hero-info/hero-info.component';
-import { SeriesService } from '../../../core/services/series/series.service';
-import { language } from '../../../core/utils/language.enum';
-import { ImageService } from '../../../core/services/utils/image.service';
-import { MovieService } from '../../../core/services/movie/movie.service';
-import { mediaType } from '../../../core/utils/media-type.enum';
+import { SidekickBannerComponent } from './sidekick-banner/sidekick-banner.component';
+import { SidekickInfoComponent } from './sidekick-info/sidekick-info.component';
+import { movieBanner } from '../hero/hero-banner/hero-banner.component';
+import { movieInfo } from '../hero/hero-info/hero-info.component';
+import { SeriesService } from '../../core/services/series/series.service';
+import { language } from '../../core/utils/language.enum';
+import { ImageService } from '../../core/services/utils/image.service';
+import { MovieService } from '../../core/services/movie/movie.service';
+import { mediaType } from '../../core/utils/media-type.enum';
+import { moviePreview } from '../hero/hero.component';
 
 @Component({
   selector: 'app-sidekick',

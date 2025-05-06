@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, input, PLATFORM_ID } from '@angular/core';
-import { movieInfo } from '../../hero-section/hero-info/hero-info.component';
+import { movieInfo } from '../../hero/hero-info/hero-info.component';
 
 @Component({
   selector: 'app-sidekick-info',
