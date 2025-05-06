@@ -1,5 +1,5 @@
 import { Component, HostListener, Inject, input, output, PLATFORM_ID} from '@angular/core';
-import { movieBanner } from '../../hero-section/hero-banner/hero-banner.component';
+import { movieBanner } from '../../hero/hero-banner/hero-banner.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({

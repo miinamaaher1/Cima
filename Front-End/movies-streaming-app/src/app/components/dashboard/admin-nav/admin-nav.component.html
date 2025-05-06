@@ -1,27 +1,33 @@
 <!-- Sidebar -->
-<div class="w-64 h-screen bg-gray-900 text-white">
+<div class="w-64 h-screen bg-surface-black text-off-white">
     <div class="p-5 border-b border-gray-800">
         <h2 class="text-2xl font-bold">Media Admin</h2>
     </div>
     <nav class="mt-8">
         <ul>
             <li>
-                <a routerLink="analytics" routerLinkActive="bg-gray-800 border-l-4 border-blue-500"
-                    class="block px-5 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200">
+                <a routerLink="analytics" routerLinkActive="bg-body-charcoal border-l-4 border-blurple"
+                    class="block px-5 py-3 hover:bg-body-charcoal transition-all duration-200">
                     <i class="fa fa-chart-line mr-3"></i>Analytics
                 </a>
             </li>
             <li>
-                <a routerLink="/media-list" routerLinkActive="bg-gray-800 border-l-4 border-blue-500"
-                    class="block px-5 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200">
+                <a routerLink="media-list" routerLinkActive="bg-body-charcoal border-l-4 border-blurple"
+                    class="block px-5 py-3 hover:bg-body-charcoal transition-all duration-200">
                     <i class="fa fa-photo-film mr-3"></i>Media Library
                 </a>
             </li>
             <li>
-                <a routerLink="upload-media" routerLinkActive="bg-gray-800 border-l-4 border-blue-500"
-                    class="block px-5 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200">
+                <a routerLink="upload-media" routerLinkActive="bg-body-charcoal border-l-4 border-blurple"
+                    class="block px-5 py-3 hover:bg-body-charcoal transition-all duration-200">
                     <i class="fa fa-upload mr-3"></i>Upload Media
                 </a>
+            </li>
+            <li>
+              <a routerLink="/home" routerLinkActive="bg-body-charcoal border-l-4 border-blurple"
+                  class="block px-5 py-3 hover:bg-body-charcoal transition-all duration-200">
+                  <i class="fa fa-home mr-3"></i>Home
+              </a>
             </li>
         </ul>
     </nav>

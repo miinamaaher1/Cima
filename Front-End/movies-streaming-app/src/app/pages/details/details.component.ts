@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { SidekickComponent } from "../sidekick-section/sidekick/sidekick.component";
+import { SidekickComponent } from "../../components/sidekick/sidekick.component";
 import { mediaType } from '../../core/utils/media-type.enum';
-import { TabsComponent } from "../tabs-section/tabs/tabs.component";
 import { ActivatedRoute } from '@angular/router';
+import { TabsComponent } from '../../components/tabs/tabs.component';
 
 @Component({
   selector: 'app-details',

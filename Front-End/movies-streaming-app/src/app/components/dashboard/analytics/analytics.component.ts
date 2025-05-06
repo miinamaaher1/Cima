@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { MovieListServiceService } from '../../../core/services/lists/movieList/movie-list-service.service';
-import { SeriesListServiceService } from '../../../core/services/lists/seriesList/series-list-service.service';
-import { language } from '../../../core/utils/language.enum';
 import { BaseChartDirective } from 'ng2-charts';
 import { DashboardService } from '../../../core/services/dasboard/dashboard.service';
 
@@ -72,7 +69,7 @@ export class AnalyticsComponent {
       borderWidth: 1
     }]
   };
-  
+
   radarData = {
     labels: [
       'Eating',
