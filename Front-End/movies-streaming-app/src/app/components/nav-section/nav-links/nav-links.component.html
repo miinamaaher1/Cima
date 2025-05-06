@@ -3,9 +3,14 @@
     <img src="/branding/logo-detailed.svg" alt="App Logo" class="h-10">
   </a>
   <div class="flex items-center gap-6">
-    <a routerLink="/home" routerLinkActive="text-blurple" class="text-off-white hover:text-blurple transition-colors">
-      Home
-    </a>
+    <a
+    routerLink="/home"
+    routerLinkActive="text-blurple"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="text-off-white hover:text-blurple transition-colors"
+  >
+    Home
+  </a>
     <a routerLink="/Genres" routerLinkActive="text-blurple" class="text-off-white hover:text-blurple transition-colors">
       Genres
     </a>

@@ -1,0 +1,78 @@
+<!-- dashboard.component.html -->
+
+
+<!-- Main Content -->
+<div>
+    <!-- Header -->
+    <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-medium text-gray-800">Media Dashboard</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="font-medium">Admin User</span>
+            <button class="px-4 py-2 bg-background-black rounded-md hover:bg-gray-200 transition-colors">
+                Log Out
+            </button>
+        </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+        <!-- Movies Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 flex items-center">
+            <div class="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mr-4">
+                <i class="fa fa-film text-xl text-white"></i>
+            </div>
+            <div>
+                <h3 class="text-sm text-gray-500 font-medium">Movies</h3>
+                <p class="text-2xl font-bold text-black">{{ totalMovies }}</p>
+            </div>
+        </div>
+
+        <!-- Series Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 flex items-center">
+            <div class="w-14 h-14 rounded-full bg-indigo-800 flex items-center justify-center mr-4">
+                <i class="fa fa-tv text-xl text-white"></i>
+            </div>
+            <div>
+                <h3 class="text-sm text-gray-500 font-medium">Series</h3>
+                <p class="text-2xl font-bold text-black">{{ totalSeries }}</p>
+            </div>
+        </div>
+
+        <!-- Total Media Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 flex items-center">
+            <div class="w-14 h-14 rounded-full bg-cyan-500 flex items-center justify-center mr-4">
+                <i class="fa fa-photo-film text-xl text-white"></i>
+            </div>
+            <div>
+                <h3 class="text-sm text-gray-500 font-medium">Total Media</h3>
+                <p class="text-2xl font-bold text-black">{{ totalMediaCount }}</p>
+            </div>
+        </div>
+
+        <!-- Views Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 flex items-center">
+            <div class="w-14 h-14 rounded-full bg-pink-600 flex items-center justify-center mr-4">
+                <i class="fa fa-eye text-xl"></i>
+            </div>
+            <div>
+                <h3 class="text-sm text-gray-500 font-medium">Total Views</h3>
+                <p class="text-2xl font-bold text-black">{{ totalViews }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-between m-6">
+        <div>
+            <canvas baseChart [data]="barData" [type]="'bar'"></canvas>
+        </div>
+        <div>
+            <canvas baseChart [data]="radarData" [type]="'radar'"></canvas>
+        </div>
+        <div>
+            <canvas baseChart [data]="doughnutData" [type]="'doughnut'"></canvas>
+        </div>
+
+    </div>
+</div>

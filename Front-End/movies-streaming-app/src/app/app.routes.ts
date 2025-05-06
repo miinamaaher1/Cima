@@ -12,20 +12,60 @@ import { EmailPasswordComponent } from './components/account/email-password/emai
 import { ProfileComponent } from './components/account/profile/profile.component';
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
 import { SubscribePageComponent } from './components/subscribe/subscribe-page/subscribe-page.component';
+import { MediaListComponent } from './components/dashboard/media-list/media-list.component';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { WatchLayoutComponent } from './layouts/watch-layout/watch-layout.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AnalyticsComponent } from './components/dashboard/analytics/analytics.component';
+import { UploadMediaComponent } from './components/dashboard/upload-media/upload-media.component';
+
 
 export const routes: Routes = [
-    { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
-    { path: "home", component: HomeComponent, title: "Home" },
-    { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
-    { path: "watch/:type/:id", component: WatchAreaComponent, title: "watch"},
-    { path: "subscribe", component: SubscribePageComponent, title: "subscribe" },
-    { path: "profile", component: ProfileComponent, title: "profile" },
-    { path: "sign-in", component: SignInComponent, title: "Sign In" },
-    { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
-    { path: "email-password", component: EmailPasswordComponent, title: "Check Your Email" },
-    { path: "success-password", component: SuccessPasswordComponent, title: "Password Changed" },
-    { path: "forget-password", component: ForgotPasswordComponent, title: "Forget Password" },
-    { path: "reset-password", component: ResetPasswordComponent, title: "Reset Password" },
-    { path: "change-password", component: ChangePasswordComponent, title: "Change Password" },
-    { path: "**", component: NotFoundComponent, title: "Error" }
+
+    // 🟢 Default Layout Routes
+    {
+        path: '',
+        component: DefaultLayoutComponent,
+        children: [
+            { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
+            { path: 'home', component: HomeComponent, title: 'Home' },
+            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
+            { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
+            { path: 'profile', component: ProfileComponent, title: 'Profile' },
+            { path: 'sign-in', component: SignInComponent, title: 'Sign In' },
+            { path: 'sign-up', component: SignUpComponent, title: 'Sign Up' },
+            { path: 'email-password', component: EmailPasswordComponent, title: 'Check Your Email' },
+            { path: 'success-password', component: SuccessPasswordComponent, title: 'Password Changed' },
+            { path: 'forget-password', component: ForgotPasswordComponent, title: 'Forget Password' },
+            { path: 'reset-password', component: ResetPasswordComponent, title: 'Reset Password' },
+            { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
+        ],
+    },
+
+    // 🔵 Watch Layout Route
+    {
+        path: '',
+        component: WatchLayoutComponent,
+        children:[
+            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch'}
+        ]
+       
+    },
+
+    // 🟠 Admin Layout Routes
+    {
+        path: '',
+        component: AdminLayoutComponent,
+        children: [
+            { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
+            { path: 'media-list', component: MediaListComponent, title: 'Media List' },
+            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'}
+
+        ],
+    },
+
+    // 🔴 Wildcard (404)
+    { path: '**', component: NotFoundComponent, title: 'Error' },
 ];
+
+

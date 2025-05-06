@@ -4,6 +4,7 @@ import { NavSearchComponent } from "../nav-search/nav-search.component";
 import { NavAccountComponent } from "../nav-account/nav-account.component";
 import { NavSmComponent } from "../nav-sm/nav-sm.component";
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +12,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
             NavSearchComponent,
             NavAccountComponent,
             NavSmComponent,
-            CommonModule],
+            CommonModule,
+            RouterLink,
+            ],
   templateUrl: './nav.component.html',
   styles: ``
 })
