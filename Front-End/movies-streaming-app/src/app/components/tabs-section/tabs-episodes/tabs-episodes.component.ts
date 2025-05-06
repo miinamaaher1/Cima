@@ -30,13 +30,15 @@ export class TabsEpisodesComponent {
         for (let i = 1; i <= totalSeasons; i++) {
           this.seasonService.getSeasonDetails(this.seriesId, i, language.english).subscribe({
             next: (data) => {
-              const seasonEpisodes: IEpisodeDetails[] = data.episodes.map((episode) => ({
-                episodeId: episode.id,
-                Poster: `https://image.tmdb.org/t/p/w500${episode.still_path}`,
-                episodeNum: episode.episode_number,
-                Runtime: episode.runtime,
-                Description: episode.overview,
-              }));
+              const seasonEpisodes: IEpisodeDetails[] = data.episodes.
+                filter(episode=>episode.runtime)
+                .map((episode) => ({
+                  episodeId: episode.id,
+                  Poster: episode.still_path?`https://image.tmdb.org/t/p/w500${episode.still_path}`:`https://image.tmdb.org/t/p/w500${ser.backdrop_path}`,
+                  episodeNum: episode.episode_number,
+                  Runtime: episode.runtime,
+                  Description: episode.overview?episode.overview.slice(0,100)+'...' :ser.overview.slice(0,100)+'...',
+                }));
 
               this.seasonsWithEpisodes.push({
                 seasonNumber: i,

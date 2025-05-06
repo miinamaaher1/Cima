@@ -5,10 +5,12 @@ import { language } from '../../../core/utils/language.enum';
 import { IMedia } from '../../../core/interfaces/IMedia';
 import { MovieCardComponent } from "../../shared/movie-card/movie-card.component";
 import { CommonModule } from '@angular/common';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { SerieCardComponent } from '../../shared/serie-card/serie-card.component';
 
 @Component({
   selector: 'app-nav-search',
-  imports: [FormsModule,CommonModule, MovieCardComponent],
+  imports: [FormsModule, CommonModule, MovieCardComponent,SerieCardComponent],
   templateUrl: './nav-search.component.html',
   styles: ``
 })
@@ -17,14 +19,17 @@ export class NavSearchComponent {
   searchQuery = '';
 
   //movie_type --> movie | tv
-  media:Pick<IMedia,"id" | "media_type">[]=[]
+  media: Pick<IMedia, "id" | "media_type">[] = [];
 
-  constructor(private searchService:SearchService ){}
+  private searchSubject = new Subject<string>();
+
+  constructor(private searchService: SearchService) {
+    this.setupSearchListener();
+  }
 
   toggleSearch() {
     this.isSearchOpen = !this.isSearchOpen;
     if (this.isSearchOpen) {
-
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
         const searchInput = document.getElementById('searchInput');
@@ -43,19 +48,31 @@ export class NavSearchComponent {
     document.body.style.overflow = '';
   }
 
-  search() {
-    if (this.searchQuery.trim()) {
-      console.log('Searching for:', this.searchQuery);
-      // implememtttttttttttttttt  <----------------
-      this.searchService.SearchInAllMedia(this.searchQuery,true,language.english,1).subscribe({
-        next: med=>{
-          this.media = med.results.map(({id,media_type})=>({id,media_type}));
-        },
-        error:err=>{
-          console.log(err)
+  onSearchChange() {
+    this.searchSubject.next(this.searchQuery); 
+  }
+
+  private setupSearchListener() {
+    this.searchSubject.pipe(
+      debounceTime(400), 
+      distinctUntilChanged(),
+      switchMap((query) => {
+        if (!query.trim()) {
+          this.media = [];
+          return [];
         }
+        return this.searchService.SearchInAllMedia(query, true, language.english, 1);
       })
-    }
+    ).subscribe({
+      next: (med) => {
+        if (Array.isArray(med?.results)) {
+          this.media = med.results.map(({ id, media_type }) => ({ id, media_type }));
+        }
+      },
+      error: (err) => {
+        console.error('Search error:', err);
+      }
+    });
   }
 
   @HostListener('document:keydown.escape', ['$event'])

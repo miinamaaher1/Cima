@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-nav-links',
-  standalone: true,
+  selector: 'app-admin-nav',
   imports: [RouterModule,RouterLink,RouterLinkActive],
-  templateUrl: './nav-links.component.html',
-  styles: ``
+  templateUrl: './admin-nav.component.html'
 })
-export class NavLinksComponent {
+export class AdminNavComponent {
 
 }

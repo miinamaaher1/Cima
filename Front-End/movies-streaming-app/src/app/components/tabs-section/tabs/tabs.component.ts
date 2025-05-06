@@ -7,10 +7,11 @@ import { language } from '../../../core/utils/language.enum';
 import { TabsEpisodesComponent } from "../tabs-episodes/tabs-episodes.component";
 import { mediaType } from '../../../core/utils/media-type.enum';
 import { IMediaDetails } from '../../../core/interfaces/IMediaDetails';
+import { IconComponent } from "../../shared/icon-component/icon.component";
 
 @Component({
   selector: 'app-tabs',
-  imports: [CommonModule, TabsRelatedComponent, TabsEpisodesComponent],
+  imports: [CommonModule, TabsRelatedComponent, TabsEpisodesComponent, IconComponent],
   templateUrl: './tabs.component.html',
 })
 export class TabsComponent implements OnInit {
@@ -26,8 +27,12 @@ export class TabsComponent implements OnInit {
     cast: []
   };
 
+  
   mediaId = input.required<number>();
   mediaType = input.required<mediaType>();
+  
+  seriesName=''
+  posterUrl:string="";
 
   constructor(private movieService:MovieService ,private seriesService:SeriesService ){}
 
@@ -53,6 +58,8 @@ export class TabsComponent implements OnInit {
           this.mediadetails.description=details.overview;
           this.mediadetails.categories.push(...details.genres);
 
+          this.seriesName=details.name;
+
         },
         error: err=>
         {
@@ -62,6 +69,15 @@ export class TabsComponent implements OnInit {
       this.seriesService.getSeriesCredits(id,language.english).subscribe({
         next: credits=>{
           this.mediadetails.cast.push(...credits.cast.map(c => c.name).slice(0,10))
+        }
+      })
+      this.seriesService.getSeriesImages(id).subscribe({
+        next:img=>{
+          this.posterUrl=img.posters[1].file_path?
+          `https://image.tmdb.org/t/p/original/${img.backdrops[1].file_path}`
+          :img.posters[0].file_path? `https://image.tmdb.org/t/p/original/${img.backdrops[0].file_path}`
+          :"images/wallpapers/blur.jpg"
+
         }
       })
 
@@ -85,6 +101,12 @@ export class TabsComponent implements OnInit {
         }
       })
     }
+  }
+
+  onShare(event: Event): void {
+    event.stopPropagation();
+    // Implement share functionality
+    console.log('Sharing episode:', this.mediaId);
   }
 
   get tabs(){
