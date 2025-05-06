@@ -1,7 +1,7 @@
 import { ForgotPasswordComponent } from './components/account/forgot-password/forgot-password.component';
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { DetailsComponent } from './components/details/details.component';
+import { HomeComponent } from './pages/home/home.component';
+import { DetailsComponent } from './pages/details/details.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SignInComponent } from './components/account/sign-in/sign-in.component';
 import { SuccessPasswordComponent } from './components/account/success-password/success-password.component';
@@ -13,21 +13,55 @@ import { ProfileComponent } from './components/account/profile/profile.component
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
 import { SubscribePageComponent } from './components/subscribe/subscribe-page/subscribe-page.component';
 import { authGuard } from './core/services/Guards/auth.guard';
+import { MediaListComponent } from './components/dashboard/media-list/media-list.component';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { WatchLayoutComponent } from './layouts/watch-layout/watch-layout.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AnalyticsComponent } from './components/dashboard/analytics/analytics.component';
+import { UploadMediaComponent } from './components/dashboard/upload-media/upload-media.component';
 
 
 export const routes: Routes = [
-    { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
-    { path: "home", component: HomeComponent, title: "Home" },
-    { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
-    { path: "watch/:type/:id", component: WatchAreaComponent, title: "watch", canActivate: [authGuard] },
-    { path: "subscribe", component: SubscribePageComponent, title: "subscribe" },
-    { path: "profile", component: ProfileComponent, title: "profile", canActivate: [authGuard] },
-    { path: "sign-in", component: SignInComponent, title: "Sign In" },
-    { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
-    { path: "email-password", component: EmailPasswordComponent, title: "Check Your Email" },
-    { path: "success-password", component: SuccessPasswordComponent, title: "Password Changed", canActivate: [authGuard] },
-    { path: "forget-password", component: ForgotPasswordComponent, title: "Forget Password", canActivate: [authGuard] },
-    { path: "reset-password", component: ResetPasswordComponent, title: "Reset Password", canActivate: [authGuard] },
-    { path: "change-password", component: ChangePasswordComponent, title: "Change Password", canActivate: [authGuard] },
-    { path: "**", component: NotFoundComponent, title: "Error" }
+
+    {
+        path: '',
+        component: DefaultLayoutComponent,
+        children: [
+            { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
+            { path: 'home', component: HomeComponent, title: 'Home' },
+            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
+            { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
+            { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [authGuard] },
+            { path: 'sign-in', component: SignInComponent, title: 'Sign In' },
+            { path: 'sign-up', component: SignUpComponent, title: 'Sign Up' },
+            { path: 'email-password', component: EmailPasswordComponent, title: 'Check Your Email' },
+            { path: 'success-password', component: SuccessPasswordComponent, title: 'Password Changed' },
+            { path: 'forget-password', component: ForgotPasswordComponent, title: 'Forget Password' },
+            { path: 'reset-password', component: ResetPasswordComponent, title: 'Reset Password' },
+            { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
+        ],
+    },
+
+    {
+        path: '',
+        component: WatchLayoutComponent,
+        children:[
+            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch' , canActivate: [authGuard]}
+        ]
+
+    },
+
+    {
+        path: 'dashboard',
+        component: AdminLayoutComponent,
+        children: [
+            { path: '', redirectTo: 'analytics', pathMatch: 'full', title: 'Analytics' },
+            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'},
+            { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
+            { path: 'media-list', component: MediaListComponent, title: 'Media List' }
+        ],
+    },
+
+    { path: '**', component: NotFoundComponent, title: 'Error' },
 ];
+
