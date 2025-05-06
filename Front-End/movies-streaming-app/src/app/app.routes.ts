@@ -12,20 +12,22 @@ import { EmailPasswordComponent } from './components/account/email-password/emai
 import { ProfileComponent } from './components/account/profile/profile.component';
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
 import { SubscribePageComponent } from './components/subscribe/subscribe-page/subscribe-page.component';
+import { authGuard } from './core/services/Guards/auth.guard';
+
 
 export const routes: Routes = [
     { path: "", redirectTo: "home", title: "Home", pathMatch: "full" },
     { path: "home", component: HomeComponent, title: "Home" },
     { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
-    { path: "watch/:type/:id", component: WatchAreaComponent, title: "watch"},
+    { path: "watch/:type/:id", component: WatchAreaComponent, title: "watch", canActivate: [authGuard] },
     { path: "subscribe", component: SubscribePageComponent, title: "subscribe" },
-    { path: "profile", component: ProfileComponent, title: "profile" },
+    { path: "profile", component: ProfileComponent, title: "profile", canActivate: [authGuard] },
     { path: "sign-in", component: SignInComponent, title: "Sign In" },
     { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
     { path: "email-password", component: EmailPasswordComponent, title: "Check Your Email" },
-    { path: "success-password", component: SuccessPasswordComponent, title: "Password Changed" },
-    { path: "forget-password", component: ForgotPasswordComponent, title: "Forget Password" },
-    { path: "reset-password", component: ResetPasswordComponent, title: "Reset Password" },
-    { path: "change-password", component: ChangePasswordComponent, title: "Change Password" },
+    { path: "success-password", component: SuccessPasswordComponent, title: "Password Changed", canActivate: [authGuard] },
+    { path: "forget-password", component: ForgotPasswordComponent, title: "Forget Password", canActivate: [authGuard] },
+    { path: "reset-password", component: ResetPasswordComponent, title: "Reset Password", canActivate: [authGuard] },
+    { path: "change-password", component: ChangePasswordComponent, title: "Change Password", canActivate: [authGuard] },
     { path: "**", component: NotFoundComponent, title: "Error" }
 ];
