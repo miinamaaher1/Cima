@@ -54,14 +54,13 @@ export const routes: Routes = [
         path: 'dashboard',
         component: AdminLayoutComponent,
         children: [
+            { path: '', redirectTo: 'analytics', pathMatch: 'full', title: 'Analytics' },
+            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'},
             { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
-            { path: 'media-list', component: MediaListComponent, title: 'Media List' },
-            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'}
-
+            { path: 'media-list', component: MediaListComponent, title: 'Media List' }
         ],
     },
 
-    // 🔴 Wildcard (404)
     { path: '**', component: NotFoundComponent, title: 'Error' },
 ];
 

@@ -3,25 +3,20 @@
 
 <!-- Main Content -->
 <div>
-    <!-- Header -->
-    <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-        <div>
-            <h1 class="text-2xl font-medium text-gray-800">Media Dashboard</h1>
-        </div>
-        <div class="flex items-center space-x-4">
-            <span class="font-medium">Admin User</span>
-            <button class="px-4 py-2 bg-background-black rounded-md hover:bg-gray-200 transition-colors">
-                Log Out
-            </button>
-        </div>
-    </header>
+
+  <div class="bg-surface-black rounded-xl shadow-sm mx-6 mt-6 mb-3 p-6 border-l-4 border-l-blurple">
+    <div>
+      <h3 class="text-lg text-off-white font-medium">Welcome Back</h3>
+      <p class="text-4xl font-bold text-off-white">User Name</p>
+  </div>
+  </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-6 px-6 py-3">
         <!-- Movies Card -->
         <div class="bg-surface-black rounded-xl shadow-sm p-6 flex items-center">
-            <div class="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                <i class="fa fa-film text-xl text-white"></i>
+            <div class="w-14 h-14 rounded-full bg-purple flex items-center justify-center mr-4">
+                <i class="fa fa-film text-xl text-off-white"></i>
             </div>
             <div>
                 <h3 class="text-sm text-off-white font-medium">Movies</h3>
@@ -31,8 +26,8 @@
 
         <!-- Series Card -->
         <div class="bg-surface-black rounded-xl shadow-sm p-6 flex items-center">
-            <div class="w-14 h-14 rounded-full bg-indigo-800 flex items-center justify-center mr-4">
-                <i class="fa fa-tv text-xl text-white"></i>
+            <div class="w-14 h-14 rounded-full bg-refresh-blue flex items-center justify-center mr-4">
+                <i class="fa fa-tv text-xl text-off-white"></i>
             </div>
             <div>
                 <h3 class="text-sm text-off-white font-medium">Series</h3>
@@ -42,8 +37,8 @@
 
         <!-- Total Media Card -->
         <div class="bg-surface-black rounded-xl shadow-sm p-6 flex items-center">
-            <div class="w-14 h-14 rounded-full bg-cyan-500 flex items-center justify-center mr-4">
-                <i class="fa fa-photo-film text-xl text-white"></i>
+            <div class="w-14 h-14 rounded-full bg-vivid-cerulean flex items-center justify-center mr-4">
+                <i class="fa fa-photo-film text-xl text-off-white"></i>
             </div>
             <div>
                 <h3 class="text-sm text-off-white font-medium">Total Media</h3>
@@ -53,7 +48,7 @@
 
         <!-- Views Card -->
         <div class="bg-surface-black rounded-xl shadow-sm p-6 flex items-center">
-            <div class="w-14 h-14 rounded-full bg-pink-600 flex items-center justify-center mr-4">
+            <div class="w-14 h-14 rounded-full bg-fuchsia flex items-center justify-center mr-4">
                 <i class="fa fa-eye text-xl"></i>
             </div>
             <div>
@@ -63,16 +58,15 @@
         </div>
     </div>
 
-    <div class="flex justify-between m-6">
-        <div>
-            <canvas baseChart [data]="barData" [type]="'bar'"></canvas>
+    <div class="flex justify-between mx-6 mt-3 space-x-3">
+        <div class="w-1/2 rounded-xl bg-surface-black p-3">
+            <canvas baseChart [data]="barData" [type]="'bar'" [options]="barOptions"></canvas>
         </div>
-        <div>
-            <canvas baseChart [data]="radarData" [type]="'radar'"></canvas>
+        <div class="w-1/4 rounded-xl bg-surface-black p-3">
+            <canvas baseChart [data]="radarData" [type]="'radar'" [options]="radarOptions"></canvas>
         </div>
-        <div>
-            <canvas baseChart [data]="doughnutData" [type]="'doughnut'"></canvas>
+        <div class="w-1/4 rounded-xl bg-surface-black p-3">
+            <canvas baseChart [data]="doughnutData" [type]="'doughnut'" [options]="doughnutOptions"></canvas>
         </div>
-
     </div>
 </div>
