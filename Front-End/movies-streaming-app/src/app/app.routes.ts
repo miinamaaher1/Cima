@@ -18,6 +18,9 @@ import { WatchLayoutComponent } from './layouts/watch-layout/watch-layout.compon
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AnalyticsComponent } from './components/dashboard/analytics/analytics.component';
 import { UploadMediaComponent } from './components/dashboard/upload-media/upload-media.component';
+import { GenresComponent } from './pages/genres/genres.component';
+import { ChartsComponent } from './pages/charts/charts.component';
+import { MyListsComponent } from './pages/my-lists/my-lists.component';
 
 
 export const routes: Routes = [
@@ -28,6 +31,9 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
             { path: 'home', component: HomeComponent, title: 'Home' },
+            { path: 'genres', component: GenresComponent, title: 'Genres' },
+            { path: 'charts', component: ChartsComponent, title: 'Charts' },
+            { path: 'my-lists', component: MyListsComponent, title: 'My Lists' },
             { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
             { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
             { path: 'profile', component: ProfileComponent, title: 'Profile' },
