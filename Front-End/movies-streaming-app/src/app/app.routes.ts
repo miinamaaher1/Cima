@@ -12,6 +12,7 @@ import { EmailPasswordComponent } from './components/account/email-password/emai
 import { ProfileComponent } from './components/account/profile/profile.component';
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
 import { SubscribePageComponent } from './components/subscribe/subscribe-page/subscribe-page.component';
+import { authGuard } from './core/services/Guards/auth.guard';
 import { MediaListComponent } from './components/dashboard/media-list/media-list.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { WatchLayoutComponent } from './layouts/watch-layout/watch-layout.component';
@@ -30,7 +31,7 @@ export const routes: Routes = [
             { path: 'home', component: HomeComponent, title: 'Home' },
             { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
             { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
-            { path: 'profile', component: ProfileComponent, title: 'Profile' },
+            { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [authGuard] },
             { path: 'sign-in', component: SignInComponent, title: 'Sign In' },
             { path: 'sign-up', component: SignUpComponent, title: 'Sign Up' },
             { path: 'email-password', component: EmailPasswordComponent, title: 'Check Your Email' },
@@ -45,7 +46,7 @@ export const routes: Routes = [
         path: '',
         component: WatchLayoutComponent,
         children:[
-            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch'}
+            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch' , canActivate: [authGuard]}
         ]
 
     },
@@ -63,5 +64,4 @@ export const routes: Routes = [
 
     { path: '**', component: NotFoundComponent, title: 'Error' },
 ];
-
 
