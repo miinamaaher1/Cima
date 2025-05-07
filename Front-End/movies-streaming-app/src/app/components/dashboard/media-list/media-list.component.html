@@ -1,0 +1,159 @@
+<div>
+
+
+    <!-- Filters -->
+    <div class="bg-surface-black p-4 mx-6 mt-6 mb-3 rounded-xl text-off-white">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="md:col-span-2">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search media..."
+              [(ngModel)]="searchTerm"
+              (keyup.enter)="search()"
+              class="w-full py-2 pl-10 pr-4 border border-border-grey rounded-md focus:ring-0 focus:border-blurple"
+            >
+            <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+          </div>
+        </div>
+
+        <div>
+          <select
+            [(ngModel)]="filterType"
+            (change)="applyFilters()"
+            class="w-full border border-border-grey rounded-md py-2 px-3 focus:ring-0 focus:border-blurple bg-body-charcoal"
+          >
+            <option value="all">All Types</option>
+            <option value="movie">Movies</option>
+            <option value="series">Series</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            [(ngModel)]="filterGenre"
+            (change)="applyFilters()"
+            class="w-full border border-border-grey rounded-md py-2 px-3 focus:ring-0 focus:border-blurple bg-body-charcoal"
+          >
+            <option value="all">All Genres</option>
+            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Media List -->
+    <div class="bg-surface-black rounded-xl mx-6 my-3 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-border-grey">
+          <thead class="bg-body-charcoal">
+            <tr class="text-off-white font-medium text-xs uppercase tracking-wider text-left">
+              <th class="px-6 py-3 ">Media</th>
+              <th class="px-6 py-3 ">Type</th>
+              <th class="px-6 py-3 ">Genres</th>
+              <th class="px-6 py-3 ">Added Date</th>
+              <th class="px-6 py-3 ">Views</th>
+              <th class="px-6 py-3 ">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-surface-black divide-y divide-border-grey">
+            <tr *ngFor="let item of filteredMedia" (click)="viewDetails(item.id)" class="hover:bg-body-charcoal cursor-pointer">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-12 w-12 flex-shrink-0 rounded bg-gray-100 overflow-hidden">
+                    <img [src]="item.thumbnail" alt="Thumbnail" class="h-full w-full object-cover">
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-off-white">{{ item.title }}</div>
+                    <div class="text-sm text-greyple truncate max-w-xs">{{ item.description }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span [ngClass]="{'bg-blue-100 text-blue-800': item.type === 'movie', 'bg-indigo-100 text-indigo-800': item.type === 'series'}"
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                  {{ item.type }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex flex-wrap gap-1">
+                  <span *ngFor="let genre of item.genres.slice(0, 2)" class="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded">
+                    {{ genre }}
+                  </span>
+                  <span *ngIf="item.genres.length > 2" class="text-greyple text-xs">
+                    +{{ item.genres.length - 2 }} more
+                  </span>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-greyple">
+                {{ item.addedDate | date:'mediumDate' }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-greyple">
+                {{ item.views }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-greyple">
+                <div class="flex space-x-2">
+                  <button (click)="viewDetails(item.id)" class="text-indigo-600 hover:text-indigo-900">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <button (click)="deleteMedia(item.id, $event)" class="text-red-600 hover:text-red-900">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredMedia.length === 0">
+              <td colspan="6" class="px-6 py-10 text-center text-greyple">
+                No media found matching your criteria
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-between bg-surface-black mx-6 mt-3 mb-6 rounded-xl px-4 py-3">
+      <div class="flex-1 flex justify-between sm:hidden">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="px-4 py-2 text-sm font-medium rounded-md text-off-white bg-border-grey hover:bg-greyple cursor-pointer" [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}">
+          Previous
+        </button>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages" class="ml-3 px-4 py-2 text-sm font-medium rounded-md text-off-white bg-border-grey hover:bg-greyple cursor-pointer" [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === totalPages}">
+          Next
+        </button>
+      </div>
+      <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-greyple">
+            Showing page <span class="font-medium">{{ currentPage }}</span> of <span class="font-medium">{{ totalPages }}</span>
+          </p>
+        </div>
+        <div>
+          <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="relative inline-flex items-center px-2 py-2 rounded-l-md bg-border-grey text-sm font-medium text-greyple hover:bg-greyple cursor-pointer" [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}">
+              <span class="sr-only">Previous</span>
+              <i class="fa fa-chevron-left text-xs"></i>
+            </button>
+
+            <ng-container *ngFor="let page of [].constructor(totalPages > 5 ? 5 : totalPages); let i = index">
+              <button
+                *ngIf="totalPages <= 5 || (i === 0 && currentPage > 3) || (i === 4 && currentPage < totalPages - 2) || (currentPage <= 3 && i < 5) || (currentPage >= totalPages - 2 && i >= 0)"
+                [class.bg-blue-50]="currentPage === (totalPages <= 5 ? i + 1 : (currentPage <= 3 ? i + 1 : (currentPage >= totalPages - 2 ? totalPages - 4 + i : currentPage - 2 + i)))"
+                [class.text-blue-600]="currentPage === (totalPages <= 5 ? i + 1 : (currentPage <= 3 ? i + 1 : (currentPage >= totalPages - 2 ? totalPages - 4 + i : currentPage - 2 + i)))"
+                [class.border-blue-500]="currentPage === (totalPages <= 5 ? i + 1 : (currentPage <= 3 ? i + 1 : (currentPage >= totalPages - 2 ? totalPages - 4 + i : currentPage - 2 + i)))"
+                (click)="changePage(totalPages <= 5 ? i + 1 : (currentPage <= 3 ? i + 1 : (currentPage >= totalPages - 2 ? totalPages - 4 + i : currentPage - 2 + i)))"
+                class="relative inline-flex items-center px-4 py-2 bg-border-grey text-sm font-medium text-off-white hover:bg-greyple cursor-pointer"
+              >
+                {{ totalPages <= 5 ? i + 1 : (currentPage <= 3 ? i + 1 : (currentPage >= totalPages - 2 ? totalPages - 4 + i : currentPage - 2 + i)) }}
+              </button>
+            </ng-container>
+
+            <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages" class="relative inline-flex items-center px-2 py-2 rounded-r-md bg-border-grey text-sm font-medium text-greyple hover:bg-greyple cursor-pointer" [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === totalPages}">
+              <span class="sr-only">Next</span>
+              <i class="fa fa-chevron-right text-xs"></i>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>

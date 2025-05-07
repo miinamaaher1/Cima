@@ -1,22 +1,23 @@
-<div class="flex w-full h-screen overflow-hidden">
-
-    <!-- video stream component -->
-    <div [ngClass]="{
-                'w-3/4': IsSidebarOpen,
-                'w-full': !IsSidebarOpen
-            }" class="transition-all duration-300 ease-in-out">
-        <app-video-stream (emitToggleSidebarValue)="onSidebarToggle($event)"></app-video-stream>
+<div class="watch-area">
+    <div class="flex" [ngClass]="{'sidebar-open': IsSidebarOpen}">
+        <div class="video-stream-container" [ngClass]="{'sidebar-open': IsSidebarOpen}">
+            <app-video-stream 
+                (emitToggleSidebarValue)="IsSidebarOpen = $event"
+                (emitEpisodes)="episodes = $event"
+                (emitSimilarMovies)="similarMovies = $event"
+                (emitMediaType)="mediaType = $event"
+                (emitPosterUrl)="posterUrl = $event"
+                (emitMediaTitle)="mediaTitle = $event">
+            </app-video-stream>
+        </div>
+        <div class="sidebar" [ngClass]="{'open': IsSidebarOpen}">
+            <app-watch-episodes 
+                [episodes]="episodes"
+                [similarMovies]="similarMovies"
+                [mediaType]="mediaType"
+                [posterUrl]="posterUrl"
+                [mediaTitle]="mediaTitle">
+            </app-watch-episodes>
+        </div>
     </div>
-
-
-    <!-- Sidebar component -->
-    <div [ngClass]="{
-            'w-1/4': IsSidebarOpen,
-            'w-0 overflow-scroll opacity-0 pointer-events-none ': !IsSidebarOpen
-          }" class="bg-blurple border-l-2 p-2  text-off-white flex transition-all duration-300 ease-in-out h-full overflow-y-auto">
-        <app-watch-episodes>
-            <app-episodes-list></app-episodes-list>
-        </app-watch-episodes>
-    </div>
-
 </div>
