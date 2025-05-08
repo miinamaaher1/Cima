@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { confirmPasswordValidator } from '../../../core/validators/confirmPasswordValidator';
@@ -15,6 +15,8 @@ import { birthDateValidator } from '../../../core/validators/birthDateValidator'
   styleUrl: './profile-data-form.component.css'
 })
 export class ProfileDataFormComponent {
+  @Input() userData: any = null;
+  @Input() readonly: boolean = false;
   form = new FormGroup(
     {
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}$/)]),
