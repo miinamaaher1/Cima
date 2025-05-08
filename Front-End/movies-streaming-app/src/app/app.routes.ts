@@ -22,6 +22,7 @@ import { UploadMediaComponent } from './components/dashboard/upload-media/upload
 import { GenresComponent } from './pages/genres/genres.component';
 import { ChartsComponent } from './pages/charts/charts.component';
 import { MyListsComponent } from './pages/my-lists/my-lists.component';
+import { ConfirmSuccessComponent } from './components/account/confirm-success/confirm-success.component';
 
 
 export const routes: Routes = [
@@ -45,6 +46,7 @@ export const routes: Routes = [
             { path: 'forget-password', component: ForgotPasswordComponent, title: 'Forget Password' },
             { path: 'reset-password', component: ResetPasswordComponent, title: 'Reset Password' },
             { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
+            { path: 'confirm-success', component: ConfirmSuccessComponent, title: 'Confirm Success' },
         ],
     },
 
