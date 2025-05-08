@@ -37,7 +37,7 @@ export const routes: Routes = [
             { path: 'genres', component: GenresComponent, title: 'Genres' },
             { path: 'charts', component: ChartsComponent, title: 'Charts' },
             { path: 'my-lists', component: MyListsComponent, title: 'My Lists' },
-            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details', data: { renderMode: 'ssr'} },
+            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
             { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
             { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [authGuard] },
             { path: 'sign-in', component: SignInComponent, title: 'Sign In' },
@@ -58,7 +58,7 @@ export const routes: Routes = [
         path: '',
         component: WatchLayoutComponent,
         children:[
-            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch' , canActivate: [authGuard], data: { renderMode: 'ssr' }}
+            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch' , canActivate: [authGuard]}
         ]
 
     },
