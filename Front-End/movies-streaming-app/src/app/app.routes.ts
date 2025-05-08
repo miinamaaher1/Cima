@@ -29,7 +29,7 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full', title: 'Home' },
             { path: 'home', component: HomeComponent, title: 'Home' },
-            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
+            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' , data: { renderMode: 'ssr' }},
             { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
             { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [authGuard] },
             { path: 'sign-in', component: SignInComponent, title: 'Sign In' },
