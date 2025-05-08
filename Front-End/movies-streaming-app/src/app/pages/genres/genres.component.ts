@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { HeroComponent } from "../../components/hero/hero.component";
-import { HomeCarouselsGroupInfiniteComponent } from "../../components/shared/home-carousels-group-infinite/home-carousels-group-infinite.component";
+import { GenresInfiniteScrollComponent } from "../../components/shared/genres-infinite-scroll/genres-infinite-scroll.component";
 
 @Component({
   selector: 'app-genres',
-  imports: [HeroComponent, HomeCarouselsGroupInfiniteComponent],
+  imports: [HeroComponent, GenresInfiniteScrollComponent],
   templateUrl: './genres.component.html'
 })
 export class GenresComponent {

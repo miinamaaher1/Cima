@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, Input, OnInit } from '@angular/core';
+import { Component, input, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TabsRelatedComponent } from './tabs-related/tabs-related.component';
 import { IMediaDetails } from '../../core/interfaces/IMediaDetails';
 import { MovieService } from '../../core/services/movie/movie.service';
 import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
 import { mediaType } from '../../core/utils/media-type.enum';
-import { IconComponent } from '../shared/icon-component/icon.component';
 import { TabsEpisodesComponent } from './tabs-episodes/tabs-episodes.component';
 
 @Component({
   selector: 'app-tabs',
-  imports: [CommonModule, TabsRelatedComponent, TabsEpisodesComponent, IconComponent],
+  imports: [CommonModule, TabsRelatedComponent, TabsEpisodesComponent],
   templateUrl: './tabs.component.html',
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent implements OnInit, OnChanges {
 
   selectedIndex = 0;
   isSeries:boolean = true;
@@ -36,10 +35,17 @@ export class TabsComponent implements OnInit {
 
   constructor(private movieService:MovieService ,private seriesService:SeriesService ){}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.isSeries = this.mediaType() === mediaType.series
+    this.fetchMediaInfo(this.mediaId(), this.mediaType());
+  }
+
   ngOnInit(): void {
     this.isSeries = this.mediaType() === mediaType.series
     this.fetchMediaInfo(this.mediaId(), this.mediaType());
   }
+
+
 
   allTabs = [
     { label: 'Episodes', content: 'This is the Episodes tab content.' },
