@@ -51,7 +51,7 @@ export const routes: Routes = [
             { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
             { path: 'confirm-success', component: ConfirmSuccessComponent, title: 'Confirm Success' },
         ],
-        data: { renderMode: 'ssr'}
+      
     },
 
     {
