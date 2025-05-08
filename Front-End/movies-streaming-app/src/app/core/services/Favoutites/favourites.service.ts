@@ -3,6 +3,7 @@ import { AccountService } from '../Account/account.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MediaItem } from '../../dtos/MediaItemDto';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,20 +49,26 @@ export class FavoritesService {
     this._http.delete<any>(url, options);
   }
 
-  // Get favorites
-  getFavorites() {
+  getFavorites(): Observable<MediaItem[]> {
     const token = this._accounrtService.getToken();
     if (!token) {
       console.error('User is not authenticated. Cannot get favorites.');
-      return;
+      return throwError(() => new Error('User not authenticated'));
     }
-
+  
     const headers = new HttpHeaders({
-      "accept": "application/json",
-    }).set("Authorization", `Bearer ${token}`);
-
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
     const url = `${environment.account_base_url}/api/lists/favorites`;
-
-    this._http.get<any>(url, { headers: headers });
+  
+    return this._http.get<MediaItem[]>(url, { headers }).pipe(
+      catchError(error => {
+        console.error('Error getting favorites:', error);
+        return throwError(() => new Error('Failed to load favorites'));
+      })
+    );
   }
+  
 }

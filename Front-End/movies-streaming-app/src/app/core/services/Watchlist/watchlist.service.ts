@@ -48,19 +48,19 @@ export class WatchlistService {
   }
 
   // Get watchlist
-  getWatchlist(): Observable<any> {
+  getWatchlist(): Observable<MediaItem[]> {
     const token = this.accountService.getToken();
     if (!token) {
       console.error('User is not authenticated. Cannot get watchlist.');
-      return throwError('User not authenticated');
+      return throwError(() => new Error('User not authenticated'));
     }
-
+  
     const url = `${environment.account_base_url}/api/lists/watchlist`;
-    return this.http.get(url).pipe(
+    return this.http.get<MediaItem[]>(url).pipe(
       catchError(error => {
         console.error('Error getting watchlist:', error);
-        return throwError(error);
+        return throwError(() => new Error('Failed to load watchlist'));
       })
     );
-  }
+  }  
 }
