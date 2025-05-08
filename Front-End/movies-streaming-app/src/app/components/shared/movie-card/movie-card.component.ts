@@ -1,17 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { IconComponent } from '../icon-component/icon.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { RouterLink } from '@angular/router';
-import { error } from 'console';
+import { FormatTimePipe } from '../../../core/pipes/format-time.pipe';
 
 @Component({
   selector: 'app-movie-card',
-  imports: [IconComponent, CommonModule, RouterLink],
-  templateUrl: './movie-card.component.html',
-  styleUrl: './movie-card.component.css'
+  imports: [IconComponent, CommonModule, RouterLink, FormatTimePipe],
+  templateUrl: './movie-card.component.html'
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
@@ -21,18 +20,18 @@ export class MovieCardComponent {
       next: (data) => {
         this.tags = data.genres.map(g => g.name);
         this.name = data.title;
-        this.hours = Math.floor(data.runtime / 60);
-        this.minutes = data.runtime % 60;
+        this.runtime = data.runtime;
+        this.discription = data.overview.length > 100 ? data.overview.slice(0, 97) + "..." : data.overview;
         this.videoService.getTrailer(this.name).subscribe({
           next: (data) => this.videoUrl = data.filter(s => s.quality == 360)[0].url,
-          error: () => this.validMovie = false
+          error: () => this.videoUrl = "/videos/clips/G_O_T_Clip.mp4"
         });
       },
-      error: () => this.validMovie = false
+      error: (err) => console.log(err)
     });
     this.movieService.getMovieCredits(this.id, language.english).subscribe({
       next: data => this.cast = data.cast.filter((_, i) => i <= 2).map(c => c.name),
-      error: () => this.validMovie = false
+      error: () => this.cast = ["Unknown"]
     });
     this.movieService.getMovieImages(this.id).subscribe({
       next: data => {
@@ -41,17 +40,16 @@ export class MovieCardComponent {
           this.logoUrl   =`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
-          this.validMovie = false;
           console.log(error);
         }
       },
-      error: () => this.validMovie = false
+      error: (err) => console.log(err)
     });
   }
   validMovie: boolean = true;
   name: string = "";
-  hours: number = 0;
-  minutes: number = 0;
+  runtime: number = 0;
+  discription: string = "";
   posterUrl: string = "";
   logoUrl: string="";
   videoUrl: string = "";
