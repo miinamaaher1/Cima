@@ -60,6 +60,15 @@ export class HeroBannerComponent implements OnChanges, OnInit {
     }
   }
 
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if(window.scrollY == 0) {
+      this.viewVideo();
+    } else {
+      this.hideVideo()
+    }
+  }
+
   checkScreenSize() {
     this.isMobile = window.innerWidth <= 768; // or any breakpoint you like
   }

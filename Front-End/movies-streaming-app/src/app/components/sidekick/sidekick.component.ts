@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { SidekickBannerComponent } from './sidekick-banner/sidekick-banner.component';
 import { SidekickInfoComponent } from './sidekick-info/sidekick-info.component';
 import { movieBanner } from '../hero/hero-banner/hero-banner.component';
@@ -15,12 +15,29 @@ import { moviePreview } from '../hero/hero.component';
   imports: [SidekickBannerComponent, SidekickInfoComponent],
   templateUrl: './sidekick.component.html'
 })
-export class SidekickComponent implements OnInit {
+export class SidekickComponent implements OnInit, OnChanges {
   constructor(
     private _seriesService : SeriesService,
     private _imageService : ImageService,
     private _movieService : MovieService
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fetchMediaDetails(this.mediaId(), this.mediaType())
+    this.banner.set({
+      poster : this.preview.poster,
+      clip : this.preview.clip
+    })
+    this.movieInfo.set({
+      button : this.preview.button,
+      cast : this.preview.cast,
+      discription : this.preview.discription,
+      promo : this.preview.promo,
+      link : this.preview.link,
+      logo : this.preview.logo,
+      tags : this.preview.tags
+    })
+  }
 
   mediaId = input.required<number>()
   mediaType = input.required<mediaType>()

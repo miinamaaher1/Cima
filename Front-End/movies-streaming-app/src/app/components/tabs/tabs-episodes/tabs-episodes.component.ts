@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SeriesService } from '../../../core/services/series/series.service';
 import { SeasonService } from '../../../core/services/seasson/season.service';
 import { language } from '../../../core/utils/language.enum';
@@ -11,9 +11,9 @@ import { IEpisodeDetails } from '../../../core/interfaces/IEpisodeDetails';
   imports: [CommonModule,EpisodeCardComponent],
   templateUrl: './tabs-episodes.component.html',
 })
-export class TabsEpisodesComponent {
+export class TabsEpisodesComponent implements OnInit, OnChanges {
 
-  @Input() seriesId: number = 0;
+  seriesId = input.required<number>();
 
   seasonsWithEpisodes: {
     seasonNumber: number;
@@ -22,13 +22,21 @@ export class TabsEpisodesComponent {
 
   constructor(private seriesService: SeriesService,private seasonService: SeasonService) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fetchSeriesEpisodes()
+  }
+
   ngOnInit(): void {
-    this.seriesService.getSeriesDetails(this.seriesId, language.english).subscribe({
+    this.fetchSeriesEpisodes()
+  }
+
+  fetchSeriesEpisodes() {
+    this.seriesService.getSeriesDetails(this.seriesId(), language.english).subscribe({
       next: (ser) => {
         const totalSeasons = ser.number_of_seasons;
 
         for (let i = 1; i <= totalSeasons; i++) {
-          this.seasonService.getSeasonDetails(this.seriesId, i, language.english).subscribe({
+          this.seasonService.getSeasonDetails(this.seriesId(), i, language.english).subscribe({
             next: (data) => {
               const seasonEpisodes: IEpisodeDetails[] = data.episodes.
                 filter(episode=>episode.runtime)
@@ -54,6 +62,4 @@ export class TabsEpisodesComponent {
       error: (err) => console.log('Error fetching series details:', err),
     });
   }
-
-
 }
