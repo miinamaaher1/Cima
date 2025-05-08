@@ -1,10 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, input, PLATFORM_ID } from '@angular/core';
 import { movieInfo } from '../../hero/hero-info/hero-info.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidekick-info',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './sidekick-info.component.html'
 })
 export class SidekickInfoComponent {

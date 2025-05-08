@@ -1,5 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, input, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 export interface movieInfo {
   logo: string,
@@ -13,7 +14,7 @@ export interface movieInfo {
 
 @Component({
   selector: 'app-hero-info',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './hero-info.component.html'
 })
 export class HeroInfoComponent implements OnInit {
