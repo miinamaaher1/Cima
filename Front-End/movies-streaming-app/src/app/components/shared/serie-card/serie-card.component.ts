@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { RouterLink } from '@angular/router';
+import { FormatTimePipe } from '../../../core/pipes/format-time.pipe';
 
 @Component({
   selector: 'app-serie-card',
-  imports: [IconComponent, CommonModule, RouterLink],
-  templateUrl: './serie-card.component.html',
-  styleUrl: './serie-card.component.css'
+  imports: [IconComponent, CommonModule, RouterLink, FormatTimePipe],
+  templateUrl: './serie-card.component.html'
 })
 export class SerieCardComponent {
   @Input() id: number = 0;
@@ -22,16 +22,17 @@ export class SerieCardComponent {
         this.name = data.name;
         this.seasons = data.number_of_seasons
         this.episodes = data.number_of_episodes;
+        this.discription = data.overview.length > 100 ? data.overview.slice(0, 97) + "..." : data.overview;
         this.videoService.getTrailer(this.name).subscribe({
           next: (data) => this.videoUrl = data.filter(s => s.quality == 360)[0].url,
-          error: () => this.validSeries = false
+          error: () => this.videoUrl = "/videos/clips/G_O_T_Clip.mp4"
         });
       },
-      error: () => this.validSeries = false
+      error: (err) => console.log(err)
     });
     this.seriesService.getSeriesCredits(this.id, language.english).subscribe({
       next: data => this.cast = data.cast.filter((_, i) => i <= 2).map(c => c.name),
-      error: () => this.validSeries = false
+      error: () => this.cast = ["Unknown"]
     });
     this.seriesService.getSeriesImages(this.id).subscribe({
       next: data => {
@@ -40,11 +41,10 @@ export class SerieCardComponent {
           this.logoUrl=`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
-          this.validSeries = false;
           console.log(error);
         }
       },
-      error: () => this.validSeries = false
+      error: (err) => console.log(err)
     });
   }
   validSeries: boolean = true;
@@ -53,6 +53,7 @@ export class SerieCardComponent {
   episodes: number = 0;
   posterUrl: string = "";
   logoUrl:string="";
+  discription: string = "";
   videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];

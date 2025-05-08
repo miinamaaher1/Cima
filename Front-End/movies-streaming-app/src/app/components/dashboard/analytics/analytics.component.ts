@@ -46,7 +46,7 @@ export class AnalyticsComponent {
   barData = {
     labels:[''],
     datasets: [{
-      label: 'Monthly views',
+      label: 'Monthly Views',
       data: [65, 59, 80, 81, 56, 55, 40],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -109,7 +109,7 @@ export class AnalyticsComponent {
       'Running'
     ],
     datasets: [{
-      label: 'View per genre',
+      label: 'View per Genre',
       data: [65, 59, 90, 81, 56, 55, 40],
       fill: true,
       backgroundColor: 'rgba(255, 99, 132, 0.2)',
