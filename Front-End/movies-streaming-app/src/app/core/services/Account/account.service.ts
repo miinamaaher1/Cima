@@ -5,6 +5,8 @@ import { SignUpDto } from '../../dtos/SignUpDto';
 import { SignInDto } from '../../dtos/SignInDto';
 import { LoginResponseDto } from '../../dtos/LoginResponseDto';
 import { Router } from '@angular/router';
+import { ISubscription } from '../../interfaces/ISubscriptionData';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,15 @@ export class AccountService {
     return this._http.post<any>(url, userData, { headers: this.headers });
   }
 
+  confirmEmail(email: string, token: string): Observable<boolean> {
+    const endpoint = "api/Account/confirm-email";
+    const url = `${environment.account_base_url}/${endpoint}?email=${email}&token=${token}`;
+    return this._http.get<any>(url).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
   // login service 
   login(userData: SignInDto) {
     const endpoint = "api/Account/login";
@@ -31,6 +42,7 @@ export class AccountService {
     return this._http.post<LoginResponseDto>(url, userData, { headers: this.headers });
   }
 
+  // get user data service
   getToken(): string | null {
     const token = localStorage.getItem('userToken');
     if (!token) {
@@ -47,6 +59,19 @@ export class AccountService {
   logout(): void {
     localStorage.removeItem('userToken');
     this.router.navigate(['/sign-in']);
+  }
+
+
+  // get the user subscription data
+  getSubscriptionData(): any {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    const endpoint = "api/Account/subscription";
+    const url = `${environment.account_base_url}/${endpoint}`;
+    return this._http.get<ISubscription>(url, { headers: this.headers });
   }
 }
 

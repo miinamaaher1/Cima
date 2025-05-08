@@ -8,8 +8,7 @@ import { WINDOW } from '../../../core/tokens/window.token';
 @Component({
   selector: 'app-movie-carousel',
   imports: [MovieCardComponent, CommonModule, SerieCardComponent],
-  templateUrl: './movie-carousel.component.html',
-  styleUrl: './movie-carousel.component.css'
+  templateUrl: './movie-carousel.component.html'
 })
 export class MovieCarouselComponent {
   @Input() title!: string;

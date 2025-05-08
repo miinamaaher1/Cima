@@ -2,68 +2,72 @@ import { Injectable } from '@angular/core';
 import { AccountService } from '../Account/account.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { VideoType } from '../../dtos/VideoType';
 import { MediaItem } from '../../dtos/MediaItemDto';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FavouritesService {
+export class FavoritesService {
 
   constructor(private _accounrtService: AccountService, private _http: HttpClient) { }
 
-  // Add to favourites
-  addToFavourites(body: MediaItem) {
+  // Add to favorites
+  addToFavorites(body: MediaItem): Observable<boolean> {
     const token = this._accounrtService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot add to favourites.');
-      return;
+      return of(false);
     }
 
     const headers = new HttpHeaders({
       "accept": "application/json",
     }).set("Authorization", `Bearer ${token}`);
 
-    const url = `${environment.account_base_url}/favourites`;
-    this._http.post<any>(url, body, { headers: headers });
+    const url = `${environment.account_base_url}/api/lists/favorites`;
+    return this._http.post<any>(url, body, { headers: headers }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
-  // Delete from favourites
-  deleteFromFavourites(body: MediaItem) {
+  // Delete from favorites
+  deleteFromFavorites(body: MediaItem): Observable<boolean> {
     const token = this._accounrtService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot delete from favourites.');
-      return;
+      return of(false);
     }
 
     const headers = new HttpHeaders({
       "accept": "application/json",
     }).set("Authorization", `Bearer ${token}`);
 
-    const url = `${environment.account_base_url}/favourites`;
+    const url = `${environment.account_base_url}/api/lists/favorites`;
     const options = {
       headers: headers,
       body: body
     };
 
-    this._http.delete<any>(url, options);
+    return this._http.delete<any>(url, options).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
-  // Get favourites
-  getFavourites(params: { id: number; videoType: VideoType }) {
+  getFavorites(): Observable<MediaItem[]> {
     const token = this._accounrtService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot get favourites.');
-      return;
+      return throwError(() => new Error('User not authenticated'));
     }
-
+  
     const headers = new HttpHeaders({
-      "accept": "application/json",
-    }).set("Authorization", `Bearer ${token}`);
-
-    const url = `${environment.account_base_url}/favourites`;
-    const queryParams = { id: params.id.toString(), videoType: params.videoType.toString() };
-
-    this._http.get<any>(url, { headers: headers, params: queryParams });
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    const url = `${environment.account_base_url}/api/lists/favorites`;
+  
+    return this._http.get<MediaItem[]>(url, { headers }).pipe(
+      catchError(() => throwError(() => new Error('Failed to load favorites')))
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, input, output, PLATFORM_ID} from '@angular/core';
+import { Component, HostListener, Inject, input, OnChanges, OnInit, output, PLATFORM_ID, SimpleChanges} from '@angular/core';
 import { movieBanner } from '../../hero/hero-banner/hero-banner.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
@@ -7,7 +7,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './sidekick-banner.component.html'
 })
-export class SidekickBannerComponent {
+export class SidekickBannerComponent implements OnInit, OnChanges {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   banner = input.required<movieBanner>();
@@ -27,7 +27,7 @@ export class SidekickBannerComponent {
     setTimeout(() => {
       this.videoVisible = true;
       this.videoVisibilityChanged.emit(false)
-    }, 3000);
+    }, 5000);
   }
 
   toggleMute() {
@@ -42,10 +42,24 @@ export class SidekickBannerComponent {
     this.viewVideo();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.hideVideo();
+    this.viewVideo();
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize();
+    }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if(window.scrollY == 0) {
+      this.viewVideo();
+    } else {
+      this.hideVideo()
     }
   }
 

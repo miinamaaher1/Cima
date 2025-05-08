@@ -1,50 +1,43 @@
-<div class="relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 w-full max-w-sm group cursor-pointer"
-    [ngClass]="{ 'bg-gray-900': true }">
+<div
+    class="relative shadow-lg transition-all md:hover:scale-110 duration-300 w-full max-w-sm group cursor-pointer bg-card-black rounded-md text-off-white overflow-hidden">
     <!-- Poster Image Container -->
     <div class="relative overflow-hidden">
         <!-- Episode Image -->
         <img [src]="Poster" [alt]="'Episode ' + episodeNum"
-            class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" />
-
+            class="w-full h-auto object-cover transition-transform duration-300" />
         <div
-            class="absolute top-3 left-3 bg-gray-900 bg-opacity-80 text-off-white  px-3 py-1 rounded-full text-sm font-semibold">
+            class="absolute inset-0 bg-gradient-to-t from-card-black to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300">
+        </div>
+        <div
+            class="absolute top-3 left-3 bg-card-black bg-opacity-80 text-off-white  px-2.5 py-1 rounded-full text-xs font-semibold">
             Episode {{ episodeNum }}
         </div>
-
-        <div class="absolute bottom-3 right-3 bg-gray-900 bg-opacity-80 text-white px-3 py-1 rounded-full text-sm">
+        <div
+            class="absolute bottom-3 right-3 bg-card-black bg-opacity-80 text-off-white px-2.5 py-1 rounded-full text-xs">
             {{ Runtime| formatTime }}
         </div>
 
         <div
-            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300">
-        </div>
-
-        <div
             class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div
-                class="bg-off-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white border-opacity-30">
-                <div class="h-10 w-10 bg-white rounded-full flex items-center justify-center">
-                    <app-icon [name]="'play'" class="h-8 w-8 text-indigo-700"></app-icon>
-                </div>
+            <div class="size-10 flex justify-center items-center rounded-full bg-off-white ">
+                <i class="fas fa-play text-background-black"></i>
             </div>
         </div>
     </div>
 
     <!-- Description Area -->
     <div
-        class="max-h-0 opacity-0 transition-all duration-300 overflow-hidden group-hover:max-h-40 group-hover:opacity-100  group-hover:p-4">
-        <p class="text-gray-300 text-sm">
-            {{ Description }}
-        </p>
-
-        <div class="mt-2 flex justify-end space-x-2">
-            <button class="bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-30">
-                <app-icon [name]="'heart'" class="h-5 w-5 text-white"></app-icon>
+        class="max-h-0 opacity-0 transition-all duration-300 overflow-hidden group-hover:max-h-40 group-hover:opacity-100 group-hover:p-4">
+        <div class="flex justify-end space-x-2">
+            <button class="size-7 flex justify-center items-center rounded-full bg-off-white">
+                <i class="fas fa-heart text-background-black"></i>
             </button>
-            <button class="bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-30">
-                <app-icon [name]="'share'" class="h-5 w-5 text-white"></app-icon>
+            <button class="size-7 flex justify-center items-center rounded-full bg-off-white">
+                <i class="fas fa-share text-background-black"></i>
             </button>
         </div>
+        <p class="text-[0.7rem] mt-2 ">
+            {{ Description }}
+        </p>
     </div>
-
 </div>

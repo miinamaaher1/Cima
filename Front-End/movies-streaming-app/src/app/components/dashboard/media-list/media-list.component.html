@@ -43,7 +43,7 @@
     </div>
 
     <!-- Media List -->
-    <div class="bg-surface-black rounded-xl mx-6 my-3 overflow-hidden">
+    <div class="bg-surface-black rounded-xl mx-6 my-6 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-border-grey">
           <thead class="bg-body-charcoal">
@@ -53,7 +53,8 @@
               <th class="px-6 py-3 ">Genres</th>
               <th class="px-6 py-3 ">Added Date</th>
               <th class="px-6 py-3 ">Views</th>
-              <th class="px-6 py-3 ">Actions</th>
+              <th class="px-6 py-3 ">Unlist</th>
+              <th class="px-6 py-3 ">Delete</th>
             </tr>
           </thead>
           <tbody class="bg-surface-black divide-y divide-border-grey">
@@ -77,7 +78,7 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex flex-wrap gap-1">
-                  <span *ngFor="let genre of item.genres.slice(0, 2)" class="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded">
+                  <span *ngFor="let genre of item.genres.slice(0, 2)" class="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 font-semibold rounded-full">
                     {{ genre }}
                   </span>
                   <span *ngIf="item.genres.length > 2" class="text-greyple text-xs">
@@ -93,10 +94,14 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-greyple">
                 <div class="flex space-x-2">
-                  <button (click)="viewDetails(item.id)" class="text-indigo-600 hover:text-indigo-900">
-                    <i class="fa fa-eye"></i>
+                  <button (click)="unlistMedia(item.id, $event)" class="text-greyple hover:text-blurple cursor-pointer">
+                    <i class="fa-solid fa-eye-slash"></i>
                   </button>
-                  <button (click)="deleteMedia(item.id, $event)" class="text-red-600 hover:text-red-900">
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-greyple">
+                <div class="flex space-x-2">
+                  <button (click)="deleteMedia(item.id, $event)" class="text-greyple hover:text-film-red cursor-pointer">
                     <i class="fa fa-trash"></i>
                   </button>
                 </div>
