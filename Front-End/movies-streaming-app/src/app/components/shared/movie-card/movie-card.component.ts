@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { IconComponent } from '../icon-component/icon.component';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormatTimePipe } from '../../../core/pipes/format-time.pipe';
+import { AccountService } from '../../../core/services/Account/account.service';
+import { FavoritesService } from '../../../core/services/Favoutites/favourites.service';
+import { VideoType } from '../../../core/dtos/VideoType';
 
 @Component({
   selector: 'app-movie-card',
@@ -14,7 +17,7 @@ import { FormatTimePipe } from '../../../core/pipes/format-time.pipe';
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
-  constructor(private movieService: MovieService, private videoService: VideosService) { }
+  constructor(private movieService: MovieService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService) { }
   ngOnInit(): void {
     this.movieService.getMovieDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -37,7 +40,7 @@ export class MovieCardComponent {
       next: data => {
         try {
           this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
-          this.logoUrl   =`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
+          this.logoUrl = `https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
           console.log(error);
@@ -46,28 +49,29 @@ export class MovieCardComponent {
       error: (err) => console.log(err)
     });
   }
+  IsInFavorites: boolean = false;
   validMovie: boolean = true;
   name: string = "";
   runtime: number = 0;
   discription: string = "";
   posterUrl: string = "";
-  logoUrl: string="";
+  logoUrl: string = "";
   videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;
-  isPlaying:boolean=false;
+  isPlaying: boolean = false;
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
         ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
-        ($event.target as HTMLVideoElement).play().then(()=>{
-          this.isPlaying=true;
-        }).catch(error=>{
+        ($event.target as HTMLVideoElement).play().then(() => {
+          this.isPlaying = true;
+        }).catch(error => {
           console.error("video playback failed")
-          this.isPlaying=false;
+          this.isPlaying = false;
         });
       }, 1000);
     }
@@ -78,7 +82,25 @@ export class MovieCardComponent {
       this.timerHandler = null;
       ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
-      this.isPlaying=false;
+      this.isPlaying = false;
     }
+  }
+  addToFavorites() {
+    if (this.accountService.isLoggedIn())
+      this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
+        next: () => this.IsInFavorites = true,
+        error: (error) => console.log(error)
+      });
+    else
+      this.router.navigate(['/sign-in']);
+  }
+  removeFromFavorites() {
+    if (this.accountService.isLoggedIn())
+      this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
+        next: () => this.IsInFavorites = false,
+        error: (error) => console.log(error)
+      });
+    else
+      this.router.navigate(['/sign-in']);
   }
 }

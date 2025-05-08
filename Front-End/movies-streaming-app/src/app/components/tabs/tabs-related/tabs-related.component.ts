@@ -1,4 +1,4 @@
-import { Component, input, Input, OnInit } from '@angular/core';
+import { Component, input, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { SeriesService } from '../../../core/services/series/series.service';
@@ -13,37 +13,42 @@ import { SerieCardComponent } from '../../shared/serie-card/serie-card.component
   imports: [CommonModule, MovieCardComponent, SerieCardComponent],
   templateUrl: './tabs-related.component.html',
 })
-export class TabsRelatedComponent implements OnInit {
+export class TabsRelatedComponent implements OnInit, OnChanges {
   relatedIds: number[] = [];
 
-  @Input() isSeries: boolean = true;
+  isSeries : boolean = false;
   mediaType = input.required<mediaType>()
-  @Input() mediaId: number = 0
+  mediaId = input.required<number>()
 
   constructor(private movieService: MovieService, private seriesService: SeriesService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.isSeries = this.mediaType() === mediaType.series;
+    this.getRelated();
+  }
+
   ngOnInit(): void {
     this.isSeries = this.mediaType() === mediaType.series;
     this.getRelated();
-    console.log(this.relatedIds);
   }
 
   getRelated() {
     if (this.mediaType() === mediaType.series) {
-      this.seriesService.getSimilarTvSeries(this.mediaId, language.english).subscribe(
+      this.seriesService.getSimilarTvSeries(this.mediaId(), language.english).subscribe(
         {
           next: res => {
-            this.relatedIds.push(...res.results.map((s) => s.id).slice(0, 12));
+            this.relatedIds = res.results.map((s) => s.id).slice(0, 12);
           },
           error: err=> console.log('failed to fetch similar series ids',err)
         }
       )
     }
     else {
-      this.movieService.getSimilarMovies(this.mediaId, language.english).subscribe({
+      this.movieService.getSimilarMovies(this.mediaId(), language.english).subscribe({
         next: response => {
           const similarMovies = response.results.slice(0, 12);
 
-          this.relatedIds.push(...similarMovies.map((m) => m.id))
+          this.relatedIds = similarMovies.map((m) => m.id)
         },
         error: err => {
           console.error('Failed to fetch similar movies id:', err);
