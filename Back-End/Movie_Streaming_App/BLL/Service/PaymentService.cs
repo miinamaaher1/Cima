@@ -170,7 +170,7 @@ namespace BLL.Service
         },
                 Mode = "payment",
                 //SuccessUrl = $"{domain}/success?session_id={{CHECKOUT_SESSION_ID}}",
-                SuccessUrl = $"{domain}/success",
+                SuccessUrl = $"{domain}/payment-success",
                 CancelUrl = $"{domain}/cancel",
                 CustomerEmail = email,
                 Metadata = new Dictionary<string, string>

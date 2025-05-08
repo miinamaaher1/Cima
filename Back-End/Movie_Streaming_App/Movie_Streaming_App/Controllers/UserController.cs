@@ -28,7 +28,7 @@ namespace Movie_Streaming_App.Controllers
             {
                 if (User.IsInRole("admin"))
                 {
-                    var users = _userManager.Users.Select(u => new { u.FirstName, u.LastName, u.Email, u.BirthDate, u.Gender, u.IsSubscriptionValid, u.SubscriptionType });
+                    var users = _userManager.Users.Select(u => new { u.FirstName, u.LastName, u.Email, u.BirthDate, u.Gender, u.IsSubscriptionValid, u.SubscriptionType }).ToList();
                     return Ok(new { users });
                 }
                 var email = User.FindFirstValue(ClaimTypes.Email);
@@ -40,7 +40,7 @@ namespace Movie_Streaming_App.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-        [HttpGet]
+        [HttpGet("subscription")]
         public async Task<IActionResult> GetUserSubscription()
         {
             try

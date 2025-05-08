@@ -23,10 +23,11 @@ namespace DAL
             {
                 var admin = new AppUser()
                 {
-                    UserName = "admin",
+                    UserName = "test@test.com",
                     FirstName = "Movies",
                     LastName = "admin",
-                    Email = "test@test.com"
+                    Email = "test@test.com",
+                    EmailConfirmed = true
                 };
                 await _userManager.CreateAsync(admin, "Aa$12345");
                 await _userManager.AddToRoleAsync(admin, "admin");

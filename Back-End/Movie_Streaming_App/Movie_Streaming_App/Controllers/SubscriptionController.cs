@@ -3,7 +3,6 @@ using BLL.ServiceAbstraction;
 using DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
 using System.Security.Claims;
 
 namespace Movie_Streaming_App.Controllers
@@ -18,16 +17,17 @@ namespace Movie_Streaming_App.Controllers
         public async Task<ActionResult<PaymentResultDto>> CreateOrUpdatePaymentIntent(SubscriptionType type)
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var result = await _paymentService.CreateOrUpdatePaymentAsync(email,type);
+            var result = await _paymentService.CreateOrUpdatePaymentAsync(email, type);
             return Ok(result);
         }
         [HttpPost("Session")]
-        public async Task<IActionResult> CreatePaymentSession(string domain,SubscriptionType type)
+        public async Task<IActionResult> CreatePaymentSession(string domain, SubscriptionType type)
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-           var sessionUrl =  await _paymentService.CreatePaymentSession(email, type,domain);
-            return Ok(new{
-                paymentUrl= sessionUrl
+            var sessionUrl = await _paymentService.CreatePaymentSession(email, type, domain);
+            return Ok(new
+            {
+                paymentUrl = sessionUrl
             });
         }
 
@@ -37,7 +37,7 @@ namespace Movie_Streaming_App.Controllers
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            await  _paymentService.UpdatePaymentStatusAsync(json, Request.Headers["Stripe-Signature"]);
+            await _paymentService.UpdatePaymentStatusAsync(json, Request.Headers["Stripe-Signature"]);
             return new EmptyResult();
         }
 

@@ -4,6 +4,7 @@ using BLL.ServiceAbstraction;
 using DAL.Models;
 using DAL.Shared;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -59,16 +60,18 @@ namespace BLL.Service
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded)
             {
-                var errors = result.Errors.Select(e => e.Description).ToList();
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description).ToList());
                 throw new Exception($"Errors: {errors}");
             }
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
+            var codeEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
             _emailService.SendEmail(new Email
             {
                 To = registerDto.Email,
                 Subject = "Confirm Your Email",
-                Link = $"https://cima-zeta.vercel.app/confirm-email?email={registerDto.Email}&token={token}",
+                Link = $"https://cima-zeta.vercel.app/confirm-success?email={registerDto.Email}&token={codeEncoded}",
                 Template = MailTemplates.ConfirmEmailTemplate
             }, $"{registerDto.FirstName} {registerDto.LastName}");
 
@@ -119,11 +122,13 @@ namespace BLL.Service
         {
             var user = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not Found!");
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
+            var codeEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
             _emailService.SendEmail(new Email
             {
                 To = email,
                 Subject = "Reset Password",
-                Link = $"https://cima-zeta.vercel.app/reset-password?email={email}&token={token}",
+                Link = $"https://cima-zeta.vercel.app/reset-password?email={email}&token={codeEncoded}",
                 Template = MailTemplates.ForgotPasswordTemplate
             }, $"{firstName} {lastName}");
             if (token == null)
@@ -134,7 +139,9 @@ namespace BLL.Service
         public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
         {
             var user = await _userManager.FindByEmailAsync(email) ?? throw new Exception("User Not Found!");
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            var codeDecodedBytes = WebEncoders.Base64UrlDecode(token);
+            var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
+            var result = await _userManager.ResetPasswordAsync(user, codeDecoded, newPassword);
             if (!result.Succeeded)
                 throw new Exception("Failed to Reset Password!");
             return result.Succeeded;

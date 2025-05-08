@@ -4,7 +4,9 @@ using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Claims;
+using System.Text;
 
 namespace Movie_Streaming_App.Controllers
 {
@@ -69,10 +71,12 @@ namespace Movie_Streaming_App.Controllers
                 {
                     throw new Exception($"Email Doesn't Exist !!\n {email}");
                 }
-                var result = await _userManager.ConfirmEmailAsync(user, token);
+                var codeDecodedBytes = WebEncoders.Base64UrlDecode(token);
+                var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
+                var result = await _userManager.ConfirmEmailAsync(user, codeDecoded);
                 if (result.Succeeded)
                     return Ok(new { success = true });
-                throw new Exception("Failed To Confirm Email!");
+                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description).ToList()));
             }
             catch (Exception ex)
             {
