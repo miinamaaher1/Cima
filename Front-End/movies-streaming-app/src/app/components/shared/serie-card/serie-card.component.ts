@@ -4,9 +4,10 @@ import { language } from '../../../core/utils/language.enum';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FavouritesService } from '../../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../../core/dtos/VideoType';
+import { AccountService } from '../../../core/services/Account/account.service';
 
 @Component({
   selector: 'app-serie-card',
@@ -16,7 +17,7 @@ import { VideoType } from '../../../core/dtos/VideoType';
 })
 export class SerieCardComponent {
   @Input() id: number = 0;
-  constructor(private seriesService: SeriesService, private videoService: VideosService, private favoritesService: FavouritesService) { }
+  constructor(private seriesService: SeriesService, private videoService: VideosService, private accountService: AccountService, private favoritesService: FavouritesService, private router: Router) { }
   ngOnInit(): void {
     this.seriesService.getSeriesDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -85,15 +86,21 @@ export class SerieCardComponent {
     }
   }
   addToFavorites() {
-    this.favoritesService.addToFavourites({ id: this.id, videoType: VideoType.Series }).subscribe({
-      next: () => this.IsInFavorites = true,
-      error: (error) => console.log(error)
-    });
+    if (this.accountService.isLoggedIn())
+      this.favoritesService.addToFavourites({ id: this.id, videoType: VideoType.Series }).subscribe({
+        next: () => this.IsInFavorites = true,
+        error: (error) => console.log(error)
+      });
+    else
+      this.router.navigate(['/sign-in']);
   }
   removeFromFavorites() {
-    this.favoritesService.deleteFromFavourites({ id: this.id, videoType: VideoType.Series }).subscribe({
-      next: () => this.IsInFavorites = false,
-      error: (error) => console.log(error)
-    });
+    if (this.accountService.isLoggedIn())
+      this.favoritesService.deleteFromFavourites({ id: this.id, videoType: VideoType.Series }).subscribe({
+        next: () => this.IsInFavorites = false,
+        error: (error) => console.log(error)
+      });
+    else
+      this.router.navigate(['/sign-in']);
   }
 }
