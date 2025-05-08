@@ -3,6 +3,7 @@ import { AccountService } from '../Account/account.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MediaItem } from '../../dtos/MediaItemDto';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,10 @@ export class FavoritesService {
   constructor(private _accounrtService: AccountService, private _http: HttpClient) { }
 
   // Add to favorites
-  addToFavorites(body: MediaItem) {
+  addToFavorites(body: MediaItem): Observable<boolean> {
     const token = this._accounrtService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot add to favorites.');
-      return;
+      return of(false);
     }
 
     const headers = new HttpHeaders({
@@ -24,15 +24,17 @@ export class FavoritesService {
     }).set("Authorization", `Bearer ${token}`);
 
     const url = `${environment.account_base_url}/api/lists/favorites`;
-    this._http.post<any>(url, body, { headers: headers });
+    return this._http.post<any>(url, body, { headers: headers }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
   // Delete from favorites
-  deleteFromFavorites(body: MediaItem) {
+  deleteFromFavorites(body: MediaItem): Observable<boolean> {
     const token = this._accounrtService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot delete from favorites.');
-      return;
+      return of(false);
     }
 
     const headers = new HttpHeaders({
@@ -45,23 +47,27 @@ export class FavoritesService {
       body: body
     };
 
-    this._http.delete<any>(url, options);
+    return this._http.delete<any>(url, options).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
-  // Get favorites
-  getFavorites() {
+  getFavorites(): Observable<MediaItem[]> {
     const token = this._accounrtService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot get favorites.');
-      return;
+      return throwError(() => new Error('User not authenticated'));
     }
-
+  
     const headers = new HttpHeaders({
-      "accept": "application/json",
-    }).set("Authorization", `Bearer ${token}`);
-
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
     const url = `${environment.account_base_url}/api/lists/favorites`;
-
-    this._http.get<any>(url, { headers: headers });
+  
+    return this._http.get<MediaItem[]>(url, { headers }).pipe(
+      catchError(() => throwError(() => new Error('Failed to load favorites')))
+    );
   }
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { VideoType } from '../../dtos/VideoType';
 import { environment } from '../../environments/environment';
-import { MediaItem } from '../../dtos/MediaItemDto';import { AccountService } from '../Account/account.service';
-;
+import { MediaItem } from '../../dtos/MediaItemDto';
+import { AccountService } from '../Account/account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,53 +14,43 @@ export class WatchlistService {
   constructor(private http: HttpClient, private accountService: AccountService) {}
 
   // Add to watchlist
-  addToWatchlist(body: MediaItem): Observable<any> {
+  addToWatchlist(body: MediaItem): Observable<boolean> {
     const token = this.accountService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot add to watchlist.');
-      return throwError('User not authenticated');
+      return of(false);
     }
 
     const url = `${environment.account_base_url}/api/lists/watchlist`;
     return this.http.post(url, body).pipe(
-      catchError(error => {
-        console.error('Error adding to watchlist:', error);
-        return throwError(error);
-      })
+      map(() => true),
+      catchError(() => of(false))
     );
   }
 
   // Delete from watchlist
-  deleteFromWatchlist(body: MediaItem): Observable<any> {
+  deleteFromWatchlist(body: MediaItem): Observable<boolean> {
     const token = this.accountService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot delete from watchlist.');
-      return throwError('User not authenticated');
+      return of(false);
     }
 
     const url = `${environment.account_base_url}/api/lists/watchlist`;
     return this.http.delete(url, { body }).pipe(
-      catchError(error => {
-        console.error('Error deleting from watchlist:', error);
-        return throwError(error);
-      })
+      map(() => true),
+      catchError(() => of(false))
     );
   }
 
   // Get watchlist
-  getWatchlist(): Observable<any> {
+  getWatchlist(): Observable<MediaItem[]> {
     const token = this.accountService.getToken();
     if (!token) {
-      console.error('User is not authenticated. Cannot get watchlist.');
-      return throwError('User not authenticated');
+      return throwError(() => new Error('User not authenticated'));
     }
-
+  
     const url = `${environment.account_base_url}/api/lists/watchlist`;
-    return this.http.get(url).pipe(
-      catchError(error => {
-        console.error('Error getting watchlist:', error);
-        return throwError(error);
-      })
+    return this.http.get<MediaItem[]>(url).pipe(
+      catchError(() => throwError(() => new Error('Failed to load watchlist')))
     );
-  }
+  }  
 }
