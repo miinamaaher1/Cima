@@ -6,8 +6,8 @@
     <img src="{{moviesInfo[index].logo}}" class="w-full" />
   </div>
   <div class="flex space-x-2 items-center">
-    <div class="bg-button-hover rounded-full w-5 h-5 flex justify-center items-center">
-      <i class="fa-solid fa-star text-off-white"></i>
+    <div class="bg-button-hover rounded-full w-4 h-4 flex justify-center items-center">
+      <i class="fa-solid fa-star text-off-white text-xs"></i>
     </div>
     <h1 class="text-off-white font-bold text-lg">{{moviesInfo[index].promo}}</h1>
   </div>
@@ -20,7 +20,7 @@
     }
   </div>
   <div class="my-2 flex">
-    <a class="z-20" href="{{moviesInfo[index].link}}">
+    <a class="z-20" routerLink="/watch/{{moviesInfo[index].link}}">
       <div class="rounded-full w-12 h-12 bg-gradient-to-r from-blurple to-button-hover flex items-center justify-center
                   hover:from-dark-blurple hover:to-blurple cursor-pointer">
         <i class="fa-solid fa-play text-white text-2xl"></i>
@@ -41,7 +41,7 @@
 <div *ngIf="isMobile" class="absolute h-1/2 bottom-0 w-full pb-20 group flex flex-col-reverse items-center
   bg-gradient-to-t from-body-charcoal/50 to-body-charcoal/0">
   <div class="my-2 flex">
-    <a class="z-20" href="{{moviesInfo[index].link}}">
+    <a class="z-20" routerLink="/watch/{{moviesInfo[index].link}}">
       <div class="rounded-full w-12 h-12 bg-gradient-to-r from-blurple to-button-hover flex items-center justify-center
                   hover:from-dark-blurple hover:to-blurple cursor-pointer">
         <i class="fa-solid fa-play text-white text-2xl"></i>

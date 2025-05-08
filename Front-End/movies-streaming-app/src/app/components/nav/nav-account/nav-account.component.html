@@ -1,39 +1,31 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <div class="relative" #accountDropdown>
 
-  <button class="flex items-center text-off-white hover:text-blurple  transition-colors"
-    (click)="toggleDropdown()">
+  <button class="flex items-center text-off-white hover:text-blurple  transition-colors" (click)="toggleDropdown()">
     <span class="mr-2">My Account</span>
-    <i class="fas fa-chevron-down text-xs transition-transform duration-200"
-       [class.rotate-180]="isOpen"></i>
+    <i class="fas fa-chevron-down text-xs transition-transform duration-200" [class.rotate-180]="isOpen"></i>
   </button>
-  
 
-  <div class="absolute right-0 mt-5 border-t-4 border-t-blurple w-56 bg-surface-black rounded-b-md  z-50 py-1 transition-all duration-200"
-    [class]="isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
-    *ngIf="isOpen">
-      <a
-        href="#"
-        class="flex items-center px-4 py-3 text-sm text-off-white hover:bg-dark-button-hover"
 
-      >
-        <i class="fas fa-user-cog mr-3 text-gray-500 w-4"></i>
-        Account Settings
-      </a>
-      <a
-        href="#"
-        class="flex items-center px-4 py-3 text-sm text-off-white hover:bg-dark-button-hover"
-      >
-        <i class="fas fa-laptop mr-3 text-gray-500 w-4"></i>
-        Devices Management
-      </a>
-      <div class="border-t border-gray-200 my-1"></div>
-      <a
-        href="#"
-        class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-dark-button-hover"
-      >
-        <i class="fas fa-sign-out-alt mr-3 text-red-500 w-4"></i>
-        Logout
-      </a>
-    </div>
+  <div
+    class="absolute right-0 mt-5 border-t-4 border-t-blurple w-56 bg-surface-black rounded-b-md  z-50 py-1 transition-all duration-200"
+    [class]="isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'" *ngIf="isOpen">
+    <a routerLink="/" class="flex items-center px-4 py-3 text-sm text-off-white hover:bg-dark-button-hover">
+      <i class="fas fa-user-cog mr-3 text-gray-500 w-4"></i>
+      Account Settings
+    </a>
+    <a routerLink="/" class="flex items-center px-4 py-3 text-sm text-off-white hover:bg-dark-button-hover">
+      <i class="fas fa-right-to-bracket mr-3 text-gray-500 w-4"></i>
+      Sign In
+    </a>
+    <a routerLink="/" class="flex items-center px-4 py-3 text-sm text-off-white hover:bg-dark-button-hover">
+      <i class="fas fa-user-plus mr-3 text-gray-500 w-4"></i>
+      Sign Up
+    </a>
+    <div class="border-t border-gray-200 my-1"></div>
+    <a routerLink="/" class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-dark-button-hover">
+      <i class="fas fa-sign-out-alt mr-3 text-red-500 w-4"></i>
+      Logout
+    </a>
   </div>
+</div>

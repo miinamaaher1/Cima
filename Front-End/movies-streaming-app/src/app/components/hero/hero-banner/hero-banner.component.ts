@@ -31,7 +31,7 @@ export class HeroBannerComponent implements OnChanges, OnInit {
     setTimeout(() => {
       this.videoVisible = true;
       this.videoVisibilityChanged.emit(false)
-    }, 3000);
+    }, 5000);
   }
 
   toggleMute() {

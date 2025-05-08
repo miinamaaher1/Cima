@@ -13,8 +13,7 @@ import { CollectionType } from '../../../core/utils/collection-type';
 @Component({
   selector: 'app-home-carousels-group-infinite',
   imports: [MovieCarouselComponent, InfiniteScrollDirective],
-  templateUrl: './home-carousels-group-infinite.component.html',
-  styleUrl: './home-carousels-group-infinite.component.css'
+  templateUrl: './home-carousels-group-infinite.component.html'
 })
 
 export class HomeCarouselsGroupInfiniteComponent {

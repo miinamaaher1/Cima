@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { GenresService } from '../../../core/services/genres/genres.service';
 import { language } from '../../../core/utils/language.enum';
 import { MovieListServiceService } from '../../../core/services/lists/movieList/movie-list-service.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-media-list',
   standalone: true,
-  imports: [CommonModule, FormsModule ,RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './media-list.component.html',
 })
 export class MediaListComponent implements OnInit {
@@ -38,7 +38,7 @@ export class MediaListComponent implements OnInit {
     this.genreService.getAllMovieGenres(language.english).subscribe((genreResponse: any) => {
       const genreMap = new Map<number, string>();
       genreResponse.genres.forEach((g: any) => genreMap.set(g.id, g.name));
-  
+
       this.mediaService.getPopularMovies(1, language.english).subscribe((response: any) => {
         this.mediaItems = response.results.map((item: any) => ({
           ...item,
@@ -54,7 +54,7 @@ export class MediaListComponent implements OnInit {
       });
     });
   }
-  
+
 
   loadGenres(): void {
     this.genreService.getAllMovieGenres(language.english).subscribe((genres: any) => {
@@ -108,5 +108,9 @@ export class MediaListComponent implements OnInit {
       this.mediaItems = this.mediaItems.filter(item => item.id !== mediaId);
       this.applyFilters();
     }
+  }
+
+  unlistMedia(mediaId: number, event: Event) : void {
+    event.stopPropagation();
   }
 }

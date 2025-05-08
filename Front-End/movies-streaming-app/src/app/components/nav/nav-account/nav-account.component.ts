@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-nav-account',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './nav-account.component.html',
   styles: ``
 })

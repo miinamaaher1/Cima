@@ -1,7 +1,7 @@
 <div class="w-full relative px-10 mb-4 overflow-x-hidden md:overflow-x-visible">
     <h3 class="mb-5 text-off-white text-[1.125rem] font-semibold">{{title | titlecase}}</h3>
     <div class="relative h-40">
-        <div class="absolute left-0 flex gap-2 transition-all duration-700" #slider>
+        <div class="absolute left-0 flex transition-all duration-700" #slider>
             @for (id of collectionList; track id)
             {
             @defer (on interaction(rightArrow); when isFirst) {
@@ -14,9 +14,9 @@
             <app-serie-card class="z-10 hover:z-40" [id]="id"></app-serie-card>
             }
             } @placeholder(minimum 1s) {
-            <div class="animate-pulse bg-gray-700 w-52 h-29"></div>
+            <div class="animate-pulse bg-gray-700 w-52 h-29 mx-1 rounded-sm"></div>
             } @loading {
-            <div class="animate-pulse bg-gray-700 w-52 h-29"></div>
+            <div class="animate-pulse bg-gray-700 w-52 h-29 mx-1 rounded-sm"></div>
             }
             }
         </div>

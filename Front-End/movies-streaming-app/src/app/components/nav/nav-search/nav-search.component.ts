@@ -7,6 +7,7 @@ import { MovieCardComponent } from "../../shared/movie-card/movie-card.component
 import { CommonModule } from '@angular/common';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { SerieCardComponent } from '../../shared/serie-card/serie-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-search',
@@ -23,7 +24,7 @@ export class NavSearchComponent {
 
   private searchSubject = new Subject<string>();
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService, private router:Router) {
     this.setupSearchListener();
   }
 
@@ -73,6 +74,13 @@ export class NavSearchComponent {
         console.error('Search error:', err);
       }
     });
+  }
+
+  onMovieCardClick(){
+    this.closeSearch();
+  }
+  onSeriesCardClick(){
+    this.closeSearch();
   }
 
   @HostListener('document:keydown.escape', ['$event'])

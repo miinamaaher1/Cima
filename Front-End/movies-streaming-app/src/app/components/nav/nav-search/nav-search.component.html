@@ -22,7 +22,7 @@
             aria-label="Search input">
           <button class="absolute right-4 text-gray-400 hover:text-white transition-colors" (click)="closeSearch()"
             aria-label="Close search">
-            <i class="fas fa-times text-2xl"></i>
+            <i class="fa-solid fa-right-from-bracket text-xl"></i>
           </button>
         </div>
       </div>
@@ -34,12 +34,16 @@
       @for (item of media; track item.id) {
       <div class="relative w-55 h-30">
         @if (item.media_type==='movie') {
-        <app-movie-card [id]="item.id" class="absolute hover:z-40 transition-all duration-300">
+        <app-movie-card 
+        (click)="onMovieCardClick()"
+        [id]="item.id" class="absolute hover:z-40 transition-all duration-300">
         </app-movie-card>
         }
         @else
         {
-          <app-serie-card [id]="item.id"></app-serie-card>
+          <app-serie-card 
+          (click)="onSeriesCardClick()"
+          [id]="item.id" class="absolute hover:z-40 transition-all duration-300"></app-serie-card>
         }
       </div>
       }
