@@ -34,12 +34,16 @@
       @for (item of media; track item.id) {
       <div class="relative w-55 h-30">
         @if (item.media_type==='movie') {
-        <app-movie-card [id]="item.id" class="absolute hover:z-40 transition-all duration-300">
+        <app-movie-card 
+        (click)="onMovieCardClick()"
+        [id]="item.id" class="absolute hover:z-40 transition-all duration-300">
         </app-movie-card>
         }
         @else
         {
-          <app-serie-card [id]="item.id" class="absolute hover:z-40 transition-all duration-300"></app-serie-card>
+          <app-serie-card 
+          (click)="onSeriesCardClick()"
+          [id]="item.id" class="absolute hover:z-40 transition-all duration-300"></app-serie-card>
         }
       </div>
       }

@@ -1,42 +1,43 @@
 <div
-  class="relative shadow-lg transition-all md:hover:scale-110 duration-300 w-full max-w-sm group cursor-pointer bg-card-black rounded-md text-off-white overflow-hidden">
-  <!-- Poster Image Container -->
-  <div class="relative overflow-hidden">
-    <!-- Episode Image -->
-    <img [src]="Poster" [alt]="'Episode ' + episodeNum"
-      class="w-full h-auto object-cover transition-transform duration-300" />
-    <div
-      class="absolute inset-0 bg-gradient-to-t from-card-black to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300">
-    </div>
-    <div
-      class="absolute top-3 left-3 bg-card-black bg-opacity-80 text-off-white  px-2.5 py-1 rounded-full text-xs font-semibold">
-      Episode {{ episodeNum }}
-    </div>
-    <div class="absolute bottom-3 right-3 bg-card-black bg-opacity-80 text-off-white px-2.5 py-1 rounded-full text-xs">
-      {{ Runtime| formatTime }}
+    class="relative shadow-lg transition-all md:hover:scale-110 duration-300 w-full max-w-sm group cursor-pointer bg-card-black rounded-md text-off-white overflow-hidden">
+    <!-- Poster Image Container -->
+    <div class="relative overflow-hidden">
+        <!-- Episode Image -->
+        <img [src]="Poster" [alt]="'Episode ' + episodeNum"
+            class="w-full h-auto object-cover transition-transform duration-300" />
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-card-black to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300">
+        </div>
+        <div
+            class="absolute top-3 left-3 bg-card-black bg-opacity-80 text-off-white  px-2.5 py-1 rounded-full text-xs font-semibold">
+            Episode {{ episodeNum }}
+        </div>
+        <div
+            class="absolute bottom-3 right-3 bg-card-black bg-opacity-80 text-off-white px-2.5 py-1 rounded-full text-xs">
+            {{ Runtime| formatTime }}
+        </div>
+
+        <div
+            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="size-10 flex justify-center items-center rounded-full bg-off-white ">
+                <i class="fas fa-play text-background-black"></i>
+            </div>
+        </div>
     </div>
 
+    <!-- Description Area -->
     <div
-      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      <div class="size-10">
-        <app-icon [name]="'play'" [state]="'solid'" [title]="'play'"></app-icon>
-      </div>
+        class="max-h-0 opacity-0 transition-all duration-300 overflow-hidden group-hover:max-h-40 group-hover:opacity-100 group-hover:p-4">
+        <div class="flex justify-end space-x-2">
+            <button class="size-7 flex justify-center items-center rounded-full bg-off-white">
+                <i class="fas fa-heart text-background-black"></i>
+            </button>
+            <button class="size-7 flex justify-center items-center rounded-full bg-off-white">
+                <i class="fas fa-share text-background-black"></i>
+            </button>
+        </div>
+        <p class="text-[0.7rem] mt-2 ">
+            {{ Description }}
+        </p>
     </div>
-  </div>
-
-  <!-- Description Area -->
-  <div
-    class="max-h-0 opacity-0 transition-all duration-300 overflow-hidden group-hover:max-h-40 group-hover:opacity-100 group-hover:p-4">
-    <div class="flex justify-end space-x-2">
-      <button class="size-7">
-        <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add To Favorites'"></app-icon>
-      </button>
-      <button class="size-7">
-        <app-icon [name]="'share'" [state]="'solid'" [title]="'Share'"></app-icon>
-      </button>
-    </div>
-    <p class="text-[0.7rem] mt-2 ">
-      {{ Description }}
-    </p>
-  </div>
 </div>
