@@ -8,7 +8,8 @@
     <!-- <div class="hidden"></div> -->
     <!-- </div> -->
     <a routerLink="/details/series/{{id}}" class="w-full h-29 block relative">
-        <div *ngIf="!isPlaying && logoUrl" class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+        <div *ngIf="!isPlaying && logoUrl"
+            class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <img [src]="logoUrl" alt="{{name}} logo" class="max-w-[50%] max-h-[40%] object-contain">
         </div>
         <video class="w-full h-full object-center object-cover" poster="{{posterUrl}}" (mouseenter)="playVideo($event)"
@@ -20,9 +21,18 @@
         class="flex flex-col gap-1 px-4 overflow-hidden transition-all delay-200 z-50 duration-700 opacity-0 max-h-0 md:group-hover/card:max-h-96 md:group-hover/card:p-4 md:group-hover/card:opacity-100">
         <div class="flex justify-between">
             <div class="flex gap-2.5">
-                <a href="#" class="size-7">
+                @if(IsInFavorites)
+                {
+                <a class="size-7" (click)="addToFavorites()">
                     <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"></app-icon>
                 </a>
+                }
+                @else
+                {
+                <a class="size-7" (click)="removeFromFavorites()">
+                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"></app-icon>
+                </a>
+                }
             </div>
             <a routerLink="/details/movie/{{id}}" class="size-7">
                 <app-icon [name]="'info'" [state]="'solid'" [title]="'More Information'"></app-icon>
@@ -32,18 +42,19 @@
             <p>{{name}}</p>
         </div>
         <div class="flex gap-1 flex-wrap h-5 overflow-hidden select-none">
-          <div class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">
-            {{episodes}} episodes
-          </div>
-          @for (tag of tags; track $index)
-          {
-          <span
-              class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">{{tag
-              | lowercase}}</span>
-          }
+            <div
+                class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">
+                {{episodes}} episodes
+            </div>
+            @for (tag of tags; track $index)
+            {
+            <span
+                class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">{{tag
+                | lowercase}}</span>
+            }
         </div>
         <div>
-          <div class="text-[0.6rem]">{{discription}}</div>
+            <div class="text-[0.6rem]">{{discription}}</div>
         </div>
     </div>
 </div>
