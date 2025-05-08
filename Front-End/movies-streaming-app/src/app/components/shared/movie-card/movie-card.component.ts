@@ -5,7 +5,8 @@ import { MovieService } from '../../../core/services/movie/movie.service';
 import { language } from '../../../core/utils/language.enum';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { RouterLink } from '@angular/router';
-import { error } from 'console';
+import { FavouritesService } from '../../../core/services/Favoutites/favourites.service';
+import { VideoType } from '../../../core/dtos/VideoType';
 
 @Component({
   selector: 'app-movie-card',
@@ -15,7 +16,7 @@ import { error } from 'console';
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
-  constructor(private movieService: MovieService, private videoService: VideosService) { }
+  constructor(private movieService: MovieService, private videoService: VideosService, private favoritesService: FavouritesService) { }
   ngOnInit(): void {
     this.movieService.getMovieDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -38,7 +39,7 @@ export class MovieCardComponent {
       next: data => {
         try {
           this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
-          this.logoUrl   =`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
+          this.logoUrl = `https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
           this.validMovie = false;
@@ -48,28 +49,29 @@ export class MovieCardComponent {
       error: () => this.validMovie = false
     });
   }
+  IsInFavorites: boolean = false;
   validMovie: boolean = true;
   name: string = "";
   hours: number = 0;
   minutes: number = 0;
   posterUrl: string = "";
-  logoUrl: string="";
+  logoUrl: string = "";
   videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;
-  isPlaying:boolean=false;
+  isPlaying: boolean = false;
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
         ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
-        ($event.target as HTMLVideoElement).play().then(()=>{
-          this.isPlaying=true;
-        }).catch(error=>{
+        ($event.target as HTMLVideoElement).play().then(() => {
+          this.isPlaying = true;
+        }).catch(error => {
           console.error("video playback failed")
-          this.isPlaying=false;
+          this.isPlaying = false;
         });
       }, 1000);
     }
@@ -80,7 +82,19 @@ export class MovieCardComponent {
       this.timerHandler = null;
       ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
-      this.isPlaying=false;
+      this.isPlaying = false;
     }
+  }
+  addToFavorites() {
+    this.favoritesService.addToFavourites({ id: this.id, videoType: VideoType.Movie }).subscribe({
+      next: () => this.IsInFavorites = true,
+      error: (error) => console.log(error)
+    });
+  }
+  removeFromFavorites() {
+    this.favoritesService.deleteFromFavourites({ id: this.id, videoType: VideoType.Movie }).subscribe({
+      next: () => this.IsInFavorites = false,
+      error: (error) => console.log(error)
+    });
   }
 }

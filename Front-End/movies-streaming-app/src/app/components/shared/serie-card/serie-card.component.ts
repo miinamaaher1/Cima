@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { RouterLink } from '@angular/router';
+import { FavouritesService } from '../../../core/services/Favoutites/favourites.service';
+import { VideoType } from '../../../core/dtos/VideoType';
 
 @Component({
   selector: 'app-serie-card',
@@ -14,7 +16,7 @@ import { RouterLink } from '@angular/router';
 })
 export class SerieCardComponent {
   @Input() id: number = 0;
-  constructor(private seriesService: SeriesService, private videoService: VideosService) { }
+  constructor(private seriesService: SeriesService, private videoService: VideosService, private favoritesService: FavouritesService) { }
   ngOnInit(): void {
     this.seriesService.getSeriesDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -37,7 +39,7 @@ export class SerieCardComponent {
       next: data => {
         try {
           this.posterUrl = `https://image.tmdb.org/t/p/original/${data.backdrops[0].file_path}`;
-          this.logoUrl=`https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
+          this.logoUrl = `https://image.tmdb.org/t/p/original/${data.logos[0].file_path}`
         }
         catch (error) {
           this.validSeries = false;
@@ -47,27 +49,28 @@ export class SerieCardComponent {
       error: () => this.validSeries = false
     });
   }
+  IsInFavorites: boolean = false;
   validSeries: boolean = true;
   name: string = "";
   seasons: number = 0;
   episodes: number = 0;
   posterUrl: string = "";
-  logoUrl:string="";
+  logoUrl: string = "";
   videoUrl: string = "";
   cast: string[] = [];
   tags: string[] = [];
   timerHandler: any;
-  isPlaying:boolean=false;
+  isPlaying: boolean = false;
   playVideo($event: MouseEvent) {
     if (!this.timerHandler) {
       this.timerHandler = setTimeout(() => {
         ($event.target as HTMLVideoElement).load();
         ($event.target as HTMLVideoElement).muted = true;
         ($event.target as HTMLVideoElement).loop = true;
-        ($event.target as HTMLVideoElement).play().then(()=>{
-          this.isPlaying=true;
-        }).catch(()=>{
-          this.isPlaying=false;
+        ($event.target as HTMLVideoElement).play().then(() => {
+          this.isPlaying = true;
+        }).catch(() => {
+          this.isPlaying = false;
         });
       }, 1000);
     }
@@ -78,7 +81,19 @@ export class SerieCardComponent {
       this.timerHandler = null;
       ($event.target as HTMLVideoElement).pause();
       ($event.target as HTMLVideoElement).load();
-      this.isPlaying=false;
+      this.isPlaying = false;
     }
+  }
+  addToFavorites() {
+    this.favoritesService.addToFavourites({ id: this.id, videoType: VideoType.Series }).subscribe({
+      next: () => this.IsInFavorites = true,
+      error: (error) => console.log(error)
+    });
+  }
+  removeFromFavorites() {
+    this.favoritesService.deleteFromFavourites({ id: this.id, videoType: VideoType.Series }).subscribe({
+      next: () => this.IsInFavorites = false,
+      error: (error) => console.log(error)
+    });
   }
 }

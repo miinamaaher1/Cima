@@ -8,7 +8,8 @@
     <!-- <div class="hidden"></div> -->
     <!-- </div> -->
     <a routerLink="/details/movie/{{id}}" class="w-full h-29 block relative">
-        <div *ngIf="!isPlaying && logoUrl" class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+        <div *ngIf="!isPlaying && logoUrl"
+            class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <img [src]="logoUrl" alt="{{name}} logo" class="max-w-[50%] max-h-[40%] object-contain">
         </div>
         <video class="w-full h-full object-center object-cover" poster="{{posterUrl}}" (mouseenter)="playVideo($event)"
@@ -23,9 +24,18 @@
                 <a routerLink="/watch/movie/{{id}}" class="size-7">
                     <app-icon [name]="'play'" [state]="'solid'" [title]="'Watch Now'"></app-icon>
                 </a>
-                <a href="#" class="size-7">
+                @if(IsInFavorites)
+                {
+                <a class="size-7" (click)="addToFavorites()">
+                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"></app-icon>
+                </a>
+                }
+                @else
+                {
+                <a class="size-7" (click)="removeFromFavorites()">
                     <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"></app-icon>
                 </a>
+                }
             </div>
             <a routerLink="/details/movie/{{id}}" class="size-7">
                 <app-icon [name]="'info'" [state]="'solid'" [title]="'More Information'"></app-icon>
