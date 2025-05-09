@@ -49,7 +49,7 @@ namespace Movie_Streaming_App
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             // DB Context
             builder.Services.AddDbContext<AppDbContext>(
-                    op => op.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDB")).UseLazyLoadingProxies()
+                    op => op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies()
                     );
 
 

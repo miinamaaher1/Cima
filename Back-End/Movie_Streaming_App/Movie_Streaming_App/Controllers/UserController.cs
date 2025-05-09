@@ -60,5 +60,18 @@ namespace Movie_Streaming_App.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+        [HttpGet("type")]
+        public async Task<IActionResult> GetUserType()
+        {
+            try
+            {
+                var role = User.IsInRole("admin") ? "admin" : "user";
+                return Ok(new { role });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
 }
