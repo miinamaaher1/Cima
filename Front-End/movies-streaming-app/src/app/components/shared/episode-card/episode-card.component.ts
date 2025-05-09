@@ -22,10 +22,5 @@ export class EpisodeCardComponent implements OnInit{
   @Input() episodeNum:number=0
   @Input() Runtime:number=0;
   @Input() Description:string='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi laborum vel soluta aspernatur blanditiis provident odio nesciunt? Tenetur, iusto ex.';
-
   isAuthenticated:boolean=false;
-
-
-  
-
 }

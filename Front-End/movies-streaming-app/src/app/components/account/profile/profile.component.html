@@ -1,1 +1,39 @@
-<p>profile works!</p>
+<div
+    class="w-screen h-screen pt-[150px] md:pt-0 flex justify-center items-center text-off-white bg-[url('/images/wallpapers/blur.jpg')] bg-cover bg-center relative">
+    <div class="w-full md:w-100 flex flex-col md:bg-surface-black p-6 rounded-xl z-10">
+        <div class="text-center text-[16px] font-black md:vw-text-[24] lg:!font-bold text-light-blue-3 mb-3">
+            <h1 class="text-xl md:text-2xl font-bold">Your Profile</h1>
+        </div>
+        @if(readyData)
+        {
+        <app-profile-data-form class="mt-5" [isReadOnly]="true" [userData]="user"></app-profile-data-form>
+        }
+        @else
+        {
+        <div class="mt-5">Loading...</div>
+        }
+        <div class="my-3">
+            @if(!isSubscriptionValid)
+            {
+            <p class="mb-1">Subscription Status:
+                <span class="text-red-600">invalid</span>
+            </p>
+            }
+            @if(isSubscriptionValid)
+            {
+            <p>You are a
+                <span
+                    class="px-1.5 py-0.5 text-[0.75rem] font-semibold rounded-xl bg-background-black border-border-grey border-solid border-1">
+                    {{subscriptionType | lowercase}}
+                </span>
+                Member
+            </p>
+            }
+        </div>
+        <button class="text-off-white bg-gradient-to-r from-blurple to-button-hover hover:to-blurple transition duration-300
+               rounded-full px-4 py-3 self-center cursor-pointer font-bold text-sm" routerLink="/subscribe">
+            Change Subscription
+        </button>
+    </div>
+    <div class="w-full h-16 bg-gradient-to-t from-background-black to-transparent absolute bottom-0"></div>
+</div>
