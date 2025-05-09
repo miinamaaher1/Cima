@@ -1,3 +1,5 @@
+import { ISubscription } from './ISubscriptionData';
+
 export interface IUserType{
     role : string // "user", "admin"
 }
@@ -13,4 +15,11 @@ export interface IUser{
     email: string,
     birthDate: string,
     gender: Gender
+}
+
+export interface IUserSummary {
+    isLoggedIn: boolean;
+    userType?: IUserType | null;
+    userInfo?: IUser | null;
+    subscription?: ISubscription | null;
 }

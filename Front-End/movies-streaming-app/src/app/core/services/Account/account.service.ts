@@ -6,8 +6,8 @@ import { SignInDto } from '../../dtos/SignInDto';
 import { LoginResponseDto } from '../../dtos/LoginResponseDto';
 import { Router } from '@angular/router';
 import { ISubscription } from '../../interfaces/ISubscriptionData';
-import { catchError, map, Observable, of, throwError } from 'rxjs';
-import { IUser, IUserType } from '../../interfaces/IUser';
+import { catchError, map, Observable, of, throwError, switchMap, forkJoin } from 'rxjs';
+import { IUser, IUserType, IUserSummary } from '../../interfaces/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +99,54 @@ export class AccountService {
     return this._http.get<IUser>(url, { headers });
   }
 
-  
+  // Get comprehensive user summary
+  getUserSummary(): Observable<IUserSummary> {
+    const isLoggedIn = this.isLoggedIn();
+    
+    if (!isLoggedIn) {
+      return of({
+        isLoggedIn: false,
+        userType: null,
+        userInfo: null,
+        subscription: null
+      });
+    }
 
+    return this.getUserType().pipe(
+      switchMap(userType => {
+        if (userType.role === 'admin') {
+          return this.getUserInfo().pipe(
+            map(userInfo => ({
+              isLoggedIn: true,
+              userType,
+              userInfo,
+              subscription: null
+            }))
+          );
+        }
+
+        // For regular users, get all data
+        return forkJoin({
+          userInfo: this.getUserInfo(),
+          subscription: this.getSubscriptionData() as Observable<ISubscription>
+        }).pipe(
+          map(({ userInfo, subscription }) => ({
+            isLoggedIn: true,
+            userType,
+            userInfo,
+            subscription
+          }))
+        );
+      }),
+      catchError(error => {
+        console.error('Error fetching user summary:', error);
+        return of({
+          isLoggedIn: true,
+          userType: null,
+          userInfo: null,
+          subscription: null
+        });
+      })
+    );
+  }
 }
