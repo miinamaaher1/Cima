@@ -52,7 +52,7 @@ export class AccountService {
     }
     return token;
   }
-  
+
   logout(): void {
     localStorage.removeItem('userToken');
     this.router.navigate(['/sign-in']);
@@ -65,14 +65,15 @@ export class AccountService {
   }
 
   // get the user subscription data
-  getSubscriptionData(): any {
+  getSubscriptionData(): Observable<ISubscription> {
     const token = this.getToken();
     if (!token) {
-      return null;
+      return throwError(() => new Error('User not authenticated'));
     }
-    const endpoint = "api/Account/subscription";
+    const endpoint = "api/user/subscription";
     const url = `${environment.account_base_url}/${endpoint}`;
-    return this._http.get<ISubscription>(url, { headers: this.headers });
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this._http.get<ISubscription>(url, { headers });
   }
 
   // Get the user type (role)
@@ -102,7 +103,7 @@ export class AccountService {
   // Get comprehensive user summary
   getUserSummary(): Observable<IUserSummary> {
     const isLoggedIn = this.isLoggedIn();
-    
+
     if (!isLoggedIn) {
       return of({
         isLoggedIn: false,

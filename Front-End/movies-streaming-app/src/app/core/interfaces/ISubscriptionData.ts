@@ -1,6 +1,6 @@
 export interface ISubscription {
-    subscriptionPlan: string,
-    subscriptionType: SubscriptionPlan | null,
+    subscriptionState: boolean,
+    subscriptionType: SubscriptionPlan,
 }
 
 export enum SubscriptionPlan {
