@@ -10,7 +10,6 @@ import { AccountService } from '../../../core/services/Account/account.service';
 import { FavoritesService } from '../../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../../core/dtos/VideoType';
 import { WatchlistService } from '../../../core/services/Watchlist/watchlist.service';
-import { error } from 'console';
 
 @Component({
   selector: 'app-movie-card',
@@ -113,13 +112,13 @@ export class MovieCardComponent {
       if (this.isListed()) {
         this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
           next: () => this.IsInWatchList = false,
-          error: () => console.log(error)
+          error: () => {} // console.log(error)
         })
       }
       else {
         this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
           next: () => this.IsInWatchList = true,
-          error: () => console.log(error)
+          error: () => {} // console.log(error)
         })
       }
     }

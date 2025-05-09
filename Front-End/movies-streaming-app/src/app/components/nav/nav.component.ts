@@ -1,10 +1,12 @@
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, Inject, OnChanges, OnInit, PLATFORM_ID, signal, SimpleChanges } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NavLinksComponent } from './nav-links/nav-links.component';
 import { NavSearchComponent } from './nav-search/nav-search.component';
 import { NavAccountComponent } from './nav-account/nav-account.component';
 import { NavSmComponent } from './nav-sm/nav-sm.component';
+import { AccountService } from '../../core/services/Account/account.service';
+import { IUserSummary } from '../../core/interfaces/IUser';
 
 @Component({
   selector: 'app-nav',
@@ -18,11 +20,17 @@ import { NavSmComponent } from './nav-sm/nav-sm.component';
   templateUrl: './nav.component.html',
   styles: ``
 })
-export class NavComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+export class NavComponent implements OnInit, OnChanges {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private _accountService : AccountService
+  ) {}
+
   isScrolled = false;
   isSmallView = false;
   isSmallScreenOpen = false;
+
+  User = signal<IUserSummary | null>(null)
 
   @HostListener('window:scroll')
   onWindowScroll() {
@@ -43,6 +51,21 @@ export class NavComponent {
     if (isPlatformBrowser(this.platformId)) {
       this.checkViewport();
     }
+    this._accountService.getUserSummary().subscribe({
+      next : res => {
+        this.User.set(res)
+      },
+      error : () => {}
+    })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this._accountService.getUserSummary().subscribe({
+      next : res => {
+        this.User.set(res)
+      },
+      error : () => {}
+    })
   }
 
   checkViewport() {

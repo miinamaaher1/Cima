@@ -10,6 +10,7 @@ import { MovieListServiceService } from '../../core/services/lists/movieList/mov
 import { SeriesListServiceService } from '../../core/services/lists/seriesList/series-list-service.service';
 import { language } from '../../core/utils/language.enum';
 import { RouterLink } from '@angular/router';
+import { VideosService } from '../../core/services/videos/videos.service';
 
 export interface moviePreview {
   poster: string,
@@ -34,7 +35,8 @@ export class HeroComponent implements OnInit {
     private _imageService: ImageService,
     private _movieService: MovieService,
     private _movieListService: MovieListServiceService,
-    private _seriesListService: SeriesListServiceService
+    private _seriesListService: SeriesListServiceService,
+    private _videoService: VideosService
   ) { }
 
   ngOnInit(): void {
@@ -164,6 +166,14 @@ export class HeroComponent implements OnInit {
               : res.overview;
             this.previews[i].tags = res.genres.map(i => i.name).slice(0, 4);
             this.previews[i].promo = res.tagline ? res.tagline : this.previews[i].promo
+
+            this._videoService.getTrailer(res.title).subscribe({
+              next: res => {
+                this.previews[i].clip = res.filter(s => s.quality == 360)[0].url
+              },
+              error : err => {}
+            })
+
             this.updateSignals();
           },
           error: err => console.log(err)
@@ -194,6 +204,14 @@ export class HeroComponent implements OnInit {
               : res.overview;
             this.previews[i].tags = res.genres.map(i => i.name).slice(0, 4);
             this.previews[i].promo = res.tagline ? res.tagline : this.previews[i].promo
+
+            this._videoService.getTrailer(res.name).subscribe({
+              next: res => {
+                this.previews[i].clip = res.filter(s => s.quality == 360)[0].url
+              },
+              error : err => {}
+            })
+
             this.updateSignals();
           },
           error: err => console.log(err)

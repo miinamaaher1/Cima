@@ -34,7 +34,9 @@ export class HeroBannerComponent implements OnChanges, OnInit {
     }, 5000);
   }
 
-  toggleMute() {
+  toggleMute(event: MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
     this.isMuted = !this.isMuted;
   }
 
