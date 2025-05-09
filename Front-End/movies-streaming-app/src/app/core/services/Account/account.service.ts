@@ -6,7 +6,8 @@ import { SignInDto } from '../../dtos/SignInDto';
 import { LoginResponseDto } from '../../dtos/LoginResponseDto';
 import { Router } from '@angular/router';
 import { ISubscription } from '../../interfaces/ISubscriptionData';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
+import { IUserType } from '../../interfaces/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -68,10 +69,20 @@ export class AccountService {
     if (!token) {
       return null;
     }
-
     const endpoint = "api/Account/subscription";
     const url = `${environment.account_base_url}/${endpoint}`;
     return this._http.get<ISubscription>(url, { headers: this.headers });
   }
-}
 
+  // Get the user type (role)
+  getUserType(): Observable<IUserType> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+    const endpoint = "/api/User/type";
+    const url = `${environment.account_base_url}${endpoint}`;
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this._http.get<IUserType>(url, { headers });
+  }
+}
