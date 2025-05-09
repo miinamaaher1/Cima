@@ -8,6 +8,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../../core/services/Account/account.service';
 import { FavoritesService } from '../../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../../core/dtos/VideoType';
+import { WatchlistService } from '../../../core/services/Watchlist/watchlist.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-serie-card',
@@ -16,7 +18,7 @@ import { VideoType } from '../../../core/dtos/VideoType';
 })
 export class SerieCardComponent {
   @Input() id: number = 0;
-  constructor(private seriesService: SeriesService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService) { }
+  constructor(private seriesService: SeriesService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService ,private watchLisatService:WatchlistService) { }
   ngOnInit(): void {
     this.seriesService.getSeriesDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -49,6 +51,8 @@ export class SerieCardComponent {
       error: (err) => console.log(err)
     });
   }
+
+  IsInWatchList: boolean = false;
   IsInFavorites: boolean = false;
   validSeries: boolean = true;
   name: string = "";
@@ -102,5 +106,33 @@ export class SerieCardComponent {
       });
     else
       this.router.navigate(['/sign-in']);
+  }
+
+    toggleListItem() {
+    if (this.accountService.isLoggedIn()) {
+      if (this.isListed()) {
+        this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Series }).subscribe({
+          next: () => this.IsInWatchList = false,
+          error: () => console.log(error)
+        })
+      }
+      else {
+        this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Series }).subscribe({
+          next: () => this.IsInWatchList = true,
+          error: () => console.log(error)
+        })
+      }
+    }
+    else {
+      this.router.navigate(['/sign-in']);
+    }
+  }
+
+  isListed(): boolean {
+    return this.watchLisatService.getWatchlist().subscribe({
+      next: res => {
+        res.map(l => l.id).includes(this.id)
+      }
+    }) ? true : false;
   }
 }

@@ -9,6 +9,8 @@ import { FormatTimePipe } from '../../../core/pipes/format-time.pipe';
 import { AccountService } from '../../../core/services/Account/account.service';
 import { FavoritesService } from '../../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../../core/dtos/VideoType';
+import { WatchlistService } from '../../../core/services/Watchlist/watchlist.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-movie-card',
@@ -17,7 +19,7 @@ import { VideoType } from '../../../core/dtos/VideoType';
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
-  constructor(private movieService: MovieService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService) { }
+  constructor(private movieService: MovieService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService, private watchLisatService: WatchlistService) { }
   ngOnInit(): void {
     this.movieService.getMovieDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -49,6 +51,8 @@ export class MovieCardComponent {
       error: (err) => console.log(err)
     });
   }
+
+  IsInWatchList: boolean = false;
   IsInFavorites: boolean = false;
   validMovie: boolean = true;
   name: string = "";
@@ -87,7 +91,7 @@ export class MovieCardComponent {
   }
   addToFavorites() {
     if (this.accountService.isLoggedIn())
-      this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
+      this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
         next: () => this.IsInFavorites = true,
         error: (error) => console.log(error)
       });
@@ -96,11 +100,39 @@ export class MovieCardComponent {
   }
   removeFromFavorites() {
     if (this.accountService.isLoggedIn())
-      this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
+      this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
         next: () => this.IsInFavorites = false,
         error: (error) => console.log(error)
       });
     else
       this.router.navigate(['/sign-in']);
+  }
+
+  toggleListItem() {
+    if (this.accountService.isLoggedIn()) {
+      if (this.isListed()) {
+        this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
+          next: () => this.IsInWatchList = false,
+          error: () => console.log(error)
+        })
+      }
+      else {
+        this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
+          next: () => this.IsInWatchList = true,
+          error: () => console.log(error)
+        })
+      }
+    }
+    else {
+      this.router.navigate(['/sign-in']);
+    }
+  }
+
+  isListed(): boolean {
+    return this.watchLisatService.getWatchlist().subscribe({
+      next: res => {
+        res.map(l => l.id).includes(this.id)
+      }
+    }) ? true : false;
   }
 }

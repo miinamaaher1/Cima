@@ -11,6 +11,8 @@
         class="relative w-full h-60 sm:h-60 lg:h-40"
       >
         <app-episode-card 
+          [seasonNumber]="season.seasonNumber"
+          [seriesId]="seriesId()"
           [episodeId]="episode.episodeId"
           [Poster]="episode.Poster"
           [episodeNum]="episode.episodeNum"

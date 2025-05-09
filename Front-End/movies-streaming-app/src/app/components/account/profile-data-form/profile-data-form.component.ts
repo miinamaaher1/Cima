@@ -11,6 +11,7 @@ import { AccountService } from '../../../core/services/Account/account.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { SignUpDto } from '../../../core/dtos/SignUpDto';
+import { Gender, IUser } from '../../../core/interfaces/IUser';
 
 @Component({
   selector: 'app-profile-data-form',
@@ -20,23 +21,22 @@ import { SignUpDto } from '../../../core/dtos/SignUpDto';
   styleUrl: './profile-data-form.component.css'
 })
 export class ProfileDataFormComponent {
+  @Input() userData!: IUser;
+  @Input() isReadOnly: boolean = false;
   isLoading = false;
-  @Input() userData: any = null;
-  @Input() readonly: boolean = false;
+  isFirstInput: boolean = true;
   form = new FormGroup(
     {
-      firstName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}$/)]),
-      lastName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}$/)]),
-      email: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9_%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-      birthDate: new FormControl(null, [Validators.required]),
-      gender: new FormControl("Male", Validators.required)
+      firstName: new FormControl<string | null>(null, [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}$/)]),
+      lastName: new FormControl<string | null>(null, [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}$/)]),
+      email: new FormControl<string | null>(null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9_%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      password: new FormControl<string | null>(null, [Validators.required, Validators.minLength(6)]),
+      confirmPassword: new FormControl<string | null>(null, [Validators.required, Validators.minLength(6)]),
+      birthDate: new FormControl<string | null>(null, [Validators.required]),
+      gender: new FormControl<string | null>("Male", Validators.required)
     },
     { validators: [confirmPasswordValidator, birthDateValidator] }
   );
-  isFirstInput: boolean = true;
-  @Input() isReadOnly: boolean = false;
   get validFirstName() { return this.form.controls.firstName.valid; }
   get validLastName() { return this.form.controls.lastName.valid; }
   get validEmail() { return this.form.controls.email.valid; }
@@ -49,6 +49,19 @@ export class ProfileDataFormComponent {
     private router: Router,
     private messageService: MessageService
   ) { }
+
+  ngOnInit() {
+    if (this.isReadOnly) {
+      this.form.patchValue({
+        firstName: this.userData.firstName,
+        lastName: this.userData.lastName,
+        email: this.userData.email,
+        gender: Gender[this.userData.gender],
+        birthDate: this.userData.birthDate,
+      });
+      this.form.disable();
+    }
+  }
 
   register() {
     this.isFirstInput = false;

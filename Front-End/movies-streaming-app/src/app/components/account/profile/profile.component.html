@@ -4,7 +4,14 @@
         <div class="text-center text-[16px] font-black md:vw-text-[24] lg:!font-bold text-light-blue-3 mb-3">
             <h1 class="text-xl md:text-2xl font-bold">Your Profile</h1>
         </div>
-        <app-profile-data-form class="mt-5" [isReadOnly]="true"></app-profile-data-form>
+        @if(readyData)
+        {
+        <app-profile-data-form class="mt-5" [isReadOnly]="true" [userData]="user"></app-profile-data-form>
+        }
+        @else
+        {
+        <div class="mt-5">Loading...</div>
+        }
         <div class="my-3">
             @if(!isSubscriptionValid)
             {
@@ -24,7 +31,7 @@
             }
         </div>
         <button class="text-off-white bg-gradient-to-r from-blurple to-button-hover hover:to-blurple transition duration-300
-               rounded-full px-4 py-3 self-center cursor-pointer font-bold text-sm" routerLink="subscribe">
+               rounded-full px-4 py-3 self-center cursor-pointer font-bold text-sm" routerLink="/subscribe">
             Change Subscription
         </button>
     </div>
