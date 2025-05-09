@@ -23,8 +23,8 @@ import { forkJoin } from 'rxjs';
 })
 export class VideoStreamComponent implements OnInit {
     constructor(
-        private route: ActivatedRoute, 
-        private moviesService: MovieService, 
+        private route: ActivatedRoute,
+        private moviesService: MovieService,
         private seriesService: SeriesService,
         private seasonService: SeasonService
     ) { }
@@ -113,9 +113,9 @@ export class VideoStreamComponent implements OnInit {
                 this.posterUrl = `https://image.tmdb.org/t/p/original${series.poster_path}`;
                 this.emitPosterUrl.emit(this.posterUrl);
                 this.emitMediaTitle.emit(this.mediaTitle);
-                
+
                 const seasonRequests = Array.from(
-                    { length: series.number_of_seasons }, 
+                    { length: series.number_of_seasons },
                     (_, i) => this.seasonService.getSeasonDetails(this.mediaId, i + 1, language.english)
                 );
 

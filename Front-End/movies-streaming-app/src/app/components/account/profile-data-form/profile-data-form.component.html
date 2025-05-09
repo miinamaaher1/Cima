@@ -2,7 +2,8 @@
     <div>
         <p-floatlabel variant="in" class="">
             <input pInputText id="firstName" formControlName="firstName" autocomplete="off"
-                class="w-full py-1 pt-4 bg-light-blurple text-background-black" [ngClass]="{'ng-invalid ng-dirty': !validFirstName && !isFirstInput}" />
+                class="w-full py-1 pt-4 bg-light-blurple text-background-black"
+                [ngClass]="{'ng-invalid ng-dirty': !validFirstName && !isFirstInput}" [readonly]="isReadOnly" />
             <label for="firstName" class="text-gray-500">First Name</label>
         </p-floatlabel>
         @if (form.get('firstName')?.errors && !isFirstInput)
@@ -20,7 +21,8 @@
     <div>
         <p-floatlabel variant="in" class="">
             <input pInputText id="lastName" formControlName="lastName" autocomplete="off"
-                class="w-full py-1 pt-4 bg-light-blurple text-background-black" [ngClass]="{'ng-invalid ng-dirty': !validLastName && !isFirstInput}" />
+                class="w-full py-1 pt-4 bg-light-blurple text-background-black"
+                [ngClass]="{'ng-invalid ng-dirty': !validLastName && !isFirstInput}" [readonly]="isReadOnly" />
             <label for="lastName" class="text-gray-500">Last Name</label>
         </p-floatlabel>
         @if (form.get('lastName')?.errors && !isFirstInput)
@@ -38,7 +40,8 @@
     <div>
         <p-floatlabel variant="in" class="">
             <input pInputText id="email" formControlName="email" autocomplete="off"
-                class="w-full py-1 pt-4 bg-light-blurple text-background-black text-[.75rem]" [ngClass]="{'ng-invalid ng-dirty': !validEmail && !isFirstInput}" />
+                class="w-full py-1 pt-4 bg-light-blurple text-background-black text-[.75rem]"
+                [ngClass]="{'ng-invalid ng-dirty': !validEmail && !isFirstInput}" [readonly]="isReadOnly" />
             <label for="email" class="text-gray-500">Email Address</label>
         </p-floatlabel>
         @if (form.get('email')?.errors && !isFirstInput)
@@ -53,12 +56,14 @@
         }
         }
     </div>
+    @if(!isReadOnly)
+    {
     <div class="flex justify-between">
         <div class="w-[48%]">
             <p-floatlabel variant="in">
                 <p-password class="block" [toggleMask]="true" [fluid]="true" formControlName="password"
                     [feedback]="true" inputStyleClass="bg-light-blurple text-background-black py-2
-                w-full block" [ngClass]="{'ng-invalid ng-dirty': !validPassword && !isFirstInput}">
+                    w-full block" [ngClass]="{'ng-invalid ng-dirty': !validPassword && !isFirstInput}">
                     <ng-template #header>
                         <div class="font-semibold text-xm mb-4">Enter your password</div>
                     </ng-template>
@@ -81,7 +86,8 @@
             <p-floatlabel variant="in">
                 <p-password class="block rounded-4xl" [toggleMask]="true" [fluid]="true" feedback="false"
                     formControlName="confirmPassword"
-                    inputStyleClass="bg-light-blurple text-background-black py-2 w-full block" [ngClass]="{'ng-invalid ng-dirty': !validConfirmPassword && !isFirstInput}" />
+                    inputStyleClass="bg-light-blurple text-background-black py-2 w-full block"
+                    [ngClass]="{'ng-invalid ng-dirty': !validConfirmPassword && !isFirstInput}" />
                 <label for="confirmPassword" class="text-gray-500">Confirm Password</label>
             </p-floatlabel>
             @if(!validConfirmPassword && !isFirstInput) {
@@ -89,19 +95,32 @@
             }
         </div>
     </div>
+    }
     <div class="flex justify-between">
         <div class="w-[48%]">
+            @if(isReadOnly)
+            {
+            <p-floatlabel variant="in" class="">
+                <input pInputText id="gender" formControlName="gender" autocomplete="off"
+                    class="w-full py-1 pt-4 bg-light-blurple text-background-black" [readonly]="isReadOnly" />
+                <label for="gender" class="text-gray-500">Gender</label>
+            </p-floatlabel>
+            }
+            @else
+            {
             <select
                 class="appearance-none w-full bg-light-blurple p-3 rounded-md text-background-black focus:outline-blurple cursor-pointer"
                 formControlName="gender">
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
             </select>
+            }
         </div>
         <div class="w-[48%]">
             <input type="date"
                 class="w-full bg-light-blurple p-3 rounded-md text-background-black focus:outline-blurple cursor-pointer"
-                formControlName="birthDate" (click)="openPicker(dateInput)" #dateInput [ngClass]="{'ng-invalid ng-dirty': !validBirthDate && !isFirstInput}" />
+                formControlName="birthDate" (click)="openPicker(dateInput)" #dateInput
+                [ngClass]="{'ng-invalid ng-dirty': !validBirthDate && !isFirstInput}" [readonly]="isReadOnly" />
             @if(form.get('birthDate')?.errors && !isFirstInput)
             { @if (form.get('birthDate')?.getError('required')) {
             <p class="text-[0.65rem] text-film-red pl-3">Birth Date Is Required</p>
@@ -110,17 +129,17 @@
             } }
         </div>
     </div>
-    <button
-        type="submit"
-        class="text-off-white bg-gradient-to-r from-blurple to-button-hover hover:to-blurple transition duration-300
-               rounded-full px-4 py-3 self-center cursor-pointer font-bold text-sm"
-        [disabled]="isLoading">
+    @if(!isReadOnly)
+    {
+    <button type="submit" class="text-off-white bg-gradient-to-r from-blurple to-button-hover hover:to-blurple transition duration-300
+               rounded-full px-4 py-3 self-center cursor-pointer font-bold text-sm" [disabled]="isLoading">
         <span *ngIf="!isLoading">Register</span>
         <span *ngIf="isLoading" class="flex items-center gap-2">
             <i class="pi pi-spin pi-spinner"></i>
             Registering...
         </span>
     </button>
+    }
 </form>
 
 <p-toast></p-toast>

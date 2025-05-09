@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { confirmPasswordValidator } from '../../../core/validators/confirmPasswordValidator';
@@ -21,6 +21,8 @@ import { SignUpDto } from '../../../core/dtos/SignUpDto';
 })
 export class ProfileDataFormComponent {
   isLoading = false;
+  @Input() userData: any = null;
+  @Input() readonly: boolean = false;
   form = new FormGroup(
     {
       firstName: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}$/)]),
@@ -34,6 +36,7 @@ export class ProfileDataFormComponent {
     { validators: [confirmPasswordValidator, birthDateValidator] }
   );
   isFirstInput: boolean = true;
+  @Input() isReadOnly: boolean = false;
   get validFirstName() { return this.form.controls.firstName.valid; }
   get validLastName() { return this.form.controls.lastName.valid; }
   get validEmail() { return this.form.controls.email.valid; }
@@ -45,16 +48,16 @@ export class ProfileDataFormComponent {
     private accountService: AccountService,
     private router: Router,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   register() {
     this.isFirstInput = false;
-    
+
     // Debug form validation
     console.log('Form Values:', this.form.value);
     console.log('Form Valid:', this.form.valid);
     console.log('Form Errors:', this.form.errors);
-    
+
     // Check each control's validity
     Object.keys(this.form.controls).forEach(key => {
       const control = this.form.get(key);

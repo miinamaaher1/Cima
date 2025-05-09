@@ -51,16 +51,14 @@ export const routes: Routes = [
             { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
             { path: 'confirm-success', component: ConfirmSuccessComponent, title: 'Confirm Success' },
         ],
-        data: { renderMode: 'ssr'}
-    },
 
+    },
     {
         path: '',
         component: WatchLayoutComponent,
-        children:[
-            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch' , canActivate: [authGuard], data: { renderMode: 'ssr' }}
+        children: [
+            { path: 'watch/:type/:id', component: WatchAreaComponent, title: 'Watch', canActivate: [authGuard] }
         ]
-
     },
 
     {
@@ -68,7 +66,7 @@ export const routes: Routes = [
         component: AdminLayoutComponent,
         children: [
             { path: '', redirectTo: 'analytics', pathMatch: 'full', title: 'Analytics' },
-            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'},
+            { path: 'analytics', component: AnalyticsComponent, title: 'Analytics' },
             { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
             { path: 'media-list', component: MediaListComponent, title: 'Media List' }
         ],
