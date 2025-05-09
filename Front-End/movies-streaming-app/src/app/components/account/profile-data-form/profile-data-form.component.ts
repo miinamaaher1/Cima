@@ -36,6 +36,7 @@ export class ProfileDataFormComponent {
     { validators: [confirmPasswordValidator, birthDateValidator] }
   );
   isFirstInput: boolean = true;
+  @Input() isReadOnly: boolean = false;
   get validFirstName() { return this.form.controls.firstName.valid; }
   get validLastName() { return this.form.controls.lastName.valid; }
   get validEmail() { return this.form.controls.email.valid; }

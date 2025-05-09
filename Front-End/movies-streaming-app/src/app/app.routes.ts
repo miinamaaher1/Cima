@@ -37,7 +37,7 @@ export const routes: Routes = [
             { path: 'genres', component: GenresComponent, title: 'Genres' },
             { path: 'charts', component: ChartsComponent, title: 'Charts' },
             { path: 'my-lists', component: MyListsComponent, title: 'My Lists' },
-            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' ,},
+            { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
             { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
             { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [authGuard] },
             { path: 'sign-in', component: SignInComponent, title: 'Sign In' },
@@ -51,16 +51,14 @@ export const routes: Routes = [
             { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
             { path: 'confirm-success', component: ConfirmSuccessComponent, title: 'Confirm Success' },
         ],
-      
-    },
 
+    },
     {
         path: '',
         component: WatchLayoutComponent,
-        children:[
-            {path:'watch/:type/:id' ,component:WatchAreaComponent,title:'Watch' , canActivate: [authGuard]}
+        children: [
+            { path: 'watch/:type/:id', component: WatchAreaComponent, title: 'Watch', canActivate: [authGuard] }
         ]
-
     },
 
     {
@@ -68,7 +66,7 @@ export const routes: Routes = [
         component: AdminLayoutComponent,
         children: [
             { path: '', redirectTo: 'analytics', pathMatch: 'full', title: 'Analytics' },
-            { path:'analytics' ,component:AnalyticsComponent ,title:'Analytics'},
+            { path: 'analytics', component: AnalyticsComponent, title: 'Analytics' },
             { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
             { path: 'media-list', component: MediaListComponent, title: 'Media List' }
         ],
