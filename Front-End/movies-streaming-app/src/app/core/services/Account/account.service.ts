@@ -7,7 +7,7 @@ import { LoginResponseDto } from '../../dtos/LoginResponseDto';
 import { Router } from '@angular/router';
 import { ISubscription } from '../../interfaces/ISubscriptionData';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
-import { IUserType } from '../../interfaces/IUser';
+import { IUser, IUserType } from '../../interfaces/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -52,16 +52,17 @@ export class AccountService {
     }
     return token;
   }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('userToken');
-  }
-
+  
   logout(): void {
     localStorage.removeItem('userToken');
     this.router.navigate(['/sign-in']);
   }
 
+
+  // check if the user is logged in
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('userToken');
+  }
 
   // get the user subscription data
   getSubscriptionData(): any {
@@ -85,4 +86,19 @@ export class AccountService {
     const headers = this.headers.set('Authorization', `Bearer ${token}`);
     return this._http.get<IUserType>(url, { headers });
   }
+
+  // get user info
+  getUserInfo(): Observable<IUser> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+    const endpoint = "/api/user";
+    const url = `${environment.account_base_url}${endpoint}`;
+    const headers = this.headers.set('Authorization', `Bearer ${token}`);
+    return this._http.get<IUser>(url, { headers });
+  }
+
+  
+
 }
