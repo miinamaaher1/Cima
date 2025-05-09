@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'app-payment-success',
   imports: [RouterLink],
-  templateUrl: './not-found.component.html'
+  templateUrl: './payment-success.component.html'
 })
-export class NotFoundComponent {
+export class PaymentSuccessComponent {
 
 }

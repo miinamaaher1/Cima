@@ -31,7 +31,7 @@ export class HeroBannerComponent implements OnChanges, OnInit {
     setTimeout(() => {
       this.videoVisible = true;
       this.videoVisibilityChanged.emit(false)
-    }, 3000);
+    }, 5000);
   }
 
   toggleMute() {
@@ -57,6 +57,15 @@ export class HeroBannerComponent implements OnChanges, OnInit {
   onResize(event: any) {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize();
+    }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if(window.scrollY == 0) {
+      this.viewVideo();
+    } else {
+      this.hideVideo()
     }
   }
 
