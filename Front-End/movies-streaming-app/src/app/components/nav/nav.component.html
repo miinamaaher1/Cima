@@ -17,7 +17,7 @@
     <!-- Logo (Centered on small screens) -->
     <div class="absolute left-1/2 transform -translate-x-1/2 lg:relative lg:left-0 lg:translate-x-0">
       <a routerLink="/" class="block lg:hidden">
-        <img src="/branding/logo-detailed.svg" alt="App Logo" class="h-10">
+        <img src="/branding/logo-detailed.svg" alt="App Logo" class="h-8">
       </a>
     </div>
 
@@ -28,16 +28,16 @@
 
 
     <div class="flex items-center gap-4 ml-auto ">
-      <div class="rounded-full bg-surface-black py-1 px-3 transition duration-300 cursor-pointer">
-        <a href="/dashboard">
+      <div *ngIf="!isSmallView && User()?.userType?.role == 'admin'" class="rounded-full bg-surface-black py-1 px-3 transition duration-300 cursor-pointer">
+        <a routerLink="/dashboard">
           <i class="fa-solid fa-toolbox"></i>
           Dashboard
         </a>
       </div>
       <app-nav-search></app-nav-search>
       <app-nav-account class="hidden lg:block"></app-nav-account>
-      <div class="rounded-full bg-gradient-to-r from-blurple to-button-hover hover:to-blurple py-1 px-3 transition duration-300 cursor-pointer">
-        <a href="/subscribe">
+      <div *ngIf="!isSmallView && !User()?.subscription?.subscriptionState" class="rounded-full bg-gradient-to-r from-blurple to-button-hover hover:to-blurple py-1 px-3 transition duration-300 cursor-pointer">
+        <a routerLink="/subscribe">
           Subscribe
         </a>
       </div>

@@ -4,7 +4,7 @@
     class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none">
     <source [src]="banners[index].clip" type="video/mp4">
   </video>
-  <button *ngIf="videoVisible && !isMobile" (click)="toggleMute()"
+  <button *ngIf="videoVisible && !isMobile" (click)="toggleMute($event)"
     class="absolute top-32 right-12 font-medium bg-body-charcoal/50 border-2 border-blurple rounded-full
     text-off-white hover:bg-button-hover hover:border-button-hover cursor-pointer w-12 h-12
       opacity-50 hover:opacity-100">

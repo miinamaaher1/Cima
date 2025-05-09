@@ -113,13 +113,13 @@ export class SerieCardComponent {
       if (this.isListed()) {
         this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Series }).subscribe({
           next: () => this.IsInWatchList = false,
-          error: () => console.log(error)
+          error: () => {} // console.log(error)
         })
       }
       else {
         this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Series }).subscribe({
           next: () => this.IsInWatchList = true,
-          error: () => console.log(error)
+          error: () => {} // console.log(error)
         })
       }
     }

@@ -15,7 +15,7 @@
     <a routerLink="/categories" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
       Categories
     </a>
-    <a routerLink="/my-lists" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
+    <a routerLink="/my-lists" *ngIf="User?.isLoggedIn" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
       My Lists
     </a>
   </div>

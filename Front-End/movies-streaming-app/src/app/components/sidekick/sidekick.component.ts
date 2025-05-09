@@ -9,6 +9,7 @@ import { ImageService } from '../../core/services/utils/image.service';
 import { MovieService } from '../../core/services/movie/movie.service';
 import { mediaType } from '../../core/utils/media-type.enum';
 import { moviePreview } from '../hero/hero.component';
+import { VideosService } from '../../core/services/videos/videos.service';
 
 @Component({
   selector: 'app-sidekick',
@@ -19,7 +20,8 @@ export class SidekickComponent implements OnInit, OnChanges {
   constructor(
     private _seriesService : SeriesService,
     private _imageService : ImageService,
-    private _movieService : MovieService
+    private _movieService : MovieService,
+    private _videoService : VideosService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -109,6 +111,14 @@ export class SidekickComponent implements OnInit, OnChanges {
           this.preview.promo = res.tagline ? res.tagline : "Top movie in Egypt"
           this.preview.button = "Watch Now"
           this.preview.clip = "videos/clips/G_O_T_Clip.mp4"
+
+          this._videoService.getTrailer(res.title).subscribe({
+            next : res => {
+              this.preview.clip = res.filter(s => s.quality == 360)[0].url
+            },
+            error : err => {}
+          })
+
           this.updateSignals()
         },
         error : err => {
@@ -152,6 +162,14 @@ export class SidekickComponent implements OnInit, OnChanges {
           this.preview.promo = res.tagline ? res.tagline : "Top series in Egypt"
           this.preview.button = "Watch Now"
           this.preview.clip = "videos/clips/H_P_Clip.mp4"
+
+          this._videoService.getTrailer(res.name).subscribe({
+            next : res => {
+              this.preview.clip = res.filter(s => s.quality == 360)[0].url
+            },
+            error : err => {}
+          })
+
           this.updateSignals()
         },
         error : err => {
