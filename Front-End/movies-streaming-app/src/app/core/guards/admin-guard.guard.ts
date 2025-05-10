@@ -2,32 +2,30 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
 import { AccountService } from '../services/Account/account.service';
+import { map, of, switchMap, catchError } from 'rxjs';
 
 export const adminGuardGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-
   const userService = inject(UserService);
-  const accountService = inject(AccountService)
+  const accountService = inject(AccountService);
 
-  if (userService.isLoggedIn()) {
-    accountService.getUserType().subscribe({
-      next: res => {
-        if (res.role == "admin") {
-          return true
-        } else {
-          router.navigate(['/not-authorized']);
-          return false
-        }
-      },
-      error: err => {
-        router.navigate(['/not-authorized']);
-        return false
-      }
-    })
+  if (!accountService.isLoggedIn()) {
+    router.navigate(['/sign-in']);
+    return of(false);
   }
-  router.navigate(['/sign-in']);
-  return false;
 
-
-
+  return accountService.getUserSummary().pipe(
+    switchMap(userSummary => {
+      if (userSummary.userType?.role === "admin") {
+        return of(true);
+      } else {
+        router.navigate(['/not-authorized']);
+        return of(false);
+      }
+    }),
+    catchError(() => {
+      router.navigate(['/not-authorized']);
+      return of(false);
+    })
+  );
 };
