@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../../core/services/search/search.service';
 import { language } from '../../../core/utils/language.enum';
 import { IMedia } from '../../../core/interfaces/IMedia';
 import { MovieCardComponent } from "../../shared/movie-card/movie-card.component";
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { SerieCardComponent } from '../../shared/serie-card/serie-card.component';
 import { Router } from '@angular/router';
@@ -18,30 +18,36 @@ import { Router } from '@angular/router';
 export class NavSearchComponent implements OnInit {
   isSearchOpen = false;
   searchQuery = '';
+  private isBrowser: boolean;
 
   //movie_type --> movie | tv
   media: Pick<IMedia, "id" | "media_type">[] = [];
 
   private searchSubject = new Subject<string>();
 
-  constructor(private searchService: SearchService, private router: Router) {
+  constructor(
+    private searchService: SearchService, 
+    private router: Router,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.setupSearchListener();
   }
+
   ngOnInit(): void {
     this.closeSearch();
   }
 
-
   toggleSearch() {
     this.isSearchOpen = !this.isSearchOpen;
-    if (this.isSearchOpen) {
+    if (this.isSearchOpen && this.isBrowser) {
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
         const searchInput = document.getElementById('searchInput');
         if (searchInput)
           searchInput.focus();
       }, 0);
-    } else {
+    } else if (this.isBrowser) {
       document.body.style.overflow = '';
     }
   }
@@ -50,7 +56,9 @@ export class NavSearchComponent implements OnInit {
     this.isSearchOpen = false;
     this.searchQuery = '';
     this.media = [];
-    document.body.style.overflow = '';
+    if (this.isBrowser) {
+      document.body.style.overflow = '';
+    }
   }
 
   onSearchChange() {
