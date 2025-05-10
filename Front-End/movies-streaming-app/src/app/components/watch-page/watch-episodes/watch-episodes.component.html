@@ -1,9 +1,28 @@
-<div class="min-h-[100%] w-[100%]" >
-   
-    <!-- the poster area -->
+<div class="min-h-[100%] w-[100%]">
+    <!-- Media Poster -->
+    <div class="mb-4">
+        <img [src]="posterUrl" [alt]="mediaTitle" class="w-full rounded-lg">
+    </div>
 
-
-    <div>
-    <app-episodes-list [episodes]="episodesList"></app-episodes-list>
-   </div>
+    <!-- Episodes List -->
+    <div *ngIf="mediaType === 'series'">
+        <app-episodes-list [episodes]="episodes" [mediaId]="mediaId"></app-episodes-list>
+    </div>
+    
+    <!-- Similar Movies -->
+    <div *ngIf="mediaType === 'movie' && similarMovies.length > 0" class="mt-4">
+        <h3 class="text-xl font-bold text-white mb-4">Similar Movies</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let movie of similarMovies" 
+                 (click)="onMovieClick(movie)"
+                 class="relative cursor-pointer hover:opacity-80 transition-opacity">
+                <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+                     [alt]="movie.title"
+                     class="w-full rounded-lg">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
+                    <h4 class="text-white text-sm">{{movie.title}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

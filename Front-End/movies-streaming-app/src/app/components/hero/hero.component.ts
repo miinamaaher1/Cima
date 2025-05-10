@@ -1,14 +1,16 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HeroBannerComponent, movieBanner } from "../hero-banner/hero-banner.component";
-import { HeroInfoComponent, movieInfo } from "../hero-info/hero-info.component";
-import { HeroNavComponent } from "../hero-nav/hero-nav.component";
+import { HeroBannerComponent, movieBanner } from "./hero-banner/hero-banner.component";
+import { HeroInfoComponent, movieInfo } from "./hero-info/hero-info.component";
+import { HeroNavComponent } from "./hero-nav/hero-nav.component";
+import { forkJoin } from 'rxjs';
 import { SeriesService } from '../../core/services/series/series.service';
 import { ImageService } from '../../core/services/utils/image.service';
 import { MovieService } from '../../core/services/movie/movie.service';
 import { MovieListServiceService } from '../../core/services/lists/movieList/movie-list-service.service';
 import { SeriesListServiceService } from '../../core/services/lists/seriesList/series-list-service.service';
 import { language } from '../../core/utils/language.enum';
-import { forkJoin } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { VideosService } from '../../core/services/videos/videos.service';
 
 export interface moviePreview {
   poster: string,
@@ -24,7 +26,7 @@ export interface moviePreview {
 
 @Component({
   selector: 'app-hero',
-  imports: [HeroBannerComponent, HeroInfoComponent, HeroNavComponent],
+  imports: [HeroBannerComponent, HeroInfoComponent, HeroNavComponent, RouterLink],
   templateUrl: './hero.component.html'
 })
 export class HeroComponent implements OnInit {
@@ -33,7 +35,8 @@ export class HeroComponent implements OnInit {
     private _imageService: ImageService,
     private _movieService: MovieService,
     private _movieListService: MovieListServiceService,
-    private _seriesListService: SeriesListServiceService
+    private _seriesListService: SeriesListServiceService,
+    private _videoService: VideosService
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +48,7 @@ export class HeroComponent implements OnInit {
   previews: moviePreview[] = [
     {
       poster: "",
-      clip: "videos/clips/H_P_Clip.mp4",
+      clip: "videos/clips/G_O_T_Clip.mp4",
       logo: "",
       promo: "Top 10 In Egypt",
       tags: [],
@@ -89,7 +92,7 @@ export class HeroComponent implements OnInit {
     },
     {
       poster: "",
-      clip: "videos/clips/G_O_T_Clip.mp4",
+      clip: "videos/clips/H_P_Clip.mp4",
       logo: "",
       promo: "The Award Wining Show",
       tags: [],
@@ -128,12 +131,12 @@ export class HeroComponent implements OnInit {
 
   fetchPromotedMedia() {
     forkJoin({
-      movies: this._movieListService.getPopularMovies(1, language.english),
-      series: this._seriesListService.getPopularTvSeries(1, language.english)
+      movies: this._movieListService.getTopRatedMovies(1, language.english),
+      series: this._seriesListService.getTopRatedTvSeries(1, language.english)
     }).subscribe({
       next: ({ movies, series }) => {
-        this.movieIds = movies.results.map(i => i.id).slice(0, 3);
-        this.seriesIds = series.results.map(i => i.id).slice(0, 2);
+        this.movieIds = movies.results.map(i => i.id).slice(0, 10);
+        this.seriesIds = series.results.map(i => i.id).slice(0, 10);
 
         this.loadPreviews(); // only start loading previews after IDs are ready
       },
@@ -143,10 +146,19 @@ export class HeroComponent implements OnInit {
 
   loadPreviews() {
     let mov = 0;
+    let movs : number[] = [];
     let ser = 0;
+    let sers : number[] = [];
 
     for (let i = 0; i < 5; i++) {
       if (i % 2 === 0 && this.movieIds[mov] != null) {
+
+        do {
+          mov = Math.floor(Math.random() * 10);
+        } while (movs.includes(mov));
+        movs.push(mov);
+
+        this.previews[i].link = `movie/${this.movieIds[mov]}`
         this._movieService.getMovieDetails(this.movieIds[mov], language.english).subscribe({
           next: res => {
             this.previews[i].discription = res.overview.length > 150
@@ -154,6 +166,14 @@ export class HeroComponent implements OnInit {
               : res.overview;
             this.previews[i].tags = res.genres.map(i => i.name).slice(0, 4);
             this.previews[i].promo = res.tagline ? res.tagline : this.previews[i].promo
+
+            this._videoService.getTrailer(res.title).subscribe({
+              next: res => {
+                this.previews[i].clip = res.filter(s => s.quality == 360)[0].url
+              },
+              error : err => {}
+            })
+
             this.updateSignals();
           },
           error: err => console.log(err)
@@ -168,8 +188,15 @@ export class HeroComponent implements OnInit {
           error: err => console.log(err)
         });
 
-        mov++;
+        // mov++;
       } else if (this.seriesIds[ser] != null) {
+
+        do {
+          ser = Math.floor(Math.random() * 10);
+        } while (sers.includes(ser));
+        sers.push(ser);
+
+        this.previews[i].link = `series/${this.seriesIds[ser]}`
         this._seriesService.getSeriesDetails(this.seriesIds[ser], language.english).subscribe({
           next: res => {
             this.previews[i].discription = res.overview.length > 150
@@ -177,6 +204,14 @@ export class HeroComponent implements OnInit {
               : res.overview;
             this.previews[i].tags = res.genres.map(i => i.name).slice(0, 4);
             this.previews[i].promo = res.tagline ? res.tagline : this.previews[i].promo
+
+            this._videoService.getTrailer(res.name).subscribe({
+              next: res => {
+                this.previews[i].clip = res.filter(s => s.quality == 360)[0].url
+              },
+              error : err => {}
+            })
+
             this.updateSignals();
           },
           error: err => console.log(err)
@@ -191,7 +226,7 @@ export class HeroComponent implements OnInit {
           error: err => console.log(err)
         });
 
-        ser++;
+        // ser++;
       }
     }
   }

@@ -1,26 +1,45 @@
-import { Component, input, OnInit, signal } from '@angular/core';
-import { SidekickBannerComponent } from '../sidekick-banner/sidekick-banner.component';
-import { SidekickInfoComponent } from '../sidekick-info/sidekick-info.component';
-import { moviePreview } from '../hero/hero.component';
-import { movieBanner } from '../hero-banner/hero-banner.component';
-import { movieInfo } from '../hero-info/hero-info.component';
+import { Component, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { SidekickBannerComponent } from './sidekick-banner/sidekick-banner.component';
+import { SidekickInfoComponent } from './sidekick-info/sidekick-info.component';
+import { movieBanner } from '../hero/hero-banner/hero-banner.component';
+import { movieInfo } from '../hero/hero-info/hero-info.component';
 import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
 import { ImageService } from '../../core/services/utils/image.service';
 import { MovieService } from '../../core/services/movie/movie.service';
 import { mediaType } from '../../core/utils/media-type.enum';
+import { moviePreview } from '../hero/hero.component';
+import { VideosService } from '../../core/services/videos/videos.service';
 
 @Component({
   selector: 'app-sidekick',
   imports: [SidekickBannerComponent, SidekickInfoComponent],
   templateUrl: './sidekick.component.html'
 })
-export class SidekickComponent implements OnInit {
+export class SidekickComponent implements OnInit, OnChanges {
   constructor(
     private _seriesService : SeriesService,
     private _imageService : ImageService,
-    private _movieService : MovieService
+    private _movieService : MovieService,
+    private _videoService : VideosService
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fetchMediaDetails(this.mediaId(), this.mediaType())
+    this.banner.set({
+      poster : this.preview.poster,
+      clip : this.preview.clip
+    })
+    this.movieInfo.set({
+      button : this.preview.button,
+      cast : this.preview.cast,
+      discription : this.preview.discription,
+      promo : this.preview.promo,
+      link : this.preview.link,
+      logo : this.preview.logo,
+      tags : this.preview.tags
+    })
+  }
 
   mediaId = input.required<number>()
   mediaType = input.required<mediaType>()
@@ -41,18 +60,6 @@ export class SidekickComponent implements OnInit {
       tags : this.preview.tags
     })
   }
-
-  // preview : moviePreview = {
-  //   poster: "images/posters/harry.jpg",
-  //   clip: "videos/clips/H_P_Clip.mp4",
-  //   logo: "images/logos/harry-potter.png",
-  //   promo: "Top 10 In Egypt",
-  //   tags: ["1:58:42", "Top 10", "Adventure", "Fantasy"],
-  //   cast: ["John Doe", "Ana De Armas", "Mina Maher", "Holly Wood", "Jack Black", "Mai Ez El-Dein"],
-  //   link: "",
-  //   button: "Watch Now",
-  //   discription: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore nostrum odio a nam facilis quasi nulla ipsam at itaque necessitatibus tempora dignissimos ut consequuntur rem, esse iusto ab dolor voluptatem."
-  // }
 
   preview : moviePreview = {
     poster: "",
@@ -89,6 +96,7 @@ export class SidekickComponent implements OnInit {
 
   fetchMediaDetails(id : number, type : mediaType) {
     if (type === mediaType.movie) {
+      this.preview.link = `movie/${id}`
       this._movieService.getMovieDetails(id, language.english).subscribe({
         next : res => {
           this.preview.discription = res.overview.length > 250
@@ -99,10 +107,18 @@ export class SidekickComponent implements OnInit {
           ? res.genres.map((i) => i.name).slice(0, 4)
           : res.genres.map((i) => i.name);
 
-          this.preview.link = ""
+
           this.preview.promo = res.tagline ? res.tagline : "Top movie in Egypt"
           this.preview.button = "Watch Now"
-          this.preview.clip = "videos/clips/H_P_Clip.mp4"
+          this.preview.clip = "videos/clips/G_O_T_Clip.mp4"
+
+          this._videoService.getTrailer(res.title).subscribe({
+            next : res => {
+              this.preview.clip = res.filter(s => s.quality == 360)[0].url
+            },
+            error : err => {}
+          })
+
           this.updateSignals()
         },
         error : err => {
@@ -131,6 +147,7 @@ export class SidekickComponent implements OnInit {
         }
       })
     } else {
+      this.preview.link = `series/${id}`
       this._seriesService.getSeriesDetails(id, language.english).subscribe({
         next : res => {
           this.preview.discription = res.overview.length > 250
@@ -145,6 +162,14 @@ export class SidekickComponent implements OnInit {
           this.preview.promo = res.tagline ? res.tagline : "Top series in Egypt"
           this.preview.button = "Watch Now"
           this.preview.clip = "videos/clips/H_P_Clip.mp4"
+
+          this._videoService.getTrailer(res.name).subscribe({
+            next : res => {
+              this.preview.clip = res.filter(s => s.quality == 360)[0].url
+            },
+            error : err => {}
+          })
+
           this.updateSignals()
         },
         error : err => {

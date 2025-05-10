@@ -1,0 +1,352 @@
+<div class="container mx-auto p-4 max-w-4xl">
+
+    <div class="container mx-auto p-4 max-w-5xl">
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-center mb-2">Media Upload Form</h1>
+            <p class="text-gray-600 text-center">Upload movies, series or episodes with their details</p>
+        </div>
+
+        <!-- Toast for notifications -->
+        <p-toast></p-toast>
+
+        <form [formGroup]="mediaForm" (ngSubmit)="onSubmit()">
+            <!-- Media Type Selection -->
+            <p-card styleClass="mb-6 shadow-md">
+                <ng-template pTemplate="header">
+                    <div class="flex justify-center pt-4">
+                        <h2 class="text-xl font-semibold">Select Media Type</h2>
+                    </div>
+                </ng-template>
+
+                <div class="flex justify-center mb-4">
+                    <p-dropdown [options]="mediaTypes" formControlName="mediaType" optionLabel="label"
+                        optionValue="value" styleClass="w-full md:w-64"></p-dropdown>
+                </div>
+            </p-card>
+            <!-- Media Details -->
+            <p-card *ngIf="mediaForm.get('mediaType')?.value" styleClass="mb-6 shadow-md">
+                <ng-template pTemplate="header">
+                    <div class="flex justify-center">
+                        <h2 class="text-xl font-semibold pt-4"> Media Details</h2>
+                    </div>
+                </ng-template>
+
+                <!-- Series Selection (For Episodes) -->
+                <div *ngIf="mediaForm.get('mediaType')?.value === 'episode'" class="mb-4">
+                    <label for="seriesId" class="block text-sm font-medium text-gray-700 mb-2">Select Series</label>
+                    <p-dropdown id="seriesId" [options]="seriesOptions" formControlName="seriesId" optionLabel="label"
+                        optionValue="value" [filter]="true" [virtualScroll]="true" [virtualScrollItemSize]="34"
+                        [loading]="seriesLoading" placeholder="Select a series" styleClass="w-full" [showClear]="true"
+                        (onChange)="onSeriesSelected($event)"></p-dropdown>
+                    <small *ngIf="mediaForm.get('seriesId')?.invalid && mediaForm.get('seriesId')?.touched"
+                        class="text-red-500">Series selection is required</small>
+                </div>
+
+                <!-- Episode Upload Type (For Episodes) -->
+                <div *ngIf="mediaForm.get('mediaType')?.value === 'episode'" class="mb-4">
+                    <label for="episodeUploadType" class="block text-sm font-medium text-gray-700 mb-2">Episode Upload
+                        Type</label>
+                    <p-dropdown id="episodeUploadType" [options]="episodeUploadTypes"
+                        formControlName="episodeUploadType" optionLabel="label" optionValue="value" styleClass="w-full"
+                        (onChange)="onEpisodeUploadTypeChange()"></p-dropdown>
+                </div>
+
+                <!-- Episode Number (For Next Episode) -->
+                <div *ngIf="mediaForm.get('mediaType')?.value === 'episode' && mediaForm.get('episodeUploadType')?.value === 'next_episode'"
+                    class="mb-4">
+                    <label for="episodeNumber" class="block text-sm font-medium text-gray-700 mb-2">Episode
+                        Number</label>
+                    <p-inputNumber [readonly]="true" [disabled]="true" id="episodeNumber" formControlName="episodeNumber" [min]="1" [showButtons]="true"
+                        styleClass="w-full"></p-inputNumber>
+                    <small *ngIf="mediaForm.get('episodeNumber')?.invalid && mediaForm.get('episodeNumber')?.touched"
+                        class="text-red-500">Episode number is required</small>
+                </div>
+
+                <!-- Season Number (For New Season) -->
+                <div *ngIf="mediaForm.get('mediaType')?.value === 'episode' && mediaForm.get('episodeUploadType')?.value === 'new_season'"
+                    class="mb-4">
+                    <label for="seasonNumber" class="block text-sm font-medium text-gray-700 mb-2">Season Number</label>
+                    <p-inputNumber [readonly]="true" [disabled]="true" id="seasonNumber" formControlName="seasonNumber" [min]="1" [showButtons]="true"
+                        styleClass="w-full"></p-inputNumber>
+                    <small *ngIf="mediaForm.get('seasonNumber')?.invalid && mediaForm.get('seasonNumber')?.touched"
+                        class="text-red-500">Season number is required</small>
+                </div>
+
+                <!-- Title Field -->
+                <div class="mb-4">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ mediaForm.get('mediaType')?.value === 'episode' ? 'Episode Title' : 'Title' }}
+                    </label>
+                    <input pInputText id="title"
+                        formControlName="{{ mediaForm.get('mediaType')?.value === 'episode' ? 'episodeTitle' : 'title' }}"
+                        class="w-full p-3" />
+                    <small
+                        *ngIf="(mediaForm.get('mediaType')?.value !== 'episode' && mediaForm.get('title')?.invalid && mediaForm.get('title')?.touched) || 
+                            (mediaForm.get('mediaType')?.value === 'episode' && mediaForm.get('episodeTitle')?.invalid && mediaForm.get('episodeTitle')?.touched)"
+                        class="text-red-500">Title is required</small>
+                </div>
+
+                <!-- Description Field -->
+                <div class="mb-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea pInputTextarea id="description" formControlName="description" rows="5" class="w-full"
+                        autoResize="true"></textarea>
+                    <small *ngIf="mediaForm.get('description')?.invalid && mediaForm.get('description')?.touched"
+                        class="text-red-500">
+                        Description is required (minimum 20 characters)
+                    </small>
+                </div>
+
+                <!-- Runtime Field -->
+                <div class="mb-4">
+                    <label for="runtime" class="block text-sm font-medium text-gray-700 mb-2">Runtime (minutes)</label>
+                    <p-inputNumber id="runtime" formControlName="runtime" [min]="1" styleClass="w-full"></p-inputNumber>
+                    <small *ngIf="mediaForm.get('runtime')?.invalid && mediaForm.get('runtime')?.touched"
+                        class="text-red-500">Runtime is required</small>
+                </div>
+
+                <!-- Cast Field -->
+                <div class="mb-4">
+                    <label for="cast" class="block text-sm font-medium text-gray-700 mb-2">Cast (comma
+                        separated)</label>
+                    <input pInputText id="cast" formControlName="cast" class="w-full p-3"
+                        placeholder="Actor Name as Character, Actor Name as Character" />
+                    <small *ngIf="mediaForm.get('cast')?.invalid && mediaForm.get('cast')?.touched"
+                        class="text-red-500">Cast information is required</small>
+                </div>
+
+                <!-- Genres Multi-select -->
+                <div class="mb-4">
+                    <label for="genres" class="block text-sm font-medium text-gray-700 mb-2">Genres</label>
+                    <p-multiSelect id="genres" [options]="genreOptions" formControlName="genres" optionLabel="label"
+                        optionValue="value" [filter]="true" placeholder="Select genres"
+                        styleClass="w-full"></p-multiSelect>
+                    <small *ngIf="mediaForm.get('genres')?.invalid && mediaForm.get('genres')?.touched"
+                        class="text-red-500">At least one genre must be selected</small>
+                </div>
+            </p-card>
+
+            <!-- Media Upload Section -->
+            <p-card styleClass="mb-6 shadow-md">
+                <p-tabView >
+                    <!-- Poster Upload Tab -->
+                    <p-tabPanel header="Poster Image">
+                        <p-fileUpload name="posterFiles[]" url="/api/upload/posters" (onUpload)="onPosterUpload($event)"
+                            [multiple]="false" accept="image/*" maxFileSize="5000000" [showCancelButton]="true"
+                            mode="advanced">
+                            <ng-template pTemplate="content" let-files>
+                                <div *ngIf="posterImages.length" class="mt-4">
+                                    <h4 class="text-lg font-medium mb-2">Uploaded Poster</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                        <div *ngFor="let file of posterImages"
+                                            class="flex items-start p-3 border border-gray-200 rounded-lg">
+                                            <img [src]="file.url" class="w-24 h-24 object-cover rounded mr-3"
+                                                [alt]="file.name">
+
+                                            <div class="flex-grow">
+                                                <div class="flex items-center">
+                                                    <span class="font-medium truncate">{{ file.name }}</span>
+                                                    <span
+                                                        class="ml-2 px-2 py-1 bg-green-100 text-purple text-xs rounded-full">POSTER</span>
+                                                </div>
+                                                <div class="text-gray-500 text-sm">{{ (file.size / 1024 /
+                                                    1024).toFixed(2) }} MB</div>
+                                            </div>
+
+                                            <button pButton type="button" icon="pi pi-times"
+                                                class="p-button-rounded p-button-danger p-button-sm"
+                                                (click)="removePoster(file)">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="empty">
+                                <div
+                                    class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">
+                                    <i class="pi pi-image" style="font-size: 3rem; color: #6b7280;"></i>
+                                    <p class="mt-2 text-gray-600">Drag and drop poster image here</p>
+                                    <p class="text-sm text-gray-400 mt-1">Main poster for the media</p>
+                                </div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </p-tabPanel>
+
+                    <!-- Logo Upload Tab -->
+                    <p-tabPanel header="Logo Image"
+                        *ngIf="mediaForm.get('mediaType')?.value === 'movie' || mediaForm.get('mediaType')?.value === 'series'">
+                        <p-fileUpload name="logoFiles[]" url="/api/upload/logos" (onUpload)="onLogoUpload($event)"
+                            [multiple]="false" accept="image/*" maxFileSize="5000000" [showCancelButton]="true"
+                            mode="advanced">
+                            <ng-template pTemplate="content" let-files>
+                                <div *ngIf="logoImages.length" class="mt-4">
+                                    <h4 class="text-lg font-medium mb-2">Uploaded Logo</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                        <div *ngFor="let file of logoImages"
+                                            class="flex items-start p-3 border border-gray-200 rounded-lg">
+                                            <img [src]="file.url" class="w-24 h-24 object-cover rounded mr-3"
+                                                [alt]="file.name">
+
+                                            <div class="flex-grow">
+                                                <div class="flex items-center">
+                                                    <span class="font-medium truncate">{{ file.name }}</span>
+                                                    <span
+                                                        class="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">LOGO</span>
+                                                </div>
+                                                <div class="text-gray-500 text-sm">{{ (file.size / 1024 /
+                                                    1024).toFixed(2) }} MB</div>
+                                            </div>
+
+                                            <button pButton type="button" icon="pi pi-times"
+                                                class="p-button-rounded p-button-danger p-button-sm"
+                                                (click)="removeLogo(file)">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="empty">
+                                <div
+                                    class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">
+                                    <i class="pi pi-image" style="font-size: 3rem; color: #6b7280;"></i>
+                                    <p class="mt-2 text-gray-600">Drag and drop logo image here</p>
+                                    <p class="text-sm text-gray-400 mt-1">Transparent logo for the media</p>
+                                </div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </p-tabPanel>
+
+                    <!-- Content Video Upload Tab -->
+                    <p-tabPanel header="Content Video"
+                        *ngIf="mediaForm.get('mediaType')?.value === 'movie' || mediaForm.get('mediaType')?.value === 'episode'">
+                        <p-fileUpload name="videoFiles[]" url="/api/upload/videos" (onUpload)="onVideoUpload($event)"
+                            [multiple]="false" accept="video/*" maxFileSize="2147483648" [showCancelButton]="true"
+                            mode="advanced">
+                            <ng-template pTemplate="content" let-files>
+                                <div *ngIf="videoContent.length" class="mt-4">
+                                    <h4 class="text-lg font-medium mb-2">Uploaded Video Content</h4>
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <div *ngFor="let file of videoContent"
+                                            class="flex flex-col md:flex-row items-start p-4 border border-gray-200 rounded-lg">
+                                            <div class="w-full md:w-1/3 mb-3 md:mb-0 md:mr-4">
+                                                <video *ngIf="file.previewUrl" [src]="file.previewUrl" controls
+                                                    class="w-full rounded"></video>
+                                            </div>
+
+                                            <div class="flex-grow">
+                                                <div class="flex items-center">
+                                                    <span class="font-medium truncate">{{ file.name }}</span>
+                                                    <span
+                                                        class="ml-2 px-2 py-1 bg-purple-100 text-purple text-xs rounded-full">MAIN
+                                                        CONTENT</span>
+                                                </div>
+                                                <div class="text-gray-500 text-sm mt-1">{{ (file.size / 1024 /
+                                                    1024).toFixed(2) }} MB</div>
+
+                                                <div class="mt-3 flex">
+                                                    <button pButton type="button" icon="pi pi-times" label="Remove"
+                                                        class="p-button-danger" (click)="removeVideo(file)">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="empty">
+                                <div
+                                    class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">
+                                    <i class="pi pi-video" style="font-size: 3rem; color: #6b7280;"></i>
+                                    <p class="mt-2 text-gray-600">Drag and drop main video content here</p>
+                                    <p class="text-sm text-gray-400 mt-1">The movie, series, or episode content</p>
+                                </div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </p-tabPanel>
+
+                    <!-- Trailer Upload Tab -->
+                    <p-tabPanel header="Trailer Video">
+                        <p-fileUpload name="trailerFiles[]" url="/api/upload/trailers"
+                            (onUpload)="onTrailerUpload($event)" [multiple]="false" accept="video/*"
+                            maxFileSize="500000000" [showCancelButton]="true" mode="advanced">
+                            <ng-template pTemplate="content" let-files>
+                                <div *ngIf="trailerVideos.length" class="mt-4">
+                                    <h4 class="text-lg font-medium mb-2">Uploaded Trailer</h4>
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <div *ngFor="let file of trailerVideos"
+                                            class="flex flex-col md:flex-row items-start p-4 border border-gray-200 rounded-lg">
+                                            <div class="w-full md:w-1/3 mb-3 md:mb-0 md:mr-4">
+                                                <video *ngIf="file.previewUrl" [src]="file.previewUrl" controls
+                                                    class="w-full rounded"></video>
+                                            </div>
+
+                                            <div class="flex-grow">
+                                                <div class="flex items-center">
+                                                    <span class="font-medium truncate">{{ file.name }}</span>
+                                                    <span
+                                                        class="ml-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">TRAILER</span>
+                                                </div>
+                                                <div class="text-gray-500 text-sm mt-1">{{ (file.size / 1024 /
+                                                    1024).toFixed(2) }} MB</div>
+
+                                                <div class="mt-3 flex">
+                                                    <button pButton type="button" icon="pi pi-times" label="Remove"
+                                                        class="p-button-danger" (click)="removeTrailer(file)">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="empty">
+                                <div
+                                    class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">
+                                    <i class="pi pi-video" style="font-size: 3rem; color: #6b7280;"></i>
+                                    <p class="mt-2 text-gray-600">Drag and drop trailer video here</p>
+                                    <p class="text-sm text-gray-400 mt-1">Promotional trailer for the media</p>
+                                </div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </p-tabPanel>
+                </p-tabView>
+            </p-card>
+
+            <!-- Submit Section -->
+            <div class="flex justify-center mt-8 mb-4">
+                <button pButton type="submit" label="Submit Media Upload" icon="pi pi-upload" class="p-button-lg">
+                </button>
+            </div>
+        </form>
+
+        <!-- Upload Status Summary -->
+        <p-card *ngIf="posterImages.length || logoImages.length || videoContent.length || trailerVideos.length"
+            styleClass="mt-6 shadow-md">
+            <ng-template pTemplate="header">
+                <div class="bg-slate-100 p-4">
+                    <h2 class="text-xl font-semibold">Upload Summary</h2>
+                </div>
+            </ng-template>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-3 border border-gray-200 rounded-lg">
+                    <div class="text-lg font-bold text-purple">{{ posterImages.length }}</div>
+                    <div class="text-sm text-gray-600">Poster Images</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg">
+                    <div class="text-lg font-bold text-blue-600">{{ logoImages.length }}</div>
+                    <div class="text-sm text-gray-600">Logo Images</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg">
+                    <div class="text-lg font-bold text-purple-600">{{ videoContent.length }}</div>
+                    <div class="text-sm text-gray-600">Content Videos</div>
+                </div>
+                <div class="p-3 border border-gray-200 rounded-lg">
+                    <div class="text-lg font-bold text-yellow-600">{{ trailerVideos.length }}</div>
+                    <div class="text-sm text-gray-600">Trailer Videos</div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+</div>

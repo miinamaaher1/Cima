@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, Input, OnInit } from '@angular/core';
-import { TabsRelatedComponent } from "../tabs-related/tabs-related.component";
+import { Component, input, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { TabsRelatedComponent } from './tabs-related/tabs-related.component';
+import { IMediaDetails } from '../../core/interfaces/IMediaDetails';
 import { MovieService } from '../../core/services/movie/movie.service';
 import { SeriesService } from '../../core/services/series/series.service';
 import { language } from '../../core/utils/language.enum';
-import { IMediaDetails } from './Interface/IMediaDetails';
-import { TabsEpisodesComponent } from "../tabs-episodes/tabs-episodes.component";
 import { mediaType } from '../../core/utils/media-type.enum';
+import { TabsEpisodesComponent } from './tabs-episodes/tabs-episodes.component';
 
 @Component({
   selector: 'app-tabs',
   imports: [CommonModule, TabsRelatedComponent, TabsEpisodesComponent],
   templateUrl: './tabs.component.html',
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent implements OnInit, OnChanges {
 
   selectedIndex = 0;
   isSeries:boolean = true;
@@ -26,15 +26,26 @@ export class TabsComponent implements OnInit {
     cast: []
   };
 
+
   mediaId = input.required<number>();
   mediaType = input.required<mediaType>();
 
+  seriesName=''
+  posterUrl:string="";
+
   constructor(private movieService:MovieService ,private seriesService:SeriesService ){}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.isSeries = this.mediaType() === mediaType.series
+    this.fetchMediaInfo(this.mediaId(), this.mediaType());
+  }
 
   ngOnInit(): void {
     this.isSeries = this.mediaType() === mediaType.series
     this.fetchMediaInfo(this.mediaId(), this.mediaType());
   }
+
+
 
   allTabs = [
     { label: 'Episodes', content: 'This is the Episodes tab content.' },
@@ -53,6 +64,8 @@ export class TabsComponent implements OnInit {
           this.mediadetails.description=details.overview;
           this.mediadetails.categories.push(...details.genres);
 
+          this.seriesName=details.name;
+
         },
         error: err=>
         {
@@ -62,6 +75,15 @@ export class TabsComponent implements OnInit {
       this.seriesService.getSeriesCredits(id,language.english).subscribe({
         next: credits=>{
           this.mediadetails.cast.push(...credits.cast.map(c => c.name).slice(0,10))
+        }
+      })
+      this.seriesService.getSeriesImages(id).subscribe({
+        next:img=>{
+          this.posterUrl=img.posters[1].file_path?
+          `https://image.tmdb.org/t/p/original/${img.backdrops[1].file_path}`
+          :img.posters[0].file_path? `https://image.tmdb.org/t/p/original/${img.backdrops[0].file_path}`
+          :"images/wallpapers/blur.jpg"
+
         }
       })
 
@@ -85,6 +107,12 @@ export class TabsComponent implements OnInit {
         }
       })
     }
+  }
+
+  onShare(event: Event): void {
+    event.stopPropagation();
+    // Implement share functionality
+    console.log('Sharing episode:', this.mediaId);
   }
 
   get tabs(){

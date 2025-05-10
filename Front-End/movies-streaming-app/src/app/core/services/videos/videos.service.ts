@@ -9,6 +9,10 @@ import { IStreamData } from '../../interfaces/istream-data';
 export class VideosService {
   constructor(private _http: HttpClient) { }
   getTrailer(name: string) {
-    return this._http.get<IStreamData[]>(`${environment.videos_url}/api/video/stream?name=${name}`);
+    return this._http.get<IStreamData[]>(`${environment.videos_url}/api/videos/stream?name=${name}`);
+  }
+
+  getMedia(name: string) {
+    return this._http.get<IStreamData[]>(`${environment.videos_url}/api/videos/stream?name=${name}`);
   }
 }

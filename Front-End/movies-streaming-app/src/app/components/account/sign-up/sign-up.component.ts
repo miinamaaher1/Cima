@@ -4,8 +4,7 @@ import { ProfileDataFormComponent } from "../profile-data-form/profile-data-form
 @Component({
   selector: 'app-sign-up',
   imports: [ProfileDataFormComponent],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css'
+  templateUrl: './sign-up.component.html'
 })
 export class SignUpComponent {
 

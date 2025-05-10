@@ -1,9 +1,12 @@
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
-import { NavLinksComponent } from "../nav-links/nav-links.component";
-import { NavSearchComponent } from "../nav-search/nav-search.component";
-import { NavAccountComponent } from "../nav-account/nav-account.component";
-import { NavSmComponent } from "../nav-sm/nav-sm.component";
+import { Component, HostListener, Inject, OnChanges, OnInit, PLATFORM_ID, signal, SimpleChanges } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { NavLinksComponent } from './nav-links/nav-links.component';
+import { NavSearchComponent } from './nav-search/nav-search.component';
+import { NavAccountComponent } from './nav-account/nav-account.component';
+import { NavSmComponent } from './nav-sm/nav-sm.component';
+import { AccountService } from '../../core/services/Account/account.service';
+import { UserService } from '../../core/services/user/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,12 +14,19 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
             NavSearchComponent,
             NavAccountComponent,
             NavSmComponent,
-            CommonModule],
+            CommonModule,
+            RouterLink
+            ],
   templateUrl: './nav.component.html',
   styles: ``
 })
-export class NavComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+export class NavComponent implements OnInit {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private _accountService : AccountService,
+    public _userService : UserService
+  ) {}
+
   isScrolled = false;
   isSmallView = false;
   isSmallScreenOpen = false;

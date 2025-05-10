@@ -1,0 +1,22 @@
+<div class="flex items-center gap-8">
+  <a routerLink="/home" class="w-20 hidden lg:block ">
+    <img src="/branding/logo-detailed.svg" alt="App Logo" class="h-10">
+  </a>
+  <div class="flex items-center gap-6 text-off-white">
+    <a routerLink="/home" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
+      Home
+    </a>
+    <a routerLink="/genres" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
+      Genres
+    </a>
+    <a routerLink="/charts" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
+      Charts
+    </a>
+    <a routerLink="/categories" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
+      Categories
+    </a>
+    <a routerLink="/my-lists" *ngIf="_userService.currentUser()?.isLoggedIn" routerLinkActive="text-blurple" class=" hover:text-blurple transition-colors">
+      My Lists
+    </a>
+  </div>
+</div>
