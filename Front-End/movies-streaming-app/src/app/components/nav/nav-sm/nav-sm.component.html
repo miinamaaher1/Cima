@@ -1,23 +1,22 @@
-<div class="mt-25">
-    <div class="mt-5 mx-3  bg-surface-black rounded-2xl  transition-all duration-200
-    opacity-100 scale-100">
+<div class="mt-25" >
+    <div (click)="Close()" class="mt-5 mx-3  bg-surface-black rounded-2xl  transition-all duration-200 opacity-100 scale-100 [&>*:not(:last-child)]:border-b-2 [&>*:not(:last-child)]:border-b-greyple">
         <a routerLink="/home" routerLinkActive="text-blurple"
-            class="flex items-center border-b-2 border-b-greyple px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
+            class="flex items-center px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
             <i class="fas fa-home mr-3 text-gray-500 w-4"></i>
             Home
         </a>
         <a routerLink="/genres" routerLinkActive="text-blurple"
-            class="flex items-center border-b-2 border-b-greyple px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
+            class="flex items-center px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
             <i class="fas fa-film mr-3 text-gray-500 w-4"></i>
             Genres
         </a>
         <a routerLink="/charts" routerLinkActive="text-blurple"
-            class="flex items-center border-b-2 border-b-greyple px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
+            class="flex items-center px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
             <i class="fas fa-chart-line mr-3  text-gray-500 w-4"></i>
             Charts
         </a>
         <a routerLink="/categories" routerLinkActive="text-blurple"
-            class="flex items-center border-b-2 border-b-greyple px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
+            class="flex items-center px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
             <i class="fas fa-link  mr-3  text-gray-500 w-4"></i>
             Categories
         </a>
@@ -30,30 +29,30 @@
 
     <div class="mx-4 mb-3 mt-8 text-[14px] text-light-blurple">Account Settings</div>
 
-    <div class="mt-5 mx-3  bg-surface-black rounded-2xl  z-50  transition-all duration-200
-     opacity-100 scale-100">
-        <a routerLink="/profile" *ngIf="_userService.currentUser()?.isLoggedIn" class="flex items-center border-b-2 border-b-greyple px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
+    <div (click)="Close()" class="my-5 mx-3   bg-surface-black rounded-2xl  z-50  transition-all duration-200 opacity-100 scale-100 [&>*:not(:last-child)]:border-b-2 [&>*:not(:last-child)]:border-b-greyple">
+        <a routerLink="/profile" *ngIf="_userService.currentUser()?.isLoggedIn" class="flex items-center px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
             <i class="fas fa-user-cog mr-3 text-gray-500 w-4"></i>
             Profile
         </a>
         <a routerLink="/sign-in" *ngIf="!_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
-            <i class="fas fa-sign-out-alt mr-3  text-gray-500 w-4"></i>
+            <i class="fas fa-right-to-bracket mr-3  text-gray-500 w-4"></i>
             Sign In
         </a>
         <a routerLink="/sign-up" *ngIf="!_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
-            <i class="fas fa-sign-out-alt mr-3  text-gray-500 w-4"></i>
+            <i class="fas fa-user-plus mr-3  text-gray-500 w-4"></i>
             Sign Up
         </a>
-        <button (click)="logout()" *ngIf="_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
-            <i class="fas fa-sign-out-alt mr-3  text-gray-500 w-4"></i>
+        <button (click)="logout()" *ngIf="_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-film-red cursor-pointer hover:text-blurple">
+            <i class="fas fa-sign-out-alt mr-3  text-film-red w-4"></i>
             Sign Out
         </button>
         <a routerLink="/subscribe" *ngIf="!_userService.currentUser()?.subscription?.subscriptionState || !_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
-            <i class="fas fa-sign-out-alt mr-3  text-gray-500 w-4"></i>
+            <i class="fa-solid fa-star mr-3  text-gray-500 w-4"></i>
             Subscribe
         </a>
         <a routerLink="/dashboard" *ngIf="_userService.currentUser()?.userType?.role == 'admin'" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
-            <i class="fas fa-sign-out-alt mr-3  text-gray-500 w-4"></i>
+            <i class="fa-solid fa-toolbox mr-3  text-gray-500 w-4"></i>
             Dashboard
         </a>
     </div>
+</div>
