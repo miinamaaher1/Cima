@@ -1,5 +1,5 @@
 **/bin
 **/obj
+**/.vs
 /Back-End/Movie_Streaming_App/.vs/
 /Back-End/Movie_Streaming_App/Movie_Streaming_App/appsettings.json
-**/.vs
