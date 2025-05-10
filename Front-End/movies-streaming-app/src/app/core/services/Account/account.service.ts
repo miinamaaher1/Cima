@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { ISubscription } from '../../interfaces/ISubscriptionData';
 import { catchError, map, Observable, of, throwError, switchMap, forkJoin } from 'rxjs';
 import { IUser, IUserType, IUserSummary } from '../../interfaces/IUser';
+import { UserService } from '../user/user.service';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +19,11 @@ export class AccountService {
 
   constructor(
     private _http: HttpClient,
-    private router: Router
+    private router: Router,
+    private _userService : UserService
   ) { }
 
-  // register service 
+  // register service
   register(userData: SignUpDto) {
     const endpoint = "api/Account/register";
     const url = `${environment.account_base_url}/${endpoint}`;
@@ -36,11 +39,15 @@ export class AccountService {
     );
   }
 
-  // login service 
+  // login service
   login(userData: SignInDto) {
     const endpoint = "api/Account/login";
     const url = `${environment.account_base_url}/${endpoint}`;
-    return this._http.post<LoginResponseDto>(url, userData, { headers: this.headers });
+    return this._http.post<LoginResponseDto>(url, userData, { headers: this.headers }).pipe(
+      tap((response) => {
+        localStorage.setItem('userToken', response.token);
+        this.getUserSummary().subscribe(); // Fetch and update user state
+      }))
   }
 
   private isLocalStorageAvailable(): boolean {
@@ -68,6 +75,7 @@ export class AccountService {
   logout(): void {
     if (this.isLocalStorageAvailable()) {
       localStorage.removeItem('userToken');
+      this._userService.clearUser();
     }
     this.router.navigate(['/sign-in']);
   }
@@ -118,52 +126,65 @@ export class AccountService {
 
   // Get comprehensive user summary
   getUserSummary(): Observable<IUserSummary> {
-    const isLoggedIn = this.isLoggedIn();
+  const isLoggedIn = this.isLoggedIn();
 
-    if (!isLoggedIn) {
-      return of({
-        isLoggedIn: false,
-        userType: null,
-        userInfo: null,
-        subscription: null
-      });
-    }
+  if (!isLoggedIn) {
+    const emptyUser: IUserSummary = {
+      isLoggedIn: false,
+      userType: null,
+      userInfo: null,
+      subscription: null,
+    };
+    this._userService.setUser(emptyUser); // Update state for logged-out users
+    return of(emptyUser);
+  }
 
-    return this.getUserType().pipe(
-      switchMap(userType => {
-        if (userType.role === 'admin') {
-          return this.getUserInfo().pipe(
-            map(userInfo => ({
+  return this.getUserType().pipe(
+    switchMap((userType) => {
+      if (userType.role === 'admin') {
+        return this.getUserInfo().pipe(
+          map((userInfo) => {
+            const adminUser: IUserSummary = {
               isLoggedIn: true,
               userType,
               userInfo,
-              subscription: null
-            }))
-          );
-        }
+              subscription: null,
+            };
+            this._userService.setUser(adminUser); // Update state for admin
+            return adminUser;
+          })
+        );
+      }
 
-        // For regular users, get all data
-        return forkJoin({
-          userInfo: this.getUserInfo(),
-          subscription: this.getSubscriptionData() as Observable<ISubscription>
-        }).pipe(
-          map(({ userInfo, subscription }) => ({
+      // For regular users
+      return forkJoin({
+        userInfo: this.getUserInfo(),
+        subscription: this.getSubscriptionData(),
+      }).pipe(
+        map(({ userInfo, subscription }) => {
+          const regularUser: IUserSummary = {
             isLoggedIn: true,
             userType,
             userInfo,
-            subscription
-          }))
-        );
-      }),
-      catchError(error => {
-        console.error('Error fetching user summary:', error);
-        return of({
-          isLoggedIn: true,
-          userType: null,
-          userInfo: null,
-          subscription: null
-        });
-      })
-    );
-  }
+            subscription,
+          };
+          this._userService.setUser(regularUser); // Update state for regular user
+          return regularUser;
+        })
+      );
+    }),
+    catchError((error) => {
+      console.error('Error fetching user summary:', error);
+      const errorState: IUserSummary = {
+        isLoggedIn: true, // Assume still logged in (token exists)
+        userType: null,
+        userInfo: null,
+        subscription: null,
+      };
+      this._userService.setUser(errorState); // Update state on error
+      return of(errorState);
+    })
+  );
+}
+
 }

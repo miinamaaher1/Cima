@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
-import { AccountService } from '../../../core/services/Account/account.service';
-import { IUserSummary } from '../../../core/interfaces/IUser';
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
   selector: 'app-nav-links',
@@ -11,19 +10,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './nav-links.component.html',
   styles: ``
 })
-export class NavLinksComponent implements OnInit {
-  constructor (private _accountService : AccountService) {}
-
-  ngOnInit(): void {
-      this._accountService.getUserSummary().subscribe({
-        next : res => {
-          this.User = res
-        },
-        error : () => {}
-      })
-    }
-
-
-    User : IUserSummary | undefined
-
+export class NavLinksComponent {
+  constructor (public _userService : UserService) {}
 }

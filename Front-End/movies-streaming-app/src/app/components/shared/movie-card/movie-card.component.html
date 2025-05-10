@@ -20,10 +20,10 @@
     <div
         class="flex flex-col gap-1 px-4 overflow-hidden transition-all delay-200 z-50 duration-700 opacity-0 max-h-0 md:group-hover/card:max-h-96 md:group-hover/card:p-4 md:group-hover/card:opacity-100">
         <div class="flex justify-between">
+            <a routerLink="/watch/movie/{{id}}" class="size-7">
+                <app-icon [name]="'play'" [state]="'solid'" [title]="'Watch Now'"></app-icon>
+            </a>
             <div class="flex gap-2.5">
-                <a routerLink="/watch/movie/{{id}}" class="size-7">
-                    <app-icon [name]="'play'" [state]="'solid'" [title]="'Watch Now'"></app-icon>
-                </a>
                 @if(IsInFavorites)
                 {
                 <a class="size-7" (click)="addToFavorites()">
@@ -36,10 +36,11 @@
                     <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"></app-icon>
                 </a>
                 }
+                <a routerLink="/details/movie/{{id}}" (click)="toggleListItem()"  class="size-7">
+                    <app-icon [name]="'plus'" [state]="'solid'" [title]="'Add to Watchlist'" *ngIf="!IsInWatchList" ></app-icon>
+                    <i class="fa-solid fa-minus " *ngIf="IsInWatchList"></i>
+                </a>
             </div>
-            <a routerLink="/details/movie/{{id}}" class="size-7">
-                <app-icon [name]="'info'" [state]="'solid'" [title]="'More Information'"></app-icon>
-            </a>
         </div>
         <div>
             <p>{{name}}</p>

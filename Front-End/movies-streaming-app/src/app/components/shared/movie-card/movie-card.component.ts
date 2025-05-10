@@ -10,6 +10,7 @@ import { AccountService } from '../../../core/services/Account/account.service';
 import { FavoritesService } from '../../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../../core/dtos/VideoType';
 import { WatchlistService } from '../../../core/services/Watchlist/watchlist.service';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
   selector: 'app-movie-card',
@@ -18,7 +19,9 @@ import { WatchlistService } from '../../../core/services/Watchlist/watchlist.ser
 })
 export class MovieCardComponent {
   @Input() id: number = 0;
-  constructor(private movieService: MovieService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService, private watchLisatService: WatchlistService) { }
+  constructor(private movieService: MovieService, private videoService: VideosService, private router: Router,
+    private accountService: AccountService, private favoriteService: FavoritesService,
+    private watchLisatService: WatchlistService, public userService: UserService) { }
   ngOnInit(): void {
     this.movieService.getMovieDetails(this.id, language.english).subscribe({
       next: (data) => {
@@ -89,7 +92,7 @@ export class MovieCardComponent {
     }
   }
   addToFavorites() {
-    if (this.accountService.isLoggedIn())
+    if (this.userService.isLoggedIn())
       this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
         next: () => this.IsInFavorites = true,
         error: (error) => console.log(error)
@@ -98,7 +101,7 @@ export class MovieCardComponent {
       this.router.navigate(['/sign-in']);
   }
   removeFromFavorites() {
-    if (this.accountService.isLoggedIn())
+    if (this.userService.isLoggedIn())
       this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
         next: () => this.IsInFavorites = false,
         error: (error) => console.log(error)
@@ -108,17 +111,17 @@ export class MovieCardComponent {
   }
 
   toggleListItem() {
-    if (this.accountService.isLoggedIn()) {
+    if (this.userService.isLoggedIn()) {
       if (this.isListed()) {
         this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
           next: () => this.IsInWatchList = false,
-          error: () => {} // console.log(error)
+          error: () => { } // console.log(error)
         })
       }
       else {
         this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
           next: () => this.IsInWatchList = true,
-          error: () => {} // console.log(error)
+          error: () => { } // console.log(error)
         })
       }
     }
@@ -128,10 +131,13 @@ export class MovieCardComponent {
   }
 
   isListed(): boolean {
-    return this.watchLisatService.getWatchlist().subscribe({
-      next: res => {
-        res.map(l => l.id).includes(this.id)
-      }
-    }) ? true : false;
+    if (this.userService.isLoggedIn()) {
+      return this.watchLisatService.getWatchlist().subscribe({
+        next: res => {
+          res.map(l => l.id).includes(this.id)
+        }
+      }) ? true : false;
+    }
+    return false;
   }
 }
