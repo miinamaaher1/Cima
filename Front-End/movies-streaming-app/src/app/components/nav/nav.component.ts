@@ -6,7 +6,7 @@ import { NavSearchComponent } from './nav-search/nav-search.component';
 import { NavAccountComponent } from './nav-account/nav-account.component';
 import { NavSmComponent } from './nav-sm/nav-sm.component';
 import { AccountService } from '../../core/services/Account/account.service';
-import { IUserSummary } from '../../core/interfaces/IUser';
+import { UserService } from '../../core/services/user/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,22 +15,21 @@ import { IUserSummary } from '../../core/interfaces/IUser';
             NavAccountComponent,
             NavSmComponent,
             CommonModule,
-            RouterLink,
+            RouterLink
             ],
   templateUrl: './nav.component.html',
   styles: ``
 })
-export class NavComponent implements OnInit, OnChanges {
+export class NavComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private _accountService : AccountService
+    private _accountService : AccountService,
+    public _userService : UserService
   ) {}
 
   isScrolled = false;
   isSmallView = false;
   isSmallScreenOpen = false;
-
-  User = signal<IUserSummary | null>(null)
 
   @HostListener('window:scroll')
   onWindowScroll() {
@@ -51,21 +50,6 @@ export class NavComponent implements OnInit, OnChanges {
     if (isPlatformBrowser(this.platformId)) {
       this.checkViewport();
     }
-    this._accountService.getUserSummary().subscribe({
-      next : res => {
-        this.User.set(res)
-      },
-      error : () => {}
-    })
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this._accountService.getUserSummary().subscribe({
-      next : res => {
-        this.User.set(res)
-      },
-      error : () => {}
-    })
   }
 
   checkViewport() {

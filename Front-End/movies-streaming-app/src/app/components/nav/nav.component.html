@@ -28,7 +28,7 @@
 
 
     <div class="flex items-center gap-4 ml-auto ">
-      <div *ngIf="!isSmallView && User()?.userType?.role == 'admin'" class="rounded-full bg-surface-black py-1 px-3 transition duration-300 cursor-pointer">
+      <div *ngIf="!isSmallView && _userService.currentUser()?.userType?.role == 'admin'" class="rounded-full bg-surface-black py-1 px-3 transition duration-300 cursor-pointer">
         <a routerLink="/dashboard">
           <i class="fa-solid fa-toolbox"></i>
           Dashboard
@@ -36,7 +36,7 @@
       </div>
       <app-nav-search></app-nav-search>
       <app-nav-account class="hidden lg:block"></app-nav-account>
-      <div *ngIf="!isSmallView && !User()?.subscription?.subscriptionState" class="rounded-full bg-gradient-to-r from-blurple to-button-hover hover:to-blurple py-1 px-3 transition duration-300 cursor-pointer">
+      <div *ngIf="!isSmallView && !_userService.currentUser()?.subscription?.subscriptionState" class="rounded-full bg-gradient-to-r from-blurple to-button-hover hover:to-blurple py-1 px-3 transition duration-300 cursor-pointer">
         <a routerLink="/subscribe">
           Subscribe
         </a>

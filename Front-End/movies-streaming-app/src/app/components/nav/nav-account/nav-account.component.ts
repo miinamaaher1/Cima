@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnChanges, OnInit, signal, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../../../core/services/user/user.service';
 import { AccountService } from '../../../core/services/Account/account.service';
-import { IUserSummary } from '../../../core/interfaces/IUser';
 
 @Component({
   selector: 'app-nav-account',
@@ -10,8 +10,9 @@ import { IUserSummary } from '../../../core/interfaces/IUser';
   templateUrl: './nav-account.component.html',
   styles: ``
 })
-export class NavAccountComponent implements OnInit, OnChanges {
+export class NavAccountComponent {
   constructor(
+    public _userService : UserService,
     private _accountService : AccountService
   ) {}
 
@@ -26,38 +27,6 @@ export class NavAccountComponent implements OnInit, OnChanges {
 
   closeDropdown() {
     this.isOpen = false;
-  }
-
-  User = signal<IUserSummary | null>(null)
-
-  AccountName = signal<string>("My Account")
-
-  ngOnInit(): void {
-    this._accountService.getUserSummary().subscribe({
-      next : res => {
-        this.User.set(res)
-        if (this.User() != null) {
-          this.AccountName.set(res.userInfo?.firstName + " " + res.userInfo?.lastName)
-        } else {
-          this.AccountName.set("My Account")
-        }
-      },
-      error : () => {}
-    })
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this._accountService.getUserSummary().subscribe({
-      next : res => {
-        this.User.set(res)
-        if (this.User() != null) {
-          this.AccountName.set(res.userInfo?.firstName + " " + res.userInfo?.lastName)
-        } else {
-          this.AccountName.set("My Account")
-        }
-      },
-      error : () => {}
-    })
   }
 
   @HostListener('document:click', ['$event'])

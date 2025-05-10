@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../../core/services/Account/account.service';
 import { RouterLink } from '@angular/router';
-import { IUserSummary } from '../../../core/interfaces/IUser';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
   selector: 'app-nav-sm',
@@ -10,23 +10,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './nav-sm.component.html',
   styles: ``
 })
-export class NavSmComponent implements OnInit {
+export class NavSmComponent {
   constructor(
-    private _accountService : AccountService
+    private _accountService : AccountService,
+    public _userService : UserService
   ) {}
 
-  ngOnInit(): void {
-    this._accountService.getUserSummary().subscribe({
-      next : res => {
-        this.User = res
-      },
-      error : () => {}
-    })
-  }
+
 
   logout() {
     this._accountService.logout()
   }
-
-  User : IUserSummary | undefined
 }
