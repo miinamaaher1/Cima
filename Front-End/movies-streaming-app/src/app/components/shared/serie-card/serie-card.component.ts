@@ -1,15 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { SeriesService } from '../../../core/services/series/series.service';
 import { language } from '../../../core/utils/language.enum';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon-component/icon.component';
 import { VideosService } from '../../../core/services/videos/videos.service';
 import { Router, RouterLink } from '@angular/router';
-import { AccountService } from '../../../core/services/Account/account.service';
 import { FavoritesService } from '../../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../../core/dtos/VideoType';
 import { WatchlistService } from '../../../core/services/Watchlist/watchlist.service';
-import { error } from 'console';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
   selector: 'app-serie-card',
@@ -18,7 +17,8 @@ import { error } from 'console';
 })
 export class SerieCardComponent {
   @Input({ required: true }) id!: number;
-  constructor(private seriesService: SeriesService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService ,private watchLisatService:WatchlistService) { }
+  constructor(private seriesService: SeriesService, private videoService: VideosService, private router: Router, 
+    private favoriteService: FavoritesService , private watchLisatService:WatchlistService ,private userService :UserService) { }
   ngOnInit(): void {
     if (!this.id || this.id <= 0) {
       this.validSeries = false;
@@ -59,8 +59,8 @@ export class SerieCardComponent {
     });
   }
 
-  IsInWatchList: boolean = false;
-  IsInFavorites: boolean = false;
+  IsInWatchList = signal<boolean>(false);
+  IsInFavorites = signal<boolean>(false); 
   validSeries: boolean = true;
   name: string = "";
   seasons: number = 0;
@@ -96,37 +96,39 @@ export class SerieCardComponent {
       this.isPlaying = false;
     }
   }
-  addToFavorites() {
-    if (this.accountService.isLoggedIn())
-      this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
-        next: () => this.IsInFavorites = true,
-        error: (error) => console.log(error)
-      });
-    else
+  toggleFavoriteItem() {
+    if (this.userService.isLoggedIn()) {
+      if (this.IsInFavorites()) {
+        this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
+          next: () => this.IsInFavorites.set(false),
+          error: () => { } // console.log(error)
+        })
+      }
+      else {
+        this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
+          next: () => this.IsInFavorites.set(true),
+          error: () => { } // console.log(error)
+        })
+      }
+    }
+    else {
       this.router.navigate(['/sign-in']);
-  }
-  removeFromFavorites() {
-    if (this.accountService.isLoggedIn())
-      this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Series }).subscribe({
-        next: () => this.IsInFavorites = false,
-        error: (error) => console.log(error)
-      });
-    else
-      this.router.navigate(['/sign-in']);
+    }
+
   }
 
-    toggleListItem() {
-    if (this.accountService.isLoggedIn()) {
-      if (this.isListed()) {
+  toggleListItem() {
+    if (this.userService.isLoggedIn()) {
+      if (this.IsInWatchList()) {
         this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Series }).subscribe({
-          next: () => this.IsInWatchList = false,
-          error: () => {} // console.log(error)
+          next: () => this.IsInWatchList.set(false),
+          error: () => { } // console.log(error)
         })
       }
       else {
         this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Series }).subscribe({
-          next: () => this.IsInWatchList = true,
-          error: () => {} // console.log(error)
+          next: () => this.IsInWatchList.set(true),
+          error: () => { } // console.log(error)
         })
       }
     }
@@ -135,11 +137,27 @@ export class SerieCardComponent {
     }
   }
 
-  isListed(): boolean {
-    return this.watchLisatService.getWatchlist().subscribe({
-      next: res => {
-        res.map(l => l.id).includes(this.id)
-      }
-    }) ? true : false;
+  isListed() {
+    if (this.userService.isLoggedIn()) {
+      this.watchLisatService.getWatchlist().subscribe({
+        next: res => {
+          const isListed = res.map(l => l.id).includes(this.id);
+          this.IsInWatchList.set(isListed);
+        },
+        error: err => console.error(err)
+      });
+    }
+  }
+
+  isFavorite() {
+    if (this.userService.isLoggedIn()) {
+      this.favoriteService.getFavorites().subscribe({
+        next: res => {
+          const isFav = res.map(l => l.id).includes(this.id);
+          this.IsInFavorites.set(isFav);
+        },
+        error: err => console.error(err)
+      });
+    }
   }
 }

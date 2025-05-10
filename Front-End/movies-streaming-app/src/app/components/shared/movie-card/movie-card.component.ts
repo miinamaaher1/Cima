@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { IconComponent } from '../icon-component/icon.component';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../../core/services/movie/movie.service';
@@ -52,10 +52,13 @@ export class MovieCardComponent {
       },
       error: (err) => console.log(err)
     });
+
+    this.isFavorite()
+    this.isListed()
   }
 
-  IsInWatchList: boolean = false;
-  IsInFavorites: boolean = false;
+  IsInWatchList = signal<boolean>(false);
+  IsInFavorites = signal<boolean>(false);
   validMovie: boolean = true;
   name: string = "";
   runtime: number = 0;
@@ -91,36 +94,39 @@ export class MovieCardComponent {
       this.isPlaying = false;
     }
   }
-  addToFavorites() {
-    if (this.userService.isLoggedIn())
-      this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
-        next: () => this.IsInFavorites = true,
-        error: (error) => console.log(error)
-      });
-    else
+
+  toggleFavoriteItem() {
+    if (this.userService.isLoggedIn()) {
+      if (this.IsInFavorites()) {
+        this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
+          next: () => this.IsInFavorites.set(false),
+          error: () => { } // console.log(error)
+        })
+      }
+      else {
+        this.favoriteService.addToFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
+          next: () => this.IsInFavorites.set(true),
+          error: () => { } // console.log(error)
+        })
+      }
+    }
+    else {
       this.router.navigate(['/sign-in']);
-  }
-  removeFromFavorites() {
-    if (this.userService.isLoggedIn())
-      this.favoriteService.deleteFromFavorites({ id: this.id, videoType: VideoType.Movie }).subscribe({
-        next: () => this.IsInFavorites = false,
-        error: (error) => console.log(error)
-      });
-    else
-      this.router.navigate(['/sign-in']);
+    }
+
   }
 
   toggleListItem() {
     if (this.userService.isLoggedIn()) {
-      if (this.isListed()) {
+      if (this.IsInWatchList()) {
         this.watchLisatService.deleteFromWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
-          next: () => this.IsInWatchList = false,
+          next: () => this.IsInWatchList.set(false),
           error: () => { } // console.log(error)
         })
       }
       else {
         this.watchLisatService.addToWatchlist({ id: this.id, videoType: VideoType.Movie }).subscribe({
-          next: () => this.IsInWatchList = true,
+          next: () => this.IsInWatchList.set(true),
           error: () => { } // console.log(error)
         })
       }
@@ -130,14 +136,27 @@ export class MovieCardComponent {
     }
   }
 
-  isListed(): boolean {
+  isListed() {
     if (this.userService.isLoggedIn()) {
-      return this.watchLisatService.getWatchlist().subscribe({
+      this.watchLisatService.getWatchlist().subscribe({
         next: res => {
-          res.map(l => l.id).includes(this.id)
-        }
-      }) ? true : false;
+          const isListed = res.map(l => l.id).includes(this.id);
+          this.IsInWatchList.set(isListed);
+        },
+        error: err => console.error(err)
+      });
     }
-    return false;
+  }
+
+  isFavorite() {
+    if (this.userService.isLoggedIn()) {
+      this.favoriteService.getFavorites().subscribe({
+        next: res => {
+          const isFav = res.map(l => l.id).includes(this.id);
+          this.IsInFavorites.set(isFav);
+        },
+        error: err => console.error(err)
+      });
+    }
   }
 }

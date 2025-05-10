@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../../core/services/search/search.service';
 import { language } from '../../../core/utils/language.enum';
@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-search',
-  imports: [FormsModule, CommonModule, MovieCardComponent,SerieCardComponent],
+  imports: [FormsModule, CommonModule, MovieCardComponent, SerieCardComponent],
   templateUrl: './nav-search.component.html',
   styles: ``
 })
-export class NavSearchComponent {
+export class NavSearchComponent implements OnInit {
   isSearchOpen = false;
   searchQuery = '';
 
@@ -24,9 +24,13 @@ export class NavSearchComponent {
 
   private searchSubject = new Subject<string>();
 
-  constructor(private searchService: SearchService, private router:Router) {
+  constructor(private searchService: SearchService, private router: Router) {
     this.setupSearchListener();
   }
+  ngOnInit(): void {
+    this.closeSearch();
+  }
+
 
   toggleSearch() {
     this.isSearchOpen = !this.isSearchOpen;
@@ -50,12 +54,12 @@ export class NavSearchComponent {
   }
 
   onSearchChange() {
-    this.searchSubject.next(this.searchQuery); 
+    this.searchSubject.next(this.searchQuery);
   }
 
   private setupSearchListener() {
     this.searchSubject.pipe(
-      debounceTime(400), 
+      debounceTime(400),
       distinctUntilChanged(),
       switchMap((query) => {
         if (!query.trim()) {
@@ -76,10 +80,10 @@ export class NavSearchComponent {
     });
   }
 
-  onMovieCardClick(){
+  onMovieCardClick() {
     this.closeSearch();
   }
-  onSeriesCardClick(){
+  onSeriesCardClick() {
     this.closeSearch();
   }
 
