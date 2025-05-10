@@ -1,0 +1,45 @@
+<div class="fixed top-0 left-0 right-0 z-[999] w-full font-medium transition-all duration-300 "
+     [class.bg-background-black]="isScrolled || isSmallScreenOpen"
+     [class.bg-transparent]="!isScrolled && !isSmallScreenOpen"
+     [class]="(isScrolled || isSmallScreenOpen) ? 'bg-background-black':
+     'bg-gradient-to-b from-body-charcoal/50 to-body-charcoal/0'"
+     >
+
+  <div class="relative flex justify-between items-center h-16 mx-auto z-[200] px-4 lg:px-12">
+    <!-- Burger Button -->
+    <button *ngIf="isSmallView"
+            class="text-off-white cursor-pointer z-50 "
+            (click)="toggleSmallScreen()">
+      <i class="fas fa-bars text-xl" *ngIf="!isSmallScreenOpen"></i>
+      <i class="fas fa-times text-xl" *ngIf="isSmallScreenOpen"></i>
+    </button>
+
+    <!-- Logo (Centered on small screens) -->
+    <div class="absolute left-1/2 transform -translate-x-1/2 lg:relative lg:left-0 lg:translate-x-0">
+      <a routerLink="/" class="block lg:hidden">
+        <img src="/branding/logo-detailed.svg" alt="App Logo" class="h-10">
+      </a>
+    </div>
+
+
+    <div class="hidden lg:flex items-center flex-1">
+      <app-nav-links></app-nav-links>
+    </div>
+
+
+    <div class="flex items-center gap-4 ml-auto ">
+      <app-nav-search></app-nav-search>
+      <app-nav-account class="hidden lg:block"></app-nav-account>
+    </div>
+  </div>
+
+
+  <div class="fixed inset-0  bg-background-black transition-transform duration-400 ease-in-out"
+       [class]="isSmallScreenOpen ? 'translate-x-0' : '-translate-x-full'"
+       *ngIf="isSmallView">
+
+    <div class="h-full overflow-y-auto">
+       <app-nav-sm></app-nav-sm>
+    </div>
+  </div>
+</div>

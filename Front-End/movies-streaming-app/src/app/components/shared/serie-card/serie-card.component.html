@@ -1,0 +1,58 @@
+@if(validSeries) {
+<div
+    class="group/card w-52 hover:scale-130 transition delay-200 duration-300 bg-surface-black rounded-sm text-off-white overflow-hidden border-border-grey border-solid border-1">
+    <!-- <div class="w-full h-29" (mouseenter)="playVideo(poster, video)" (mouseleave)="stopVideo(poster, video)"> -->
+    <!-- <iframe class="w-full h-full hidden" src="https://www.youtube.com/embed/NgsQ8mVkN8w?controls=0&rel=0"
+                allow="autoplay" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen #video></iframe> -->
+    <!-- <img src="{{posterUrl}}" alt="{{name}} poster" class="w-full h-full cursor-pointer object-cover" #poster> -->
+    <!-- <div class="hidden"></div> -->
+    <!-- </div> -->
+    <a routerLink="/details/series/{{id}}" class="w-full h-29 block">
+        <video class="w-full h-full object-center object-cover" poster="{{posterUrl}}" (mouseenter)="playVideo($event)"
+            (mouseleave)="stopVideo($event)">
+            <source src="{{videoUrl}}" type="video/mp4">
+        </video>
+    </a>
+    <div
+        class="flex flex-col gap-2.5 px-4 overflow-hidden transition-all delay-200 z-50 duration-700 opacity-0 max-h-0 md:group-hover/card:max-h-96 md:group-hover/card:p-4 md:group-hover/card:opacity-100">
+        <div class="flex justify-between">
+            <div class="flex gap-2.5">
+                <a routerLink="/watch/series/{{id}}" class="size-7">
+                    <app-icon [name]="'play'" [state]="'solid'" [title]="'Watch Now'"></app-icon>
+                </a>
+                <a href="#" class="size-7">
+                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"></app-icon>
+                </a>
+            </div>
+            <a routerLink="/details/series/{{id}}" class="size-7">
+                <app-icon [name]="'info'" [state]="'solid'" [title]="'More Information'"></app-icon>
+            </a>
+        </div>
+        <div>
+            <p>{{name | titlecase}}</p>
+            <div class="flex gap-1 flex-wrap select-none">
+                @for (tag of tags; track $index)
+                {
+                <span
+                    class="px-2 py-1 text-[0.4rem] text-greyple rounded-xl bg-background-black border-border-grey border-solid border-1">{{tag
+                    | lowercase}}</span>
+                }
+            </div>
+        </div>
+        <div>
+            <div class="text-[0.75rem]">{{seasons}} season(s), {{episodes}} episodes</div>
+            <div class="text-[0.75rem]">Cast: {{cast.join(", ")}}</div>
+        </div>
+    </div>
+</div>
+}
+@else {
+<div class="bg-gray-700 w-52 h-29 grid place-items-center cursor-not-allowed">
+    <div class="size-7 rounded-full">
+        <div
+            class="transition duration-150 border-off-white border-1 size-full rounded-full grow-0 shrink-0 flex justify-center items-center">
+            <i class="fa-solid fa-info text-off-white"></i>
+        </div>
+    </div>
+</div>
+}
