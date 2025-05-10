@@ -16,6 +16,7 @@ import { tap } from 'rxjs';
 })
 export class AccountService {
   headers = new HttpHeaders().set("Accept", "application/json");
+  private readonly TOKEN_KEY = 'userToken';
 
   constructor(
     private _http: HttpClient,
@@ -45,14 +46,14 @@ export class AccountService {
     const url = `${environment.account_base_url}/${endpoint}`;
     return this._http.post<LoginResponseDto>(url, userData, { headers: this.headers }).pipe(
       tap((response) => {
-        localStorage.setItem('userToken', response.token);
+        sessionStorage.setItem(this.TOKEN_KEY, response.token);
         this.getUserSummary().subscribe(); 
       }))
   }
 
-  private isLocalStorageAvailable(): boolean {
+  private isSessionStorageAvailable(): boolean {
     try {
-      return typeof window !== 'undefined' && window.localStorage !== null;
+      return typeof window !== 'undefined' && window.sessionStorage !== null;
     } catch (e) {
       return false;
     }
@@ -60,11 +61,11 @@ export class AccountService {
 
   // get user data service
   getToken(): string | null {
-    if (!this.isLocalStorageAvailable()) {
+    if (!this.isSessionStorageAvailable()) {
       this.router.navigate(['/sign-in']);
       return null;
     }
-    const token = localStorage.getItem('userToken');
+    const token = sessionStorage.getItem(this.TOKEN_KEY);
     if (!token) {
       this.router.navigate(['/sign-in']);
       return null;
@@ -73,8 +74,8 @@ export class AccountService {
   }
 
   logout(): void {
-    if (this.isLocalStorageAvailable()) {
-      localStorage.removeItem('userToken');
+    if (this.isSessionStorageAvailable()) {
+      sessionStorage.removeItem(this.TOKEN_KEY);
       this._userService.clearUser();
     }
     this.router.navigate(['/sign-in']);
@@ -82,10 +83,10 @@ export class AccountService {
 
   // check if the user is logged in
   isLoggedIn(): boolean {
-    if (!this.isLocalStorageAvailable()) {
+    if (!this.isSessionStorageAvailable()) {
       return false;
     }
-    return !!localStorage.getItem('userToken');
+    return !!sessionStorage.getItem(this.TOKEN_KEY);
   }
 
   // get the user subscription data

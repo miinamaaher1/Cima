@@ -42,7 +42,7 @@ export class SignInComponent {
           this.signInForm.setErrors({ login: true });
           return;
         }
-        localStorage.setItem('userToken', response.token);
+        this.accountService.getUserSummary().subscribe();
         this.router.navigate(['/home']);
       },
       error: (error) => {
