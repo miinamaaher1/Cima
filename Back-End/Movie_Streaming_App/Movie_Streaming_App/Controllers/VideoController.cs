@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Streaming_App.Models;
 using System.Text.Json;
 
 namespace Movie_Streaming_App.Controllers
 {
-    [Authorize]
     [Route("api/videos")]
     [ApiController]
     public class VideoController : ControllerBase
