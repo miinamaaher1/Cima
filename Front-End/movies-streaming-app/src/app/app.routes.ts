@@ -57,7 +57,16 @@ export const routes: Routes = [
     path: '',
     component: WatchLayoutComponent,
     children: [
-      { path: 'watch/:type/:id', component: WatchAreaComponent, title: 'Watch', canActivate: [authGuard] }
+      { 
+        path: 'watch/:type/:id', 
+        component: WatchAreaComponent, 
+        title: 'Watch', 
+        canActivate: [authGuard],
+        data: {
+          defaultSeason: 1,
+          defaultEpisode: 1
+        }
+      }
     ]
   },
 

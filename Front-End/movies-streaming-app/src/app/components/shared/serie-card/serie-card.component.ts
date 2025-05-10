@@ -17,9 +17,13 @@ import { error } from 'console';
   templateUrl: './serie-card.component.html'
 })
 export class SerieCardComponent {
-  @Input() id: number = 0;
+  @Input({ required: true }) id!: number;
   constructor(private seriesService: SeriesService, private videoService: VideosService, private router: Router, private accountService: AccountService, private favoriteService: FavoritesService ,private watchLisatService:WatchlistService) { }
   ngOnInit(): void {
+    if (!this.id || this.id <= 0) {
+      this.validSeries = false;
+      return;
+    }
     this.seriesService.getSeriesDetails(this.id, language.english).subscribe({
       next: (data) => {
         this.tags = data.genres.map(g => g.name);
@@ -32,7 +36,10 @@ export class SerieCardComponent {
           error: () => this.videoUrl = "/videos/clips/G_O_T_Clip.mp4"
         });
       },
-      error: (err) => console.log(err)
+      error: (err) => {
+        console.log(err);
+        this.validSeries = false;
+      }
     });
     this.seriesService.getSeriesCredits(this.id, language.english).subscribe({
       next: data => this.cast = data.cast.filter((_, i) => i <= 2).map(c => c.name),

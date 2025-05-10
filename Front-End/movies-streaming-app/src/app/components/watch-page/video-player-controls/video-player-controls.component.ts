@@ -206,14 +206,14 @@ export class VideoPlayerControlsComponent implements AfterViewInit, OnDestroy, O
         if (!this.videoElement) return;
         
         const input = event.target as HTMLInputElement;
-        const seekTime = Number(input.value);
+        const time = Number(input.value);
         
-        this.videoElement.currentTime = seekTime;
-        this.currentTime = seekTime;
+        this.videoElement.currentTime = time;
+        this.currentTime = time;
     }
 
     handleVideoError(event: Event) {
-        const videoError = (event.target as HTMLVideoElement).error;
-        console.error('Video error:', videoError);
+        const videoError = event.target as HTMLVideoElement;
+        console.error('Video error:', videoError.error);
     }
 }

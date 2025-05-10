@@ -51,11 +51,6 @@
                     <i class="fa-solid fa-forward-step"></i>
                 </button>
 
-                <!-- Quality Settings -->
-                <div class="quality-settings">
-                    <app-video-quality-setting></app-video-quality-setting>
-                </div>
-
                 <!-- Fullscreen -->
                 <button class="control-button fullscreen-button" (click)="isFullScreen ? exitFullScreen() : goFullScreen()">
                     <i [ngClass]="isFullScreen ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>

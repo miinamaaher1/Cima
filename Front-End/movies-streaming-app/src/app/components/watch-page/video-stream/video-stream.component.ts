@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { NgClass, NgIf, NgFor } from '@angular/common';
 import { VideoPlayerControlsComponent } from "../video-player-controls/video-player-controls.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { mediaType } from '../../../core/utils/media-type.enum';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { SeriesService } from '../../../core/services/series/series.service';
@@ -15,6 +15,7 @@ import { IMovie } from '../../../core/interfaces/IMovie';
 import { EpisodesListComponent } from '../episodes-list/episodes-list.component';
 import { WatchEpisodesComponent } from '../watch-episodes/watch-episodes.component';
 import { forkJoin } from 'rxjs';
+import { IStreamData } from '../../../core/interfaces/istream-data';
 
 @Component({
     selector: 'app-video-stream',
@@ -25,6 +26,7 @@ import { forkJoin } from 'rxjs';
 export class VideoStreamComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private moviesService: MovieService,
         private seriesService: SeriesService,
         private seasonService: SeasonService,
@@ -42,6 +44,8 @@ export class VideoStreamComponent implements OnInit {
     episodes: IEpisode[] = [];
     similarMovies: IMovie[] = [];
     posterUrl: string = "";
+    currentSeason: number = 1;
+    currentEpisode: number = 1;
 
     get mediaTitle(): string {
         if (!this.mediaDetails) return '';
@@ -54,12 +58,27 @@ export class VideoStreamComponent implements OnInit {
     @Output() emitMediaType = new EventEmitter<string>();
     @Output() emitPosterUrl = new EventEmitter<string>();
     @Output() emitMediaTitle = new EventEmitter<string>();
+    @Output() emitMediaId = new EventEmitter<number>();
 
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
             this.mediaId = Number(params.get('id'));
             this.type = params.get('type') as string;
-            this.loadMediaData();
+            
+            
+            this.route.queryParams.subscribe(queryParams => {
+                this.currentSeason = Number(queryParams['s']) || 1;
+                this.currentEpisode = Number(queryParams['e']) || 1;
+                
+
+                if (this.type === 'movie') {
+                    this.currentSeason = 1;
+                    this.currentEpisode = 1;
+                }
+                
+                this.loadMediaData();
+                this.emitMediaId.emit(this.mediaId);
+            });
         });
     }
 
@@ -84,9 +103,13 @@ export class VideoStreamComponent implements OnInit {
                 
                 // Get video stream URL
                 this.videosService.getMedia(movie.title).subscribe({
-                    next: (streamData) => {
+                    next: (streamData: IStreamData[]) => {
                         if (streamData && streamData.length > 0) {
-                            this.videoUrl = streamData[0].url;
+                            // Get the highest quality stream
+                            const highestQuality = streamData.reduce((prev, current) => 
+                                (current.quality > prev.quality) ? current : prev
+                            );
+                            this.videoUrl = highestQuality.url;
                             console.log('Video URL loaded:', this.videoUrl); // Debug log
                         } else {
                             console.error('No video stream data available');
@@ -94,7 +117,6 @@ export class VideoStreamComponent implements OnInit {
                     },
                     error: (err) => {
                         console.error('Error fetching video stream:', err);
-                        // You might want to show an error message to the user here
                     }
                 });
             },
@@ -121,12 +143,17 @@ export class VideoStreamComponent implements OnInit {
                 this.emitPosterUrl.emit(this.posterUrl);
                 this.emitMediaTitle.emit(this.mediaTitle);
 
-                // Get video stream URL for the first episode
+                // Get video stream URL with season and episode
                 if (series.name) {
-                    this.videosService.getMedia(series.name).subscribe({
+                    const mediaName = `${series.name}_S${this.currentSeason}E${this.currentEpisode}`;
+                    this.videosService.getMedia(mediaName).subscribe({
                         next: (streamData) => {
                             if (streamData && streamData.length > 0) {
-                                this.videoUrl = streamData[0].url;
+                                // Get the highest quality stream
+                                const highestQuality = streamData.reduce((prev, current) => 
+                                    (current.quality > prev.quality) ? current : prev
+                                );
+                                this.videoUrl = highestQuality.url;
                                 console.log('Video URL loaded:', this.videoUrl); // Debug log
                             } else {
                                 console.error('No video stream data available');
@@ -134,7 +161,6 @@ export class VideoStreamComponent implements OnInit {
                         },
                         error: (err) => {
                             console.error('Error fetching video stream:', err);
-                            // You might want to show an error message to the user here
                         }
                     });
                 }
@@ -165,5 +191,26 @@ export class VideoStreamComponent implements OnInit {
 
     sendToogleSidebarStatus() {
         this.emitToggleSidebarValue.emit(this.IsSidebarOpen);
+    }
+
+    // Method to update season and episode
+    updateSeasonAndEpisode(season: number, episode: number) {
+        if (this.type === 'series') {
+            this.currentSeason = season;
+            this.currentEpisode = episode;
+            
+            // Update URL with new parameters
+            this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: {
+                    s: season,
+                    e: episode
+                },
+                queryParamsHandling: 'merge'
+            });
+
+            // Reload video
+            this.loadSeriesData();
+        }
     }
 }
