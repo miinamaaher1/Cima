@@ -12,7 +12,7 @@ import { EmailPasswordComponent } from './components/account/email-password/emai
 import { ProfileComponent } from './components/account/profile/profile.component';
 import { WatchAreaComponent } from './components/watch-page/watch-area/watch-area.component';
 import { SubscribePageComponent } from './components/subscribe/subscribe-page/subscribe-page.component';
-import { authGuard } from './core/services/Guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 import { MediaListComponent } from './components/dashboard/media-list/media-list.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { WatchLayoutComponent } from './layouts/watch-layout/watch-layout.component';
@@ -24,6 +24,8 @@ import { ChartsComponent } from './pages/charts/charts.component';
 import { MyListsComponent } from './pages/my-lists/my-lists.component';
 import { PaymentSuccessComponent } from './components/account/payment-success/payment-success.component';
 import { ConfirmSuccessComponent } from './components/account/confirm-success/confirm-success.component';
+import { adminGuardGuard } from './core/guards/admin-guard.guard';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 
 export const routes: Routes = [
@@ -36,7 +38,7 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent, title: 'Home', },
       { path: 'genres', component: GenresComponent, title: 'Genres' },
       { path: 'charts', component: ChartsComponent, title: 'Charts' },
-      { path: 'my-lists', component: MyListsComponent, title: 'My Lists' },
+      { path: 'my-lists', component: MyListsComponent, title: 'My Lists' ,canActivate:[authGuard]},
       { path: 'details/:type/:id', component: DetailsComponent, title: 'Details' },
       { path: 'subscribe', component: SubscribePageComponent, title: 'Subscribe' },
       { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [authGuard] },
@@ -46,10 +48,11 @@ export const routes: Routes = [
       { path: 'success-password', component: SuccessPasswordComponent, title: 'Password Changed' },
       { path: 'payment-success', component: PaymentSuccessComponent, title: 'Payment Successful' },
       { path: 'confirm-success', component: ConfirmSuccessComponent, title: 'Email Confirmation Successful' },
-      { path: 'forget-password', component: ForgotPasswordComponent, title: 'Forget Password' },
+      { path: 'forget-password', component: ForgotPasswordComponent, title: 'Forget Password'},
       { path: 'reset-password', component: ResetPasswordComponent, title: 'Reset Password' },
       { path: 'change-password', component: ChangePasswordComponent, title: 'Change Password' },
       { path: 'confirm-success', component: ConfirmSuccessComponent, title: 'Confirm Success' },
+      { path:'not-authorized',component:NotAuthorizedComponent,title:'Not Authorized'}
     ],
 
   },
@@ -75,10 +78,10 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: '', redirectTo: 'analytics', pathMatch: 'full', title: 'Analytics' },
-      { path: 'analytics', component: AnalyticsComponent, title: 'Analytics' },
-      { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media' },
-      { path: 'media-list', component: MediaListComponent, title: 'Media List' }
-    ],
+      { path: 'analytics', component: AnalyticsComponent, title: 'Analytics',canActivate:[adminGuardGuard] },
+      { path: 'upload-media', component: UploadMediaComponent, title: 'Upload Media',canActivate:[adminGuardGuard] },
+      { path: 'media-list', component: MediaListComponent, title: 'Media List',canActivate:[adminGuardGuard] }
+    ]
   },
 
   {

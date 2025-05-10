@@ -46,7 +46,7 @@ export class AccountService {
     return this._http.post<LoginResponseDto>(url, userData, { headers: this.headers }).pipe(
       tap((response) => {
         localStorage.setItem('userToken', response.token);
-        this.getUserSummary().subscribe(); // Fetch and update user state
+        this.getUserSummary().subscribe(); 
       }))
   }
 

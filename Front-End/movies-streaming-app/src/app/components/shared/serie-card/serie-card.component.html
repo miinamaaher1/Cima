@@ -8,7 +8,8 @@
     <!-- <div class="hidden"></div> -->
     <!-- </div> -->
     <a routerLink="/details/series/{{id}}" class="w-full h-29 block relative">
-        <div *ngIf="!isPlaying && logoUrl" class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+        <div *ngIf="!isPlaying && logoUrl"
+            class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <img [src]="logoUrl" alt="{{name}} logo" class="max-w-[50%] max-h-[40%] object-contain">
         </div>
         <video class="w-full h-full object-center object-cover" poster="{{posterUrl}}" (mouseenter)="playVideo($event)"
@@ -19,34 +20,41 @@
     <div
         class="flex flex-col gap-1 px-4 overflow-hidden transition-all delay-200 z-50 duration-700 opacity-0 max-h-0 md:group-hover/card:max-h-96 md:group-hover/card:p-4 md:group-hover/card:opacity-100">
         <div class="flex justify-between">
-            <div class="flex gap-2.5">
-              <a routerLink="/watch/series/{{id}}" class="size-7">
+            <a routerLink="/watch/series/{{id}}" class="size-7">
                 <app-icon [name]="'play'" [state]="'solid'" [title]="'Watch Now'"></app-icon>
             </a>
-                <a href="#" class="size-7">
-                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"></app-icon>
+            <div class="flex gap-2.5">
+                <a class="size-7" (click)="toggleFavoriteItem()">
+                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"
+                        *ngIf="IsInFavorites()"></app-icon>
+                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"
+                        *ngIf="!IsInFavorites()"></app-icon>
+                </a>
+                <a (click)="toggleListItem()" class="size-7 rounded-full">
+                    <app-icon [name]="'plus'" [state]="'solid'" [title]="'Add to Watchlist'"
+                        *ngIf="!IsInWatchList()"></app-icon>
+                    <app-icon [name]="'minus'" [state]="'solid'" [title]="'Add to Watchlist'"
+                        *ngIf="IsInWatchList()"></app-icon>
                 </a>
             </div>
-            <a routerLink="/details/series/{{id}}" class="size-7">
-                <app-icon [name]="'info'" [state]="'solid'" [title]="'More Information'"></app-icon>
-            </a>
         </div>
         <div>
             <p>{{name}}</p>
         </div>
         <div class="flex gap-1 flex-wrap h-5 overflow-hidden select-none">
-          <div class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">
-            {{episodes}} episodes
-          </div>
-          @for (tag of tags; track $index)
-          {
-          <span
-              class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">{{tag
-              | lowercase}}</span>
-          }
+            <div
+                class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">
+                {{episodes}} episodes
+            </div>
+            @for (tag of tags; track $index)
+            {
+            <span
+                class="px-1.5 py-0.5 text-[0.5rem] font-semibold text-off-white rounded-xl bg-background-black border-border-grey border-solid border-1">{{tag
+                | lowercase}}</span>
+            }
         </div>
         <div>
-          <div class="text-[0.6rem]">{{discription}}</div>
+            <div class="text-[0.6rem]">{{discription}}</div>
         </div>
     </div>
 </div>

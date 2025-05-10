@@ -4,78 +4,62 @@ import { SerieCardComponent } from "../../components/shared/serie-card/serie-car
 import { FavoritesService } from '../../core/services/Favoutites/favourites.service';
 import { VideoType } from '../../core/dtos/VideoType';
 import { WatchlistService } from '../../core/services/Watchlist/watchlist.service';
+import { MediaItem } from '../../core/dtos/MediaItemDto';
 
 @Component({
   selector: 'app-my-lists',
+  standalone: true,
   imports: [MovieCardComponent, SerieCardComponent],
-  templateUrl: './my-lists.component.html'
+  templateUrl: './my-lists.component.html',
 })
 export class MyListsComponent implements OnInit {
 
   isLoading: boolean = false;
-  watchlistSeriesIds: number[] = [13945, 13945, 13945, 13945, 13945, 13945, 13945]
-  watchlistMovieIds: number[] = [1124620, 1124620, 1124620, 1124620, 1124620, 1124620]
-  favoriteSeriesIds: number[] = [13945, 13945, 13945, 13945, 13945, 13945, 13945]
-  favoriteMovieIds: number[] = [1124620, 1124620, 1124620, 1124620, 1124620, 1124620]
 
-  constructor(private _favoritesService: FavoritesService, private _watchlistService: WatchlistService) { }
+  watchlistSeriesIds: number[] = [];
+  watchlistMovieIds: number[] = [];
+
+  favoriteSeriesIds: number[] = [];
+  favoriteMovieIds: number[] = [];
+
+  constructor(
+    private _favoritesService: FavoritesService,
+    private _watchlistService: WatchlistService
+  ) {}
 
   ngOnInit(): void {
     this.fetchFavoriteMedia();
     this.fetchWatchlistMedia();
   }
 
-  fetchFavoriteMedia() {
+  fetchFavoriteMedia(): void {
     this.isLoading = true;
-    let favMovies: number[] = []
-    let favSeries: number[] = []
-
     this._favoritesService.getFavorites().subscribe({
-      next: fav => {
-        fav.forEach(fav => {
-          if (fav.videoType === VideoType.Movie) {
-            favMovies.push(fav.id);
-          }
-          else {
-            favSeries.push(fav.id);
-          }
-        })
-        this.favoriteMovieIds = favMovies;
-        this.favoriteSeriesIds = favSeries;
+      next: (fav: MediaItem[]) => {
+        this.favoriteMovieIds = fav.filter(f => f.videoType === VideoType.Movie).map(f => f.id);
+        this.favoriteSeriesIds = fav.filter(f => f.videoType !== VideoType.Movie).map(f => f.id);
         this.isLoading = false;
       },
       error: err => {
+        console.error('Error fetching favorites:', err);
         this.isLoading = false;
-        console.error(err);
       }
-    })
+    });
   }
 
-  fetchWatchlistMedia() {
+  fetchWatchlistMedia(): void {
     this.isLoading = true;
-    let watchMovies: number[] = []
-    let watchSeries: number[] = []
-
     this._watchlistService.getWatchlist().subscribe({
-      next: wlist => {
-        wlist.forEach(w => {
-          if (w.videoType === VideoType.Movie) {
-            watchMovies.push(w.id);
-          }
-          else {
-            watchSeries.push(w.id);
-          }
-        })
-        this.watchlistMovieIds = watchMovies;
-        this.watchlistSeriesIds = watchSeries;
+      next: (wlist: MediaItem[]) => {
+        this.watchlistMovieIds = wlist.filter(w => w.videoType === VideoType.Movie).map(w => w.id);
+        this.watchlistSeriesIds = wlist.filter(w => w.videoType !== VideoType.Movie).map(w => w.id);
         this.isLoading = false;
       },
       error: err => {
+        console.error('Error fetching watchlist:', err);
         this.isLoading = false;
-        console.error(err);
       }
-    })
+    });
   }
-
 
 }

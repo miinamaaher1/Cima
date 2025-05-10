@@ -24,21 +24,19 @@
                 <app-icon [name]="'play'" [state]="'solid'" [title]="'Watch Now'"></app-icon>
             </a>
             <div class="flex gap-2.5">
-                @if(IsInFavorites)
-                {
-                <a class="size-7" (click)="addToFavorites()">
-                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"></app-icon>
+
+                <a class="size-7" (click)="toggleFavoriteItem()">
+                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"
+                        *ngIf="IsInFavorites()"></app-icon>
+                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"
+                        *ngIf="!IsInFavorites()"></app-icon>
                 </a>
-                }
-                @else
-                {
-                <a class="size-7" (click)="removeFromFavorites()">
-                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"></app-icon>
-                </a>
-                }
-                <a routerLink="/details/movie/{{id}}" (click)="toggleListItem()"  class="size-7">
-                    <app-icon [name]="'plus'" [state]="'solid'" [title]="'Add to Watchlist'" *ngIf="!IsInWatchList" ></app-icon>
-                    <i class="fa-solid fa-minus " *ngIf="IsInWatchList"></i>
+
+                <a (click)="toggleListItem()" class="size-7 rounded-full">
+                    <app-icon [name]="'plus'" [state]="'solid'" [title]="'Add to Watchlist'"
+                        *ngIf="!IsInWatchList()"></app-icon>
+                    <app-icon [name]="'minus'" [state]="'solid'" [title]="'Add to Watchlist'"
+                        *ngIf="IsInWatchList()"></app-icon>
                 </a>
             </div>
         </div>
