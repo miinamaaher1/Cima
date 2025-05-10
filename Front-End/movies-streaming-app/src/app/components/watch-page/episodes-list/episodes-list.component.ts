@@ -3,6 +3,7 @@ import { IEpisode } from "../../../core/interfaces/IEpisode";
 import { FormatTimePipe } from "../../../core/pipes/format-time.pipe";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 
 interface SeasonGroup {
     seasonNumber: number;
@@ -17,8 +18,11 @@ interface SeasonGroup {
 })
 export class EpisodesListComponent implements OnInit {
     @Input() episodes: IEpisode[] = [];
+    @Input() mediaId: number = 0;
     selectedSeason = signal<number>(1);
     seasonGroups = signal<SeasonGroup[]>([]);
+
+    constructor(private router: Router) {}
 
     ngOnInit() {
         this.groupEpisodesBySeason();
@@ -39,7 +43,6 @@ export class EpisodesListComponent implements OnInit {
             acc[seasonNumber].push(episode);
             return acc;
         }, {} as { [key: number]: IEpisode[] });
-
 
         const sortedGroups = Object.entries(groups)
             .map(([seasonNumber, episodes]) => ({
@@ -62,5 +65,14 @@ export class EpisodesListComponent implements OnInit {
 
     onSeasonChange() {
         this.groupEpisodesBySeason();
+    }
+
+    onEpisodeClick(episode: IEpisode) {
+        this.router.navigate(['/watch/series', this.mediaId], {
+            queryParams: {
+                s: episode.season_number,
+                e: episode.episode_number
+            }
+        });
     }
 }

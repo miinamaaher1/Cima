@@ -50,8 +50,20 @@ export class AccountService {
       }))
   }
 
+  private isLocalStorageAvailable(): boolean {
+    try {
+      return typeof window !== 'undefined' && window.localStorage !== null;
+    } catch (e) {
+      return false;
+    }
+  }
+
   // get user data service
   getToken(): string | null {
+    if (!this.isLocalStorageAvailable()) {
+      this.router.navigate(['/sign-in']);
+      return null;
+    }
     const token = localStorage.getItem('userToken');
     if (!token) {
       this.router.navigate(['/sign-in']);
@@ -61,14 +73,18 @@ export class AccountService {
   }
 
   logout(): void {
-    localStorage.removeItem('userToken');
-    this._userService.clearUser();
+    if (this.isLocalStorageAvailable()) {
+      localStorage.removeItem('userToken');
+      this._userService.clearUser();
+    }
     this.router.navigate(['/sign-in']);
   }
 
-
   // check if the user is logged in
   isLoggedIn(): boolean {
+    if (!this.isLocalStorageAvailable()) {
+      return false;
+    }
     return !!localStorage.getItem('userToken');
   }
 

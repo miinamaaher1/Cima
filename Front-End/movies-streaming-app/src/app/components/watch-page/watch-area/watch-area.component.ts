@@ -19,6 +19,7 @@ export class WatchAreaComponent {
     mediaType: string = '';
     posterUrl: string = '';
     mediaTitle: string = '';
+    mediaId: number = 0;
 
     onSidebarToggle(status: boolean) {
         this.IsSidebarOpen = status;

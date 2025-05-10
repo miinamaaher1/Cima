@@ -16,7 +16,8 @@
     <!-- Episodes List -->
     <div class="space-y-4">
         @for (episode of currentSeasonEpisodes; track episode.id) {
-            <div class="flex items-start rounded-xl bg-white/5 p-4 gap-4 hover:bg-white/10 transition-colors duration-300">
+            <div (click)="onEpisodeClick(episode)" 
+                 class="flex items-start rounded-xl bg-white/5 p-4 gap-4 hover:bg-white/10 transition-colors duration-300 cursor-pointer">
                 <!-- Thumbnail with duration overlay -->
                 <div class="relative w-40 h-24 flex-shrink-0">
                     <img
