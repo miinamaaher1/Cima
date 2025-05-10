@@ -1,4 +1,4 @@
-<div class="h-full relative">
+<div class="h-full w-full relative bg-black">
     <!-- Episodes actions -->
     <div (click)="toogleSideBar()" class="absolute z-50 cursor-pointer top-6 right-20">
         <i [ngClass]="{
@@ -42,6 +42,9 @@
         </label>
     </div>
 
-    <app-video-player-controls [url]="videoUrl" class="absolute z-30 h-full w-full">
-    </app-video-player-controls>
+    <!-- Video Player -->
+    <div class="w-full h-full">
+        <app-video-player-controls [url]="videoUrl" class="w-full h-full">
+        </app-video-player-controls>
+    </div>
 </div>

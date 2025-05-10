@@ -6,6 +6,7 @@ import { mediaType } from '../../../core/utils/media-type.enum';
 import { MovieService } from '../../../core/services/movie/movie.service';
 import { SeriesService } from '../../../core/services/series/series.service';
 import { SeasonService } from '../../../core/services/seasson/season.service';
+import { VideosService } from '../../../core/services/videos/videos.service';
 import { language } from '../../../core/utils/language.enum';
 import { IEpisode } from '../../../core/interfaces/IEpisode';
 import { IMovieDetails } from '../../../core/interfaces/IMovieDetails';
@@ -26,7 +27,8 @@ export class VideoStreamComponent implements OnInit {
         private route: ActivatedRoute,
         private moviesService: MovieService,
         private seriesService: SeriesService,
-        private seasonService: SeasonService
+        private seasonService: SeasonService,
+        private videosService: VideosService
     ) { }
 
     IsSidebarOpen: boolean = false;
@@ -79,19 +81,24 @@ export class VideoStreamComponent implements OnInit {
                 this.posterUrl = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
                 this.emitPosterUrl.emit(this.posterUrl);
                 this.emitMediaTitle.emit(this.mediaTitle);
+                
+                // Get video stream URL
+                this.videosService.getMedia(movie.title).subscribe({
+                    next: (streamData) => {
+                        if (streamData && streamData.length > 0) {
+                            this.videoUrl = streamData[0].url;
+                            console.log('Video URL loaded:', this.videoUrl); // Debug log
+                        } else {
+                            console.error('No video stream data available');
+                        }
+                    },
+                    error: (err) => {
+                        console.error('Error fetching video stream:', err);
+                        // You might want to show an error message to the user here
+                    }
+                });
             },
             error: (err) => console.error('Error fetching movie details:', err)
-        });
-
-        // Get movie video
-        this.moviesService.getMovieVideos(this.mediaId, language.english).subscribe({
-            next: (movie) => {
-                if (movie.results && movie.results.length > 0) {
-                    const id = movie.results[0].key;
-                    this.videoUrl = `https://www.youtube.com/watch?v=${id}`;
-                }
-            },
-            error: (err) => console.error('Error fetching movie video:', err)
         });
 
         // Get similar movies
@@ -113,6 +120,24 @@ export class VideoStreamComponent implements OnInit {
                 this.posterUrl = `https://image.tmdb.org/t/p/original${series.poster_path}`;
                 this.emitPosterUrl.emit(this.posterUrl);
                 this.emitMediaTitle.emit(this.mediaTitle);
+
+                // Get video stream URL for the first episode
+                if (series.name) {
+                    this.videosService.getMedia(series.name).subscribe({
+                        next: (streamData) => {
+                            if (streamData && streamData.length > 0) {
+                                this.videoUrl = streamData[0].url;
+                                console.log('Video URL loaded:', this.videoUrl); // Debug log
+                            } else {
+                                console.error('No video stream data available');
+                            }
+                        },
+                        error: (err) => {
+                            console.error('Error fetching video stream:', err);
+                            // You might want to show an error message to the user here
+                        }
+                    });
+                }
 
                 const seasonRequests = Array.from(
                     { length: series.number_of_seasons },

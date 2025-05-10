@@ -1,0 +1,172 @@
+/* Video container */
+:host {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+}
+
+/* Video element */
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background-color: #000;
+}
+
+/* Controls container */
+.controls-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+:host:hover .controls-container {
+    opacity: 1;
+}
+
+/* Progress bar */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    outline: none;
+    margin: 10px 0;
+    z-index: 20;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Control buttons */
+.control-button {
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin: 0 5px;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.control-button:hover {
+    color: #3b82f6;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Volume control */
+.volume-container {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    position: relative;
+}
+
+.volume-slider {
+    width: 80px;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.volume-container:hover .volume-slider {
+    opacity: 1;
+}
+
+/* Time display */
+.time-display {
+    color: #fff;
+    font-size: 0.9rem;
+    margin: 0 10px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Fullscreen button */
+.fullscreen-button {
+    margin-left: auto;
+}
+
+/* Quality settings */
+.quality-settings {
+    position: relative;
+    margin-left: 10px;
+}
+
+/* Video container specific styles */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .controls-container {
+        padding: 10px;
+    }
+
+    .control-button {
+        font-size: 1rem;
+        margin: 0 3px;
+        min-width: 36px;
+        min-height: 36px;
+    }
+
+    .volume-slider {
+        width: 60px;
+    }
+
+    .time-display {
+        font-size: 0.8rem;
+    }
+}
+
+/* Ensure video fills container */
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #000;
+}
