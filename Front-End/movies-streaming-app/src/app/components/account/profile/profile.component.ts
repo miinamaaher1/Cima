@@ -26,7 +26,7 @@ export class ProfileComponent {
       next: ({ user, subscription }) => {
         this.user = user;
         this.isSubscriptionValid = subscription.subscriptionState;
-        this.subscriptionType = SubscriptionPlan[subscription.subscriptionType];
+        this.subscriptionType = SubscriptionPlan[subscription.subscriptionPlan];
         this.readyData = true;
       },
       error: (error) => console.log(error)

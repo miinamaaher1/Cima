@@ -9,8 +9,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './confirm-success.component.html',
 })
 export class ConfirmSuccessComponent implements OnInit {
-  isLoading = true;
-  isSuccess = false;
+  isLoading: boolean = true;
+  isSuccess: boolean = false;
   errorMessage = '';
   countdown = 5;
   private countdownInterval: any;
@@ -19,7 +19,7 @@ export class ConfirmSuccessComponent implements OnInit {
     private Router: Router,
     private route: ActivatedRoute,
     private accountService: AccountService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -31,9 +31,9 @@ export class ConfirmSuccessComponent implements OnInit {
 
       this.accountService.confirmEmail(email, token).subscribe({
         next: (response) => {
-          this.isLoading = false;
           if (response === true) {
             this.isSuccess = true;
+            this.isLoading = false;
             this.startCountdown();
           } else {
             this.handleError('Email confirmation failed. Please try again.');
