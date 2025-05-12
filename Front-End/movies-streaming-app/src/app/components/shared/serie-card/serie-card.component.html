@@ -27,13 +27,13 @@
                 <a class="size-7" (click)="toggleFavoriteItem()">
                     <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"
                         *ngIf="IsInFavorites()"></app-icon>
-                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites'"
+                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Remove From Favorites'"
                         *ngIf="!IsInFavorites()"></app-icon>
                 </a>
                 <a (click)="toggleListItem()" class="size-7 rounded-full">
                     <app-icon [name]="'plus'" [state]="'solid'" [title]="'Add to Watchlist'"
                         *ngIf="!IsInWatchList()"></app-icon>
-                    <app-icon [name]="'minus'" [state]="'solid'" [title]="'Add to Watchlist'"
+                    <app-icon [name]="'minus'" [state]="'solid'" [title]="'Remove From Watchlist'"
                         *ngIf="IsInWatchList()"></app-icon>
                 </a>
             </div>
