@@ -13,6 +13,6 @@ export class VideosService {
   }
 
   getMedia(name: string) {
-    return this._http.get<IStreamData[]>(`${environment.videos_url}/api/videos/stream?name=${name}`);
+    return this._http.get<IStreamData[]>(`${environment.videos_url}/api/videos/watch?name=${name}`);
   }
 }
