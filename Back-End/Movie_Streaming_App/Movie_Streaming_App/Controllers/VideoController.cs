@@ -41,8 +41,8 @@ namespace Movie_Streaming_App.Controllers
                 RequestUri = new Uri($"https://ytstream-download-youtube-videos.p.rapidapi.com/dl?id={videoId}"),
                 Headers =
                 {
-                    { "x-rapidapi-key", "5f143f3c44msh7279eb7ef9c062dp1e5484jsn75f1f4169e3c" },
-                    { "x-rapidapi-host", "ytstream-download-youtube-videos.p.rapidapi.com" },
+                    { "x-rapidapi-key", _configuration["RapidApiKey"] },
+                    { "x-rapidapi-host", _configuration["RapidApiHost"] },
                 },
             };
             response = await client.SendAsync(request);
