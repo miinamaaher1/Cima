@@ -24,7 +24,7 @@ export class SubscribePageCardsComponent {
     this.subscriptionService.subscribe(domain, type).subscribe({
       next: (response) => {
         if (response.paymentUrl) {
-          window.location.href = response.paymentUrl;
+          window.open(response.paymentUrl, '_blank');
         }
       },
       error: (error) => {
