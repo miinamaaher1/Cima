@@ -1,5 +1,5 @@
 import { AccountService } from './../../../core/services/Account/account.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ConfirmSuccessComponent implements OnInit {
   isLoading: boolean = true;
-  isSuccess: boolean = false;
+  isSuccess = signal(false);
   errorMessage = '';
   countdown = 5;
   private countdownInterval: any;
@@ -32,7 +32,7 @@ export class ConfirmSuccessComponent implements OnInit {
       this.accountService.confirmEmail(email, token).subscribe({
         next: (response) => {
           if (response === true) {
-            this.isSuccess = true;
+            this.isSuccess.set(true);
             this.isLoading = false;
             this.startCountdown();
           } else {
@@ -48,7 +48,7 @@ export class ConfirmSuccessComponent implements OnInit {
 
   private handleError(message: string) {
     this.isLoading = false;
-    this.isSuccess = false;
+    this.isSuccess.set(false);
     this.errorMessage = message;
   }
 
