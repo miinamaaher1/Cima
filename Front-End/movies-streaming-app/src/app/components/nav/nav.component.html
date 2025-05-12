@@ -33,7 +33,7 @@
       </div>
       <app-nav-search></app-nav-search>
       <app-nav-account class="hidden lg:block"></app-nav-account>
-      <div *ngIf="!isSmallView && !_userService.currentUser()?.subscription?.subscriptionState"
+      <div *ngIf="!isSmallView && !_userService.currentUser()?.subscription?.subscriptionState && !(_userService.currentUser()?.userType?.role=='admin')"
         class="rounded-full bg-gradient-to-r from-blurple to-button-hover hover:to-blurple py-1 px-3 transition duration-300 cursor-pointer">
         <a routerLink="/subscribe">
           Subscribe

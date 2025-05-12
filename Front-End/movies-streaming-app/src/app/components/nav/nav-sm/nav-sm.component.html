@@ -42,11 +42,11 @@
             <i class="fas fa-user-plus mr-3  text-gray-500 w-4"></i>
             Sign Up
         </a>
-        <button (click)="logout()" *ngIf="_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-film-red cursor-pointer hover:text-blurple">
+        <button (click)="logout()" *ngIf="_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-film-red cursor-pointer hover:text-blurple w-full">
             <i class="fas fa-sign-out-alt mr-3  text-film-red w-4"></i>
             Sign Out
         </button>
-        <a routerLink="/subscribe" *ngIf="!_userService.currentUser()?.subscription?.subscriptionState || !_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
+        <a routerLink="/subscribe" *ngIf=" !(_userService.currentUser()?.userType?.role=='admin') && !_userService.currentUser()?.subscription?.subscriptionState || !_userService.currentUser()?.isLoggedIn" class="flex items-center  px-4 py-5 text-sm text-off-white cursor-pointer hover:text-blurple">
             <i class="fa-solid fa-star mr-3  text-gray-500 w-4"></i>
             Subscribe
         </a>

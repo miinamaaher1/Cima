@@ -25,9 +25,9 @@
             </a>
             <div class="flex gap-2.5">
                 <a class="size-7" (click)="toggleFavoriteItem()">
-                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Add to Favorites'"
+                    <app-icon [name]="'heart'" [state]="'solid'" [title]="'Remove From Favorites'"
                         *ngIf="IsInFavorites()"></app-icon>
-                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Remove From Favorites'"
+                    <app-icon [name]="'heart'" [state]="'regular'" [title]="'Add to Favorites '"
                         *ngIf="!IsInFavorites()"></app-icon>
                 </a>
                 <a (click)="toggleListItem()" class="size-7 rounded-full">
