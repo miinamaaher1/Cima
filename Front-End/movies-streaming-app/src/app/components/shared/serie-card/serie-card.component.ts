@@ -57,6 +57,9 @@ export class SerieCardComponent {
       },
       error: (err) => console.log(err)
     });
+
+    this.isFavorite();
+    this.isListed();
   }
 
   IsInWatchList = signal<boolean>(false);
