@@ -1,6 +1,6 @@
 # CIMA
 
-![Logo](Front-End\movies-streaming-app\public\screenshots\CIMA.png)
+![Logo](Front-End/movies-streaming-app/public/images/screenshots/CIMA.png)
 
 **CIMA** is a sleek, front-end focused streaming platform inspired by Netflix, offering a seamless experience for browsing, watching, and managing media content. While the application uses a minimal backend for user and list management, it leverages the power of the **TMDB API** to handle all movie-related data and logic.
 
@@ -35,7 +35,7 @@ Visit deployed version at [CIMA](cima-zeta.vercel.app)
 
 ### Dynamic Home & Hero Section
 
-![Home Page](Front-End\movies-streaming-app\public\screenshots\01-home.png)
+![Home Page](Front-End/movies-streaming-app/public/images/screenshots/01-home.png)
 
 * Showcases trending media fetched from TMDB
 * Fully responsive with animated transitions
@@ -44,7 +44,7 @@ Visit deployed version at [CIMA](cima-zeta.vercel.app)
 
 ### Authentication & Security
 
-![Login](Front-End\movies-streaming-app\public\screenshots\00-signin.png)
+![Login](Front-End/movies-streaming-app/public/images/screenshots/00-signin.png)
 
 * JWT-based login with session persistence
 * Secure role-based access (User/Admin)
@@ -53,7 +53,7 @@ Visit deployed version at [CIMA](cima-zeta.vercel.app)
 
 ### Rich Media Experience
 
-![Details](Front-End\movies-streaming-app\public\screenshots\05-details.png)
+![Details](Front-End/movies-streaming-app/public/images/screenshots/05-details.png)
 
 * Infinite scroll & carousel for smooth discovery
 * Detailed views with trailers, cast, similar titles
@@ -65,9 +65,9 @@ Visit deployed version at [CIMA](cima-zeta.vercel.app)
 ### Fully Responsive & Mobile Friendly
 
 <p>
-  <img src="Front-End\movies-streaming-app\public\screenshots\11-home-phone.png" width="30%" alt ="home"/>
-  <img src="Front-End\movies-streaming-app\public\screenshots\13-infinite-scroll-phone.png" width="30%" alt="scroll" />
-  <img src="Front-End\movies-streaming-app\public\screenshots\14-nav-phone.png" width="30%" alt="nav" />
+  <img src="Front-End/movies-streaming-app/public/images/screenshots/11-home-phone.png" width="30%" alt ="home"/>
+  <img src="Front-End/movies-streaming-app/public/images/screenshots/13-infinite-scroll-phone.png" width="30%" alt="scroll" />
+  <img src="Front-End/movies-streaming-app/public/images/screenshots/14-nav-phone.png" width="30%" alt="nav" />
 </p>
 
 * Optimized for mobile devices
@@ -77,7 +77,7 @@ Visit deployed version at [CIMA](cima-zeta.vercel.app)
 
 ### Admin Features & Media Management
 
-![Admin Dashboard](Front-End\movies-streaming-app\public\screenshots\08-analytics.png)
+![Admin Dashboard](Front-End/movies-streaming-app/public/images/screenshots/08-analytics.png)
 
 * Dashboard with analytics on content and users
 * Upload new media with full metadata
