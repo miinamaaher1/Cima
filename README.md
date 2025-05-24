@@ -6,7 +6,7 @@
 
 Built as part of the [ITI](https://iti.gov.eg/home) Angular course under the Integrated Software Development & Architecture track, combining **Angular** and **.NET 9** to deliver a modern streaming app experience.
 
-Visit deployed version at [CIMA](cima-zeta.vercel.app)
+Visit deployed version at [CIMA](http://cima-zeta.vercel.app)
 
 ---
 
